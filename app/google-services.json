@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "170838933327",
+    "project_id": "potenseek",
+    "storage_bucket": "potenseek.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:170838933327:android:8cb424eb69ebfb98438f3a",
+        "android_client_info": {
+          "package_name": "com.example.potenseek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "170838933327-9c62k1c6qdjliv9elbh2u770bvjue8h5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEQ5-fb1XtNNho5vldAoc4zEu40NprfTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "170838933327-9c62k1c6qdjliv9elbh2u770bvjue8h5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
