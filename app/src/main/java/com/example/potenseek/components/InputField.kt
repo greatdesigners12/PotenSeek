@@ -12,9 +12,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 
 
+
+
 @Composable
-fun emailInputField(inputValue : String, onValueChanged : (String) -> Unit){
-    OutlinedTextField(value = inputValue, onValueChanged, singleLine = true, label= {Text("Email")})
+fun basicInputField(label : String, inputValue : String, keyboardType: KeyboardType = KeyboardType.Text, onValueChanged : (String) -> Unit){
+    OutlinedTextField(value = inputValue, onValueChanged, singleLine = true, label= {Text(label)})
 }
 
 @Composable
