@@ -18,12 +18,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import com.example.potenseek.Navigation.AppNavigation
-import com.example.potenseek.Navigation.NavigationEnum
-import com.example.potenseek.components.BasicButton
-import com.example.potenseek.components.emailInputField
-import com.example.potenseek.components.passwordInputField
 import com.example.potenseek.ui.theme.PotenSeekTheme
 
 class InboxActivity : ComponentActivity() {
