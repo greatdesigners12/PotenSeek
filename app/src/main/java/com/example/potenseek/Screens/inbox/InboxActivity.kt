@@ -1,4 +1,4 @@
-package com.example.potenseek.Screens
+package com.example.potenseek.Screens.inbox
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

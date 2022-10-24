@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.potenseek.Screens.Settings
-import com.example.potenseek.Screens.SettingsActivity
 import com.example.potenseek.Screens.SplashScreenActivity
+import com.example.potenseek.Screens.TPHome.TeacherPsychologistHome
 import com.example.potenseek.Screens.authentication.AuthViewModel
 import com.example.potenseek.Screens.authentication.LoginScreenActivity
 import com.example.potenseek.Screens.authentication.RegisterScreenActivity
@@ -15,7 +15,7 @@ import com.example.potenseek.Screens.authentication.RegisterScreenActivity
 @Composable
 fun AppNavigation(authViewModel: AuthViewModel = viewModel()) {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = NavigationEnum.SettingsActivity.name){
+    NavHost(navController, startDestination = NavigationEnum.TeacherPsychologistHomeActivity.name){
         composable(NavigationEnum.SplashScreenActivity.name){
             SplashScreenActivity(navController)
         }
@@ -30,6 +30,10 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel()) {
 
         composable(NavigationEnum.SettingsActivity.name){
             Settings()
+        }
+
+        composable(NavigationEnum.TeacherPsychologistHomeActivity.name){
+            TeacherPsychologistHome()
         }
     }
 }

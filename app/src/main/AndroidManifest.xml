@@ -16,6 +16,15 @@
         android:theme="@style/Theme.PotenSeek"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.TPHomeActivity"
+            android:exported="false"
+            android:label="PotenSeek"
+            android:theme="@style/Theme.PotenSeek">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"

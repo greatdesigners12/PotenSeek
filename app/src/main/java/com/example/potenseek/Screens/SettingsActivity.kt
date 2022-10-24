@@ -13,6 +13,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +29,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.potenseek.R
+import com.example.potenseek.Screens.ui.theme.Coral
+import com.example.potenseek.Screens.ui.theme.Grey300
+import com.example.potenseek.Screens.ui.theme.GreyBorder
+import com.example.potenseek.Screens.ui.theme.Brown700
+import com.example.potenseek.Screens.ui.theme.Red700
+import com.example.potenseek.Screens.ui.theme.Orange300
 import com.example.potenseek.Screens.ui.theme.PotenSeekTheme
 import com.example.potenseek.ui.theme.*
 
@@ -51,6 +59,10 @@ class SettingsActivity : ComponentActivity() {
 @Composable
 fun Settings() {
     Column(modifier = Modifier.verticalScroll(rememberScrollState(), true)) {
+        val mCheckedState = remember{
+            mutableStateOf(false)
+        }
+
         Box(modifier = Modifier
             .clip(shape = RoundedCornerShape(0.dp, 0.dp, 145.dp, 145.dp))
             .background(color = Coral)
@@ -177,9 +189,11 @@ fun Settings() {
                             fontSize = 22.sp,
                             fontWeight = FontWeight.Normal)
                         Spacer(Modifier.weight(1f))
-                        Switch(checked = true, onCheckedChange = {}, colors = SwitchDefaults.colors(
+                        Switch(checked = mCheckedState.value, onCheckedChange = {
+                            mCheckedState.value = it
+                        }, colors = SwitchDefaults.colors(
                             checkedThumbColor = Orange300,
-                            uncheckedThumbColor = GreyBorder,
+                            uncheckedThumbColor = Grey300,
                             checkedTrackColor = Color.Black,
                             uncheckedTrackColor = Color.Black
                         ), modifier = Modifier
