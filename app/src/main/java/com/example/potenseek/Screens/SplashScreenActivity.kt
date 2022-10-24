@@ -23,6 +23,7 @@ import kotlinx.coroutines.delay
 fun SplashScreenActivity(navController: NavController?) {
     LaunchedEffect(true){
         delay(3000)
+        navController?.popBackStack()
         navController?.navigate(NavigationEnum.LoginScreenActivity.name)
     }
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){

@@ -6,12 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.potenseek.Screens.SplashScreenActivity
-import com.example.potenseek.Screens.authentication.AuthViewModel
-import com.example.potenseek.Screens.authentication.LoginScreenActivity
-import com.example.potenseek.Screens.authentication.RegisterScreenActivity
+import com.example.potenseek.Screens.authentication.*
+import com.example.potenseek.Screens.homepage.HomeScreenActivity
 
 @Composable
-fun AppNavigation(authViewModel: AuthViewModel = viewModel()) {
+fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: ProfileViewModel = viewModel()) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = NavigationEnum.SplashScreenActivity.name){
         composable(NavigationEnum.SplashScreenActivity.name){
@@ -19,11 +18,23 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel()) {
         }
 
         composable(NavigationEnum.LoginScreenActivity.name){
-            LoginScreenActivity(navController)
+            LoginScreenActivity(navController, authViewModel)
         }
 
         composable(NavigationEnum.RegisterScreenActivity.name){
             RegisterScreenActivity(navController, authViewModel)
+        }
+
+        composable(NavigationEnum.InputUserDetailActivity.name){
+            inputUserDetailActivity(navController, profileViewModel)
+        }
+
+        composable(NavigationEnum.ChooseProfileActivity.name){
+            chooseAccountActivity(navController, profileViewModel)
+        }
+
+        composable(NavigationEnum.HomeScreenActivity.name){
+            HomeScreenActivity(navController)
         }
     }
 }
