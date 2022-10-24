@@ -1,51 +1,54 @@
 package com.example.potenseek.Screens.authentication
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import com.example.potenseek.Navigation.NavigationEnum
+import com.example.potenseek.Utils.FirebaseWrapper
 import com.example.potenseek.repository.AuthRepository
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(private val authRepository : AuthRepository) : ViewModel() {
-    val status = MutableLiveData<String>()
-    val loading = MutableLiveData<Boolean>(false)
+    var data = MutableStateFlow(FirebaseWrapper<String, Boolean, Exception>("", false, Exception()))
 
     fun login(email : String, password : String){
-        loading.value = true
+
         viewModelScope.launch(Dispatchers.IO){
-            try{
-                val result = authRepository.login(email, password)
-                status.value = result.data
-                loading.value = result.loading
-            }catch (e : java.lang.Exception){
-                val result = authRepository.login(email, password)
-                status.value = result.e?.message
-                loading.value = result.loading
-            }
+
+            data.value = authRepository.login(email, password)
 
         }
 
     }
 
+    fun checkIfUserExist(navController: NavController){
+        val curUser = FirebaseAuth.getInstance().currentUser
+        if(curUser != null){
+            navController.navigate(NavigationEnum.InputUserDetailActivity.name)
+            navController.popBackStack()
+        }
+    }
+
     fun register(email : String, password : String){
-        loading.value = true
-        viewModelScope.launch(Dispatchers.Main){
-            try{
-                val result = authRepository.register(email, password)
-                status.value = result.data
-                loading.value = result.loading
-            }catch (e : java.lang.Exception){
-                val result = authRepository.login(email, password)
-                status.value = result.e?.message
-                loading.value = result.loading
-            }
+
+        viewModelScope.launch(Dispatchers.IO){
+            data.value = authRepository.register(email, password)
 
         }
+    }
+
+    fun resetData(){
+        data.value = FirebaseWrapper("", false, Exception())
     }
 }

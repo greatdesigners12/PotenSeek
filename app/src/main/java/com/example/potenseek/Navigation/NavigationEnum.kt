@@ -5,5 +5,8 @@ enum class NavigationEnum {
     LoginScreenActivity,
     RegisterScreenActivity,
     SettingsActivity,
-    TeacherPsychologistHomeActivity
+    TeacherPsychologistHomeActivity,
+    HomeScreenActivity,
+    InputUserDetailActivity,
+    ChooseProfileActivity
 }
