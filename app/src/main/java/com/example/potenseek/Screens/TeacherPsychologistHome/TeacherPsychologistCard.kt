@@ -1,6 +1,5 @@
-package com.example.potenseek.Screens.TPHome
+package com.example.potenseek.Screens.TeacherPsychologistHome
 
-import android.content.Intent
 import com.example.potenseek.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,11 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.potenseek.Model.TeacherPsychologist
 import com.example.potenseek.Screens.ui.theme.Coral
 
 @Preview(showSystemUi = true, showBackground = true)
@@ -38,6 +35,7 @@ fun TeacherPsychologistCard() {
             .background(color = Color.White),
         shape = RoundedCornerShape(12.dp),
         shadowElevation = 8.dp,
+        color = Color.White,
         onClick = {
 
         }
@@ -57,7 +55,7 @@ fun TeacherPsychologistCard() {
                         painter = painterResource(id = R.drawable.bank_logo),
                         contentDescription = "TeacherPsychologistProfile",
                         modifier = Modifier
-                            .size(100.dp, 100.dp)
+                            .size(88.dp, 88.dp)
                     )
                 }
             }
@@ -75,7 +73,7 @@ fun TeacherPsychologistCard() {
                 Row(
                     modifier = Modifier
                         .wrapContentHeight()
-                        .padding(0.dp, 4.dp, 0.dp, 0.dp)
+                        .padding(0.dp, 6.dp, 0.dp, 0.dp)
                 ) {
                     Text(
                         text = "Rate : ",

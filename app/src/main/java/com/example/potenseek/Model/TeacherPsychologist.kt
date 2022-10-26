@@ -1,11 +1,11 @@
 package com.example.potenseek.Model
 
 data class TeacherPsychologist(
-    var id: String,
-    var name: String,
-    var totalRating: Double,
-    var totalParentsRated: Int,
-    var casesSolved: Int,
-    var about: String,
-    var role: TeacherPsychologistRole
+    var id: String? = null,
+    var name: String? = null,
+    var totalRating: Double? = null,
+    var totalParentsRating: Int? = null,
+    var casesSolved: Int? = null,
+    var about: String? = null,
+    var role: String? = null
 )

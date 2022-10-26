@@ -6,7 +6,7 @@
 
     <application
         android:name=".AndroidApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -16,7 +16,7 @@
         android:theme="@style/Theme.PotenSeek"
         tools:targetApi="31">
         <activity
-            android:name=".Screens.TPHomeActivity"
+            android:name=".Screens.TeacherPsychologistHome.TeacherPsychologistHomeActivity"
             android:exported="false"
             android:label="PotenSeek"
             android:theme="@style/Theme.PotenSeek">

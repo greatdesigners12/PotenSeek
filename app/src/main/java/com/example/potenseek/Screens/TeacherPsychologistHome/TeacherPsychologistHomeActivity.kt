@@ -1,9 +1,14 @@
-package com.example.potenseek.Screens.TPHome
+package com.example.potenseek.Screens.TeacherPsychologistHome
 
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -15,10 +20,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -29,14 +34,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.potenseek.Model.TeacherPsychologistRole
 import com.example.potenseek.R
 import com.example.potenseek.Screens.ui.theme.Coral
 import com.example.potenseek.Screens.ui.theme.PotenSeekTheme
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 
 class TeacherPsychologistHomeActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             PotenSeekTheme {
                 // A surface container using the 'background' color from the theme
@@ -45,7 +55,6 @@ class TeacherPsychologistHomeActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Scaffold() {
-                        TeacherPsychologistHome()
                     }
                 }
             }
@@ -55,7 +64,37 @@ class TeacherPsychologistHomeActivity : ComponentActivity() {
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun TeacherPsychologistHome() {
+fun TeacherPsychologistHome(teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel) {
+    val tpProfileLoading = remember{
+        mutableStateOf(true)
+    }
+
+    val focusManager = LocalFocusManager.current
+    val kc = LocalSoftwareKeyboardController.current
+    val focusRequester = FocusRequester()
+    val mContext = LocalContext.current
+    val db = Firebase.firestore
+
+    LaunchedEffect(key1 =  teacherPsychologistHomeViewModel.teacherPsychologistData.collectAsState().value.data){
+        teacherPsychologistHomeViewModel.getTeacherPsychologistData()
+        Log.d(ContentValues.TAG, "teacherPsychologistHome: ${teacherPsychologistHomeViewModel.teacherPsychologistData.value.data}")
+        if(teacherPsychologistHomeViewModel.teacherPsychologistData.value.data != null){
+            tpProfileLoading.value = false
+        }
+        Toast.makeText(mContext, "" + (teacherPsychologistHomeViewModel.teacherPsychologistData.value.data?.name), Toast.LENGTH_SHORT).show()
+    }
+
+    var roles = ArrayList<TeacherPsychologistRole>()
+
+    LaunchedEffect(key1 =  teacherPsychologistHomeViewModel.teacherPsychologistRoleData.collectAsState().value.data){
+        teacherPsychologistHomeViewModel.getTeacherPsychologistRoleData()
+        roles = teacherPsychologistHomeViewModel.teacherPsychologistRoleData.value.data!!
+        Log.d(ContentValues.TAG, "teacherPsychologistHome: ${teacherPsychologistHomeViewModel.teacherPsychologistRoleData.value.data}")
+        if(teacherPsychologistHomeViewModel.teacherPsychologistRoleData.value.data != null){
+            tpProfileLoading.value = false
+        }
+    }
+
     Column(modifier = Modifier.fillMaxWidth()) {
         var text by remember {
             mutableStateOf("")
@@ -64,10 +103,6 @@ fun TeacherPsychologistHome() {
         var textColor by remember {
             mutableStateOf(Color.Gray)
         }
-
-        val focusManager = LocalFocusManager.current
-        val kc = LocalSoftwareKeyboardController.current
-        val focusRequester = FocusRequester()
 
         Text(
             text = "What's Hot",
@@ -150,8 +185,11 @@ fun TeacherPsychologistHome() {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PreviewPage() {
-    TeacherPsychologistHome()
+fun TeacherPsychologistList(tpRole: ArrayList<TeacherPsychologistRole>) {
+    LazyRow {
+        itemsIndexed(items = tpRole) {index, item ->
+            TeacherPsychologistRoleCard(teacherPsychologistRole = item)
+        }
+    }
 }
