@@ -1,4 +1,4 @@
-package com.example.potenseek.Screens.TeacherPsychologistHome
+package com.example.potenseek.Screens.teacherpsychologisthomepage
 
 import com.example.potenseek.R
 import androidx.compose.foundation.Image

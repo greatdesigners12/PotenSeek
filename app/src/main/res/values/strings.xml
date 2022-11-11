@@ -2,4 +2,5 @@
     <string name="app_name">PotenSeek</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_tphome">TPHomeActivity</string>
+    <string name="title_activity_teacher_edit_profile">TeacherEditProfileActivity</string>
 </resources>

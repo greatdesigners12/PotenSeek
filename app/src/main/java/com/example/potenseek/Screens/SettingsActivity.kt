@@ -64,7 +64,7 @@ fun Settings() {
         }
 
         Box(modifier = Modifier
-            .clip(shape = RoundedCornerShape(0.dp, 0.dp, 145.dp, 145.dp))
+            .clip(shape = RoundedCornerShape(0.dp, 0.dp, 75.dp, 75.dp))
             .background(color = Coral)
             .wrapContentHeight()) {
             Image(painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24), contentDescription = "Back", modifier = Modifier
@@ -76,7 +76,7 @@ fun Settings() {
                 .wrapContentHeight()) {
                 Text(text = "Settings", modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally)
-                    .padding(0.dp, 16.dp), color = Color.White, fontSize = 32.sp, fontWeight = FontWeight.Medium)
+                    .padding(0.dp, 16.dp), color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Medium)
                 Image(painter = painterResource(id = R.drawable.ic_baseline_settings_24), contentDescription = "Settings", modifier = Modifier
                     .height(88.dp)
                     .fillMaxWidth()

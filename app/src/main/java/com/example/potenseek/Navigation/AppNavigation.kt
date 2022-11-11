@@ -7,8 +7,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.potenseek.Screens.Settings
 import com.example.potenseek.Screens.SplashScreenActivity
-import com.example.potenseek.Screens.TeacherPsychologistHome.TeacherPsychologistHome
-import com.example.potenseek.Screens.TeacherPsychologistHome.TeacherPsychologistHomeViewModel
+import com.example.potenseek.Screens.teacherpsychologisthomepage.TeacherPsychologistHome
+import com.example.potenseek.Screens.teacherpsychologisthomepage.TeacherPsychologistHomeViewModel
 import com.example.potenseek.Screens.authentication.AuthViewModel
 import com.example.potenseek.Screens.authentication.LoginScreenActivity
 import com.example.potenseek.Screens.authentication.RegisterScreenActivity

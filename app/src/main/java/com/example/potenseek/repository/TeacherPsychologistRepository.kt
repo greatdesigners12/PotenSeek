@@ -9,6 +9,7 @@ import com.example.potenseek.Utils.FirebaseWrapper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -34,20 +35,28 @@ class TeacherPsychologistRepository @Inject constructor(private val query : Fire
         var roles = ArrayList<TeacherPsychologistRole>()
 
         try{
-            query.collection("TeacherPsychologistRole").get().addOnCompleteListener { result ->
+            query.collection("TeacherPsychologistRole").get().addOnCompleteListener {
+                if (it.isSuccessful) {
+                    var a = 0
+                    while (a < it.result.documents.size) {
+                        roles.add(TeacherPsychologistRole(it.result.documents[a].id, it.result.documents[a].getString("role")))
+                        a++
+                    }
 
-                for (document in result.result) {
-                    var temp = document.toObject(TeacherPsychologistRole::class.java)
-                    roles.add(TeacherPsychologistRole(document.id, temp.role))
+                    dataWrapper.data = roles
+                } else {
+                    Log.e(ContentValues.TAG, "getTPRoleData Error : ${it.exception}")
+                }
+            }
+                .addOnFailureListener {
+                    Log.e(ContentValues.TAG, "getTPRoleData Error : ${it.printStackTrace()}")
                 }
 
-                dataWrapper.data = roles
-            }
+            dataWrapper.data = roles
 
             dataWrapper.loading = false
             Log.d(ContentValues.TAG, "getTeacherPsychologistRoleData: ${dataWrapper.data}")
         }catch(e : Exception){
-
             dataWrapper.e = e
             dataWrapper.loading = false
             Log.d(ContentValues.TAG, "getTeacherPsychologistRoleDataError: ${e.message}")

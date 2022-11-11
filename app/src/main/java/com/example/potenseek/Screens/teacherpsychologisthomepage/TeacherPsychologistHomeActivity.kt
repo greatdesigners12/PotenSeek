@@ -1,4 +1,4 @@
-package com.example.potenseek.Screens.TeacherPsychologistHome
+package com.example.potenseek.Screens.teacherpsychologisthomepage
 
 import android.content.ContentValues
 import android.os.Bundle
@@ -31,7 +31,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.potenseek.Model.TeacherPsychologistRole
@@ -71,9 +70,11 @@ fun TeacherPsychologistHome(teacherPsychologistHomeViewModel: TeacherPsychologis
 
     val focusManager = LocalFocusManager.current
     val kc = LocalSoftwareKeyboardController.current
-    val focusRequester = FocusRequester()
+    val focusRequester = remember { FocusRequester() }
     val mContext = LocalContext.current
     val db = Firebase.firestore
+    var roles = ArrayList<TeacherPsychologistRole>()
+    kc!!.hide()
 
     LaunchedEffect(key1 =  teacherPsychologistHomeViewModel.teacherPsychologistData.collectAsState().value.data){
         teacherPsychologistHomeViewModel.getTeacherPsychologistData()
@@ -84,15 +85,10 @@ fun TeacherPsychologistHome(teacherPsychologistHomeViewModel: TeacherPsychologis
         Toast.makeText(mContext, "" + (teacherPsychologistHomeViewModel.teacherPsychologistData.value.data?.name), Toast.LENGTH_SHORT).show()
     }
 
-    var roles = ArrayList<TeacherPsychologistRole>()
-
-    LaunchedEffect(key1 =  teacherPsychologistHomeViewModel.teacherPsychologistRoleData.collectAsState().value.data){
+    LaunchedEffect(key1 =  teacherPsychologistHomeViewModel._teacherPsychologistRoleData.collectAsState().value.data){
         teacherPsychologistHomeViewModel.getTeacherPsychologistRoleData()
-        roles = teacherPsychologistHomeViewModel.teacherPsychologistRoleData.value.data!!
-        Log.d(ContentValues.TAG, "teacherPsychologistHome: ${teacherPsychologistHomeViewModel.teacherPsychologistRoleData.value.data}")
-        if(teacherPsychologistHomeViewModel.teacherPsychologistRoleData.value.data != null){
-            tpProfileLoading.value = false
-        }
+        roles = teacherPsychologistHomeViewModel._teacherPsychologistRoleData.value.data!!
+        Log.d(ContentValues.TAG, "teacherPsychologistHomeActivity: ${teacherPsychologistHomeViewModel._teacherPsychologistRoleData.value.data}")
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -181,7 +177,7 @@ fun TeacherPsychologistHome(teacherPsychologistHomeViewModel: TeacherPsychologis
                 )
             )
         }
-
+        TeacherPsychologistList(tpRole = roles)
     }
 }
 

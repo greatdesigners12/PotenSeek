@@ -1,4 +1,4 @@
-package com.example.potenseek.Screens.TeacherPsychologistHome
+package com.example.potenseek.Screens.teacherpsychologisthomepage
 
 import android.content.ContentValues
 import android.util.Log
@@ -11,6 +11,7 @@ import com.example.potenseek.repository.TeacherPsychologistRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,6 +30,8 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
         FirebaseWrapper(null, false, Exception())
     )
 
+    var _teacherPsychologistRoleData: StateFlow<FirebaseWrapper<ArrayList<TeacherPsychologistRole>, Boolean, Exception>> = teacherPsychologistRoleData
+
     fun getTeacherPsychologistData(){
         viewModelScope.launch(Dispatchers.IO) {
             try{
@@ -43,18 +46,23 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
         }
     }
 
-    fun getTeacherPsychologistRoleData(){
-        viewModelScope.launch(Dispatchers.IO) {
-            try{
+    fun getTeacherPsychologistRoleData() {
+        viewModelScope.launch {
+            try {
                 teacherPsychologistRoleData.value = repository.getTeacherPsychologistRoleData()
-                Log.d(ContentValues.TAG, "getTeacherPsychologistRoleData: ${teacherPsychologistRoleData.value}")
-            }catch (e : Exception){
+                Log.d(
+                    ContentValues.TAG,
+                    "getTeacherPsychologistRoleDataVM: ${teacherPsychologistRoleData.value}"
+                )
+            } catch (e: Exception) {
                 data.value.data = "failed"
                 data.value.e = e
                 data.value.loading = false
-                Log.d(ContentValues.TAG, "getTeacherPsychologistRoleData: ${e.message}")
+                Log.d(ContentValues.TAG, "getTeacherPsychologistRoleDataVMError: ${e.message}")
             }
         }
     }
+
+
 
 }
