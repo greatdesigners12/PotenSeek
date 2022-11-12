@@ -29,12 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.potenseek.R
-import com.example.potenseek.Screens.ui.theme.Coral
-import com.example.potenseek.Screens.ui.theme.Grey300
-import com.example.potenseek.Screens.ui.theme.GreyBorder
-import com.example.potenseek.Screens.ui.theme.Brown700
-import com.example.potenseek.Screens.ui.theme.Red700
-import com.example.potenseek.Screens.ui.theme.Orange300
+import com.example.potenseek.Screens.ui.theme.*
 import com.example.potenseek.Screens.ui.theme.PotenSeekTheme
 import com.example.potenseek.ui.theme.*
 

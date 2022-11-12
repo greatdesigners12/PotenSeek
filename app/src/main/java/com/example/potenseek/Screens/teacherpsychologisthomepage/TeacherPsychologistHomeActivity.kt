@@ -103,7 +103,7 @@ fun TeacherPsychologistHome(teacherPsychologistHomeViewModel: TeacherPsychologis
         Text(
             text = "What's Hot",
             modifier = Modifier.padding(20.dp, 16.dp),
-            fontSize = 32.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.SemiBold
         )
         Card(
@@ -117,14 +117,14 @@ fun TeacherPsychologistHome(teacherPsychologistHomeViewModel: TeacherPsychologis
             Text(
                 text = "What's Hot",
                 modifier = Modifier.padding(20.dp, 16.dp),
-                fontSize = 32.sp,
+                fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold
             )
         }
         Text(
             text = "Service List",
             modifier = Modifier.padding(20.dp, 16.dp),
-            fontSize = 32.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.SemiBold
         )
         Surface(
