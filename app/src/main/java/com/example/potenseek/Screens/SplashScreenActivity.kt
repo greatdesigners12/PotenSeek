@@ -32,7 +32,6 @@ fun SplashScreenActivity(navController: NavController?) {
 
 }
 
-@Preview
 @Composable
 fun preview(){
     SplashScreenActivity(null)

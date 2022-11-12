@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PotenSeek</string>
+    <string name="title_activity_friendslist">friendslist</string>
+    <string name="title_activity_snake_game">snakeGameActivity</string>
 </resources>
