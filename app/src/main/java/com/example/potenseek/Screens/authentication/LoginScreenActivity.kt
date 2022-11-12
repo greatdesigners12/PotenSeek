@@ -113,8 +113,9 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
             Row(verticalAlignment = Alignment.CenterVertically){
                 Text("Go to register page, ")
                 Text("Click here", modifier = Modifier.clickable {
-                    navController.navigate(NavigationEnum.RegisterScreenActivity.name)
                     navController.popBackStack()
+                    navController.navigate(NavigationEnum.RegisterScreenActivity.name)
+
                 }, color = MaterialTheme.colors.primary)
             }
 
