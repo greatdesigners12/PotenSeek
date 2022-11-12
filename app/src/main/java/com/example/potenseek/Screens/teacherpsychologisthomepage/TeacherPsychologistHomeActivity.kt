@@ -1,11 +1,13 @@
 package com.example.potenseek.Screens.teacherpsychologisthomepage
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -33,9 +35,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.potenseek.Model.TeacherPsychologist
 import com.example.potenseek.Model.TeacherPsychologistRole
 import com.example.potenseek.R
 import com.example.potenseek.Screens.ui.theme.Coral
+import com.example.potenseek.Screens.ui.theme.GreyBackground
 import com.example.potenseek.Screens.ui.theme.PotenSeekTheme
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -74,6 +78,7 @@ fun TeacherPsychologistHome(teacherPsychologistHomeViewModel: TeacherPsychologis
     val mContext = LocalContext.current
     val db = Firebase.firestore
     var roles = ArrayList<TeacherPsychologistRole>()
+    var teachers = ArrayList<TeacherPsychologist>()
     kc!!.hide()
 
     LaunchedEffect(key1 =  teacherPsychologistHomeViewModel.teacherPsychologistData.collectAsState().value.data){
@@ -91,101 +96,114 @@ fun TeacherPsychologistHome(teacherPsychologistHomeViewModel: TeacherPsychologis
         Log.d(ContentValues.TAG, "teacherPsychologistHomeActivity: ${teacherPsychologistHomeViewModel._teacherPsychologistRoleData.value.data}")
     }
 
-    Column(modifier = Modifier.fillMaxWidth()) {
-        var text by remember {
-            mutableStateOf("")
-        }
+        Column(modifier = Modifier
+            .fillMaxSize()
+            .background(color = GreyBackground)) {
+            var text by remember {
+                mutableStateOf("")
+            }
 
-        var textColor by remember {
-            mutableStateOf(Color.Gray)
-        }
+            var textColor by remember {
+                mutableStateOf(Color.Gray)
+            }
 
-        Text(
-            text = "What's Hot",
-            modifier = Modifier.padding(20.dp, 16.dp),
-            fontSize = 28.sp,
-            fontWeight = FontWeight.SemiBold
-        )
-        Card(
-            backgroundColor = Coral,
-            shape = RoundedCornerShape(24.dp),
-            modifier = Modifier
-                .padding(0.dp, 20.dp)
-                .fillMaxWidth(0.9f)
-                .align(alignment = Alignment.CenterHorizontally)
-        ) {
             Text(
                 text = "What's Hot",
                 modifier = Modifier.padding(20.dp, 16.dp),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.SemiBold
             )
-        }
-        Text(
-            text = "Service List",
-            modifier = Modifier.padding(20.dp, 16.dp),
-            fontSize = 28.sp,
-            fontWeight = FontWeight.SemiBold
-        )
-        Surface(
-            elevation = 10.dp,
-            shape = RoundedCornerShape(50.dp),
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .align(alignment = Alignment.CenterHorizontally)
-                .height(50.dp)
-        ) {
-            LaunchedEffect(Unit) {
-                delay(200)// <-- This is crucial.
-                focusRequester.requestFocus()
+            Card(
+                backgroundColor = Coral,
+                shape = RoundedCornerShape(24.dp),
+                modifier = Modifier
+                    .padding(0.dp, 20.dp)
+                    .fillMaxWidth(0.9f)
+                    .align(alignment = Alignment.CenterHorizontally)
+            ) {
+                Text(
+                    text = "What's Hot",
+                    modifier = Modifier.padding(20.dp, 16.dp),
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
-            OutlinedTextField(
-                value = text,
-                placeholder = {Text(text = "Search...", color = Color.Gray, fontSize = 18.sp)},
-                singleLine = true,
-                onValueChange = {newText ->
-                    text = newText
-
-                    if (text != "") {
-                        textColor = Color.Gray
-                    } else {
-                        textColor = Color.Black
-                    }
-                },
-                enabled = true,
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.White
-                ),
-                textStyle = TextStyle.Default.copy(fontSize = 20.sp, color = textColor),
-                trailingIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(painter = painterResource(id = R.drawable.ic_baseline_search_24), contentDescription = "", modifier = Modifier.size(30.dp))
-                    }
-                },
-                keyboardActions = KeyboardActions(onDone = {
-                    focusManager.clearFocus()
-                }),
+            Text(
+                text = "Service List",
+                modifier = Modifier.padding(20.dp, 16.dp),
+                fontSize = 28.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Surface(
+                elevation = 10.dp,
+                shape = RoundedCornerShape(50.dp),
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
-                    .focusRequester(focusRequester)
                     .align(alignment = Alignment.CenterHorizontally)
-                    .wrapContentHeight(unbounded = true),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done
+                    .height(50.dp)
+            ) {
+                LaunchedEffect(Unit) {
+                    delay(200)// <-- This is crucial.
+                    focusRequester.requestFocus()
+                }
+                OutlinedTextField(
+                    value = text,
+                    placeholder = {Text(text = "Search...", color = Color.Gray, fontSize = 18.sp)},
+                    singleLine = true,
+                    onValueChange = {newText ->
+                        text = newText
+
+                        if (text != "") {
+                            textColor = Color.Gray
+                        } else {
+                            textColor = Color.Black
+                        }
+                    },
+                    enabled = true,
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.White,
+                        unfocusedBorderColor = Color.White
+                    ),
+                    textStyle = TextStyle.Default.copy(fontSize = 20.sp, color = textColor),
+                    trailingIcon = {
+                        IconButton(onClick = {}) {
+                            Icon(painter = painterResource(id = R.drawable.ic_baseline_search_24), contentDescription = "", modifier = Modifier.size(30.dp))
+                        }
+                    },
+                    keyboardActions = KeyboardActions(onDone = {
+                        focusManager.clearFocus()
+                    }),
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .focusRequester(focusRequester)
+                        .align(alignment = Alignment.CenterHorizontally)
+                        .wrapContentHeight(unbounded = true),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    )
                 )
-            )
+            }
+            TeacherPsychologistRoleList(tpRole = roles)
+            TeacherPsychologistList(tp = teachers)
         }
-        TeacherPsychologistList(tpRole = roles)
+
+}
+
+@Composable
+fun TeacherPsychologistRoleList(tpRole: ArrayList<TeacherPsychologistRole>) {
+    LazyRow {
+        itemsIndexed(items = tpRole) {index, item ->
+            TeacherPsychologistRoleCard(teacherPsychologistRole = item)
+        }
     }
 }
 
 @Composable
-fun TeacherPsychologistList(tpRole: ArrayList<TeacherPsychologistRole>) {
+fun TeacherPsychologistList(tp: ArrayList<TeacherPsychologist>) {
     LazyRow {
-        itemsIndexed(items = tpRole) {index, item ->
-            TeacherPsychologistRoleCard(teacherPsychologistRole = item)
+        itemsIndexed(items = tp) {index, item ->
+            TeacherPsychologistCard(teacherPsychologist = item)
         }
     }
 }

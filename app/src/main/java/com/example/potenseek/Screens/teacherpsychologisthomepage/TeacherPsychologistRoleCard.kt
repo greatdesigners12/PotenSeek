@@ -1,5 +1,6 @@
 package com.example.potenseek.Screens.teacherpsychologisthomepage
 
+import android.util.Size
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.potenseek.Model.TeacherPsychologistRole
@@ -17,6 +19,12 @@ import com.example.potenseek.Screens.ui.theme.*
 fun TeacherPsychologistRoleCard(teacherPsychologistRole: TeacherPsychologistRole) {
 
     var bgcolor: Color
+    var paddingSize: Dp
+    if (teacherPsychologistRole.id == "1") {
+        paddingSize = 24.dp
+    } else {
+        paddingSize = 8.dp
+    }
 
     if (teacherPsychologistRole.role == "Psychologist") {
         bgcolor = Orange300
@@ -30,22 +38,23 @@ fun TeacherPsychologistRoleCard(teacherPsychologistRole: TeacherPsychologistRole
 
     Surface(
         modifier = Modifier
-            .padding(16.dp, 8.dp)
+            .padding(paddingSize, 16.dp, 8.dp, 16.dp)
             .wrapContentSize()
             .background(color = GreyBackground),
         shape = RoundedCornerShape(25.dp),
-        shadowElevation = 8.dp,
-        color = bgcolor,
+        shadowElevation = 2.dp,
         onClick = {
 
         }
     ) {
-        Text(
-            text = teacherPsychologistRole.role.toString(),
-            fontSize = 20.sp,
-            modifier = Modifier
-                .padding(14.dp, 4.dp)
-                .wrapContentWidth()
-        )
+        Row(modifier = Modifier
+            .wrapContentWidth()
+            .background(color = bgcolor)
+            .padding(12.dp, 4.dp)) {
+            Text(
+                text = teacherPsychologistRole.role.toString(),
+                fontSize = 16.sp
+            )
+        }
     }
 }

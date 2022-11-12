@@ -19,7 +19,7 @@ import com.example.potenseek.Screens.schedule.TeacherSchedule
 @Composable
 fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: ProfileViewModel = viewModel(), teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel = viewModel()) {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = NavigationEnum.TeacherScheduleActivity.name){
+    NavHost(navController, startDestination = NavigationEnum.TeacherPsychologistHomeActivity.name){
         composable(NavigationEnum.SplashScreenActivity.name){
             SplashScreenActivity(navController)
         }

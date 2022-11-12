@@ -20,12 +20,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.potenseek.Model.TeacherPsychologist
 import com.example.potenseek.Screens.ui.theme.Coral
+import com.example.potenseek.Screens.ui.theme.GreyBackground
+import com.example.potenseek.Screens.ui.theme.Orange300
 
-@Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun TeacherPsychologistCard() {
+fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist) {
     val mContext = LocalContext.current
+    var rating = teacherPsychologist.totalRating!! / teacherPsychologist.totalParentsRating!!
 
     Surface(
         modifier = Modifier
@@ -66,7 +69,7 @@ fun TeacherPsychologistCard() {
                     .wrapContentHeight()
             ) {
                 Text(
-                    text = "Teacher/Psychologist Name",
+                    text = teacherPsychologist.name.toString(),
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 24.sp
                 )
@@ -91,35 +94,35 @@ fun TeacherPsychologistCard() {
                             .align(alignment = Alignment.CenterVertically)
                     )
                     Text(
-                        text = " 4.81",
+                        text = " $rating",
                         fontSize = 18.sp,
                         modifier = Modifier
                             .align(alignment = Alignment.CenterVertically)
                     )
                 }
                 Text(
-                    text = "2124 Cases Solved",
+                    text = "${teacherPsychologist.casesSolved} Cases Solved",
                     fontSize = 16.sp,
                     modifier = Modifier.padding(0.dp, 2.dp, 0.dp, 0.dp)
                 )
                 Row(
                     modifier = Modifier
                         .wrapContentHeight()
-                        .padding(0.dp, 12.dp, 0.dp, 0.dp)
+                        .padding(0.dp, 6.dp, 0.dp, 0.dp)
                 ) {
-                    Surface(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .align(alignment = Alignment.CenterVertically),
+                    Button(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier,
                         shape = RoundedCornerShape(25.dp),
-                        shadowElevation = 8.dp,
-                        color = Color.LightGray
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = Orange300
+                        ),
+                        elevation = ButtonDefaults.elevation(10.dp)
                     ) {
                         Text(
-                            text = "Psychologist",
+                            text = teacherPsychologist.role.toString(),
                             fontSize = 15.sp,
-                            modifier = Modifier
-                                .padding(8.dp)
+                            color = Color.Black
                         )
                     }
                     Spacer(modifier = Modifier.width(4.dp))
