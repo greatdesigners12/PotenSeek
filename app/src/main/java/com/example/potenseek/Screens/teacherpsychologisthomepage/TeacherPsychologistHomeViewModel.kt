@@ -22,15 +22,15 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
         FirebaseWrapper("", false, Exception())
     )
 
-    var teacherPsychologistData = MutableStateFlow<FirebaseWrapper<TeacherPsychologist, Boolean, Exception>>(
+    var teacherPsychologistData = MutableStateFlow<FirebaseWrapper<List<TeacherPsychologist>, Boolean, Exception>>(
         FirebaseWrapper(null, false, Exception())
     )
 
-    var teacherPsychologistRoleData = MutableStateFlow<FirebaseWrapper<ArrayList<TeacherPsychologistRole>, Boolean, Exception>>(
+    var teacherPsychologistRoleData = MutableStateFlow<FirebaseWrapper<List<TeacherPsychologistRole>, Boolean, Exception>>(
         FirebaseWrapper(null, false, Exception())
     )
 
-    var _teacherPsychologistRoleData: StateFlow<FirebaseWrapper<ArrayList<TeacherPsychologistRole>, Boolean, Exception>> = teacherPsychologistRoleData
+    var _teacherPsychologistRoleData: StateFlow<FirebaseWrapper<List<TeacherPsychologistRole>, Boolean, Exception>> = teacherPsychologistRoleData
 
     fun getTeacherPsychologistData(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -38,9 +38,9 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
                 teacherPsychologistData.value = repository.getTeacherPsychologistData()
                 Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${teacherPsychologistData.value}")
             }catch (e : Exception){
-                data.value.data = "failed"
-                data.value.e = e
-                data.value.loading = false
+                teacherPsychologistData.value.data = listOf()
+                teacherPsychologistData.value.e = e
+                teacherPsychologistData.value.loading = false
                 Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${e.message}")
             }
         }
@@ -55,9 +55,9 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
                     "getTeacherPsychologistRoleDataVM: ${teacherPsychologistRoleData.value}"
                 )
             } catch (e: Exception) {
-                data.value.data = "failed"
-                data.value.e = e
-                data.value.loading = false
+                teacherPsychologistData.value.data = listOf()
+                teacherPsychologistData.value.e = e
+                teacherPsychologistData.value.loading = false
                 Log.d(ContentValues.TAG, "getTeacherPsychologistRoleDataVMError: ${e.message}")
             }
         }

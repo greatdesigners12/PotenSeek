@@ -68,32 +68,36 @@ class TeacherPsychologistHomeActivity : ComponentActivity() {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TeacherPsychologistHome(teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel) {
-    val tpProfileLoading = remember{
+    val teacherPsychologistSectionLoading = remember{
         mutableStateOf(true)
+    }
+    val teacherPsychologistRoleLoading = remember{
+        mutableStateOf(true)
+    }
+
+    val focusRequester = remember {
+        FocusRequester()
     }
 
     val focusManager = LocalFocusManager.current
     val kc = LocalSoftwareKeyboardController.current
-    val focusRequester = remember { FocusRequester() }
-    val mContext = LocalContext.current
-    val db = Firebase.firestore
-    var roles = ArrayList<TeacherPsychologistRole>()
     var teachers = ArrayList<TeacherPsychologist>()
     kc!!.hide()
 
     LaunchedEffect(key1 =  teacherPsychologistHomeViewModel.teacherPsychologistData.collectAsState().value.data){
         teacherPsychologistHomeViewModel.getTeacherPsychologistData()
-        Log.d(ContentValues.TAG, "teacherPsychologistHome: ${teacherPsychologistHomeViewModel.teacherPsychologistData.value.data}")
+        Log.d(TAG, "teacherPsychologistHome: ${teacherPsychologistHomeViewModel.teacherPsychologistData.value.data}")
         if(teacherPsychologistHomeViewModel.teacherPsychologistData.value.data != null){
-            tpProfileLoading.value = false
+            teacherPsychologistSectionLoading.value = false
         }
-        Toast.makeText(mContext, "" + (teacherPsychologistHomeViewModel.teacherPsychologistData.value.data?.name), Toast.LENGTH_SHORT).show()
     }
 
     LaunchedEffect(key1 =  teacherPsychologistHomeViewModel._teacherPsychologistRoleData.collectAsState().value.data){
         teacherPsychologistHomeViewModel.getTeacherPsychologistRoleData()
-        roles = teacherPsychologistHomeViewModel._teacherPsychologistRoleData.value.data!!
-        Log.d(ContentValues.TAG, "teacherPsychologistHomeActivity: ${teacherPsychologistHomeViewModel._teacherPsychologistRoleData.value.data}")
+        if(teacherPsychologistHomeViewModel.teacherPsychologistData.value.data != null){
+            teacherPsychologistSectionLoading.value = false
+        }
+        Log.d(TAG, "teacherPsychologistHomeActivity: ${teacherPsychologistHomeViewModel._teacherPsychologistRoleData.value.data}")
     }
 
         Column(modifier = Modifier
@@ -184,7 +188,7 @@ fun TeacherPsychologistHome(teacherPsychologistHomeViewModel: TeacherPsychologis
                     )
                 )
             }
-            TeacherPsychologistRoleList(tpRole = roles)
+            TeacherPsychologistRoleList(tpRole = teacherPsychologistHomeViewModel.teacherPsychologistRoleData.value.data!!)
             TeacherPsychologistList(tp = teachers)
         }
 

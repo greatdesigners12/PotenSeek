@@ -14,10 +14,10 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class TeacherPsychologistRepository @Inject constructor(private val query : FirebaseFirestore, private val queryAuth : FirebaseAuth) {
-    suspend fun getTeacherPsychologistData() : FirebaseWrapper<TeacherPsychologist, Boolean, Exception> {
-        val dataWrapper = FirebaseWrapper<TeacherPsychologist, Boolean, java.lang.Exception>(null, true, null)
+    suspend fun getTeacherPsychologistData() : FirebaseWrapper<List<TeacherPsychologist>, Boolean, Exception> {
+        val dataWrapper = FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception>(null, true, null)
         try{
-            dataWrapper.data = query.collection("TeacherPsychologistData").document().get().await().toObject(
+            dataWrapper.data = query.collection("TeacherPsychologistData").get().await().toObjects(
                 TeacherPsychologist::class.java)
             dataWrapper.loading = false
             Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${dataWrapper.data}")
@@ -30,8 +30,8 @@ class TeacherPsychologistRepository @Inject constructor(private val query : Fire
         return dataWrapper
     }
 
-    suspend fun getTeacherPsychologistRoleData() : FirebaseWrapper<ArrayList<TeacherPsychologistRole>, Boolean, Exception> {
-        val dataWrapper = FirebaseWrapper<ArrayList<TeacherPsychologistRole>, Boolean, java.lang.Exception>(null, true, null)
+    suspend fun getTeacherPsychologistRoleData() : FirebaseWrapper<List<TeacherPsychologistRole>, Boolean, Exception> {
+        val dataWrapper = FirebaseWrapper<List<TeacherPsychologistRole>, Boolean, java.lang.Exception>(null, true, null)
         var roles = ArrayList<TeacherPsychologistRole>()
 
         try{
