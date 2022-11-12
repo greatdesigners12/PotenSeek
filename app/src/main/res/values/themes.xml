@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Theme.PotenSeek" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:statusBarColor">@color/primary</item>
     </style>
     <style name="CalendarSchedule" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="android:textColorPrimaryInverse">@color/white</item>

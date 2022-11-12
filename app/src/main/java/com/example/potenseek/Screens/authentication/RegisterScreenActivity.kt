@@ -45,8 +45,9 @@ fun RegisterScreenActivity(navController: NavController, authViewModel: AuthView
 
         }else if(authViewModel.data.value.data == "success"){
             loading.value = authViewModel.data.value.loading
-            navController.navigate(NavigationEnum.LoginScreenActivity.name)
             navController.popBackStack()
+            navController.navigate(NavigationEnum.LoginScreenActivity.name)
+
         }
 
     }
@@ -109,9 +110,9 @@ fun RegisterScreenActivity(navController: NavController, authViewModel: AuthView
                 Text("Go to login page, ")
                 Text("Click here", style = TextStyle(color = MaterialTheme.colors.primary) , modifier = Modifier.clickable {
                     authViewModel.resetData()
-
-                    navController.navigate(NavigationEnum.LoginScreenActivity.name)
                     navController.popBackStack()
+                    navController.navigate(NavigationEnum.LoginScreenActivity.name)
+
                 })
             }
 
