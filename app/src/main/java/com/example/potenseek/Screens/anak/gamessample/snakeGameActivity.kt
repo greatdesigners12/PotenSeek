@@ -1,4 +1,4 @@
-package com.example.potenseek.Screens.anak
+package com.example.potenseek.Screens.anak.gamessample
 
 import android.os.Bundle
 import android.widget.Space
@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
+import com.example.potenseek.Screens.anak.color
 import com.example.potenseek.Screens.anak.ui.theme.PotenSeekTheme
 import com.example.potenseek.ui.theme.Shapes
 import kotlinx.coroutines.CoroutineScope

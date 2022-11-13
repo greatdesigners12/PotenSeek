@@ -13,7 +13,9 @@ import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.potenseek.R
 import com.example.potenseek.ui.theme.PotenSeekTheme
 import kotlinx.coroutines.launch
@@ -81,27 +84,52 @@ fun homepageanak() {
                                 .fillMaxWidth()
                                 .padding(vertical = 8.dp, horizontal = 24.dp),
                         )
-                        Text(
-                            text = "Leaderboard",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
-                            modifier = Modifier.padding(vertical = 8.dp, horizontal = 24.dp)
-                        )
-                        Text(
-                            text = "Shop",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
-                            modifier = Modifier.padding(vertical = 8.dp, horizontal = 24.dp)
-                        )
-                        Text(
-                            text = "Friends",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
-                            modifier = Modifier.padding(vertical = 8.dp, horizontal = 24.dp)
-                        )
+                        Row(modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp)) {
+                            Text(
+                                text = "Leaderboard",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 22.sp,
+                            )
+
+                            Icon(
+                                Icons.Default.Lock,
+                                null,
+                                tint = Color.White,
+                            )
+                        }
+
+                        Row(modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp)) {
+
+                            Text(
+                                text = "Shop",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 22.sp,
+                            )
+
+                            Icon(
+                                Icons.Default.Lock,
+                                null,
+                                tint = Color.White,
+                            )
+                        }
+
+                        Row(modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp)) {
+
+                            Text(
+                                text = "Friends",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 22.sp,
+                            )
+
+                            Icon(
+                                Icons.Default.Lock,
+                                null,
+                                tint = Color.White,
+                            )
+                        }
                     }
 
                     //LAST ROW
@@ -113,15 +141,15 @@ fun homepageanak() {
                             text = "Account",
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
-                            modifier = Modifier.padding(vertical = 8.dp, horizontal = 24.dp)
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp)
                         )
                         Text(
                             text = "Logout",
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp,
-                            modifier = Modifier.padding(vertical = 8.dp, horizontal = 24.dp)
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp)
                         )
                     }
                 }
@@ -159,7 +187,8 @@ fun homepageanak() {
                                             drawerState.apply {
                                                 if (isClosed) open() else close()
                                             }
-                                        } }
+                                        }
+                                    }
                                     .size(50.dp, 50.dp),
                             )
                             Text(text = "This is a search bar",
