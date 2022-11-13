@@ -13,10 +13,13 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,11 +54,11 @@ class ProfileActivity : ComponentActivity() {
 fun profile() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Card(
-            shape = RoundedCornerShape(60.dp),
+            shape = RoundedCornerShape(50.dp),
             backgroundColor = "#EE4F48".color,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(height = 450.dp)
+                .height(height = 420.dp)
                 .offset(y = (-100).dp)
                 .padding(vertical = 1.dp)
         ){
@@ -64,20 +67,95 @@ fun profile() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .offset(y = (120).dp)
+                    .fillMaxWidth()
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = "back",
+                Icon(
+                    Icons.Default.ArrowBack,
+                    null,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .size(60.dp)
+                        .align(Alignment.Start)
+                        .padding(start = 20.dp)
                 )
 
                 Image(
                     painter = painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = "profileIMG"
+                    contentDescription = "profileIMG",
+                    modifier = Modifier.clip(RoundedCornerShape(10.dp))
                 )
+
                 class child(var username : String, var fname : String)
                 var childs = child("BestPlayer123", "Felix")
 
-                Text(text = childs.username)
+                Row() {
+                    Text(
+                        color = Color.White,
+                        text = childs.username,
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    val openDialog = remember { mutableStateOf(false)  }
+                    var text by remember { mutableStateOf(childs.username) }
+
+                    Icon(
+                        Icons.Default.Edit,
+                        null,
+                        tint = Color.White,
+                        modifier = Modifier
+                            .padding(start = 5.dp)
+                            .clickable { openDialog.value = true }
+                    )
+
+                    if (openDialog.value) {
+
+                        AlertDialog(
+                            onDismissRequest = {
+                                openDialog.value = false
+                            },
+                            title = {
+                                Text(text = "Display Name")
+                            },
+                            text = {
+                                Column() {
+                                    TextField(
+                                        value = text,
+                                        onValueChange = { text = it }
+                                    )
+                                }
+                            },
+                            buttons = {
+                                Row(
+                                    modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center,
+                                ) {
+                                    Button(
+                                        modifier = Modifier.fillMaxWidth().weight(1f).padding(4.dp).background(color = Color.Gray),
+                                        onClick = { openDialog.value = false },
+                                        colors = ButtonDefaults.buttonColors(
+                                            backgroundColor = Color.Gray)
+                                    ) {
+                                        Text("Cancel", modifier = Modifier.background(color = Color.Gray))
+                                    }
+
+                                    Button(
+                                        modifier = Modifier.fillMaxWidth().weight(1f).padding(4.dp).background(color = "#EE4F48".color),
+                                        onClick = {
+                                            openDialog.value = false
+                                            childs.username = text
+                                        },
+                                        colors = ButtonDefaults.buttonColors(
+                                            backgroundColor = "#EE4F48".color)
+                                    ) {
+                                        Text("Save", modifier = Modifier.background(color = "#EE4F48".color), color = Color.White,)
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+
 
                 Text(text = childs.fname)
 
@@ -106,7 +184,10 @@ fun profile() {
                         .padding(start = 20.dp, top = 10.dp)
                 ) {
                     Text(
-                        text = "Age"
+                        text = "Age",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        color = Color.Black,
                     )
                     Text(
                         text = dummy.age.toString() + " years old",
@@ -118,6 +199,9 @@ fun profile() {
 
         Text(
             text = "Achievements",
+            fontWeight = FontWeight.Bold,
+            fontSize = 16.sp,
+            color = Color.Black,
             modifier = Modifier.offset(y = (-30).dp)
         )
 
@@ -142,7 +226,8 @@ fun profile() {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = "GameIcon"
+                        contentDescription = "GameIcon",
+                        modifier = Modifier.clip(RoundedCornerShape(10.dp))
                     )
                     Text(text = achievement.title)
                 }

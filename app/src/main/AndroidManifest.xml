@@ -16,6 +16,15 @@
         android:theme="@style/Theme.PotenSeek"
         tools:targetApi="31">
         <activity
+            android:name=".friendlistActivity"
+            android:exported="false"
+            android:label="@string/title_activity_friendlist"
+            android:theme="@style/Theme.PotenSeek">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Screens.anak.snakeGameActivity"
             android:exported="false"
             android:label="@string/title_activity_snake_game"
