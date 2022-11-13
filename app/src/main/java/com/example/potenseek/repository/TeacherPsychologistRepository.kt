@@ -2,9 +2,7 @@ package com.example.potenseek.repository
 
 import android.content.ContentValues
 import android.util.Log
-import com.example.potenseek.Model.ParentProfile
-import com.example.potenseek.Model.TeacherPsychologist
-import com.example.potenseek.Model.TeacherPsychologistRole
+import com.example.potenseek.Model.*
 import com.example.potenseek.Utils.FirebaseWrapper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -14,7 +12,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class TeacherPsychologistRepository @Inject constructor(private val query : FirebaseFirestore, private val queryAuth : FirebaseAuth) {
-    suspend fun getTeacherPsychologistData() : FirebaseWrapper<List<TeacherPsychologist>, Boolean, Exception> {
+    suspend fun getTeacherPsychologistData() : FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception> {
         val dataWrapper = FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception>(null, true, null)
         try{
             dataWrapper.data = query.collection("TeacherPsychologistData").get().await().toObjects(
@@ -22,7 +20,6 @@ class TeacherPsychologistRepository @Inject constructor(private val query : Fire
             dataWrapper.loading = false
             Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${dataWrapper.data}")
         }catch(e : Exception){
-
             dataWrapper.e = e
             dataWrapper.loading = false
             Log.d(ContentValues.TAG, "getTeacherPsychologistDataError: ${e.message}")
@@ -30,36 +27,52 @@ class TeacherPsychologistRepository @Inject constructor(private val query : Fire
         return dataWrapper
     }
 
-    suspend fun getTeacherPsychologistRoleData() : FirebaseWrapper<List<TeacherPsychologistRole>, Boolean, Exception> {
+    suspend fun getTeacherPsychologistRoleData() : FirebaseWrapper<List<TeacherPsychologistRole>, Boolean, java.lang.Exception> {
         val dataWrapper = FirebaseWrapper<List<TeacherPsychologistRole>, Boolean, java.lang.Exception>(null, true, null)
-        var roles = ArrayList<TeacherPsychologistRole>()
 
         try{
-            query.collection("TeacherPsychologistRole").get().addOnCompleteListener {
-                if (it.isSuccessful) {
-                    var a = 0
-                    while (a < it.result.documents.size) {
-                        roles.add(TeacherPsychologistRole(it.result.documents[a].id, it.result.documents[a].getString("role")))
-                        a++
-                    }
-
-                    dataWrapper.data = roles
-                } else {
-                    Log.e(ContentValues.TAG, "getTPRoleData Error : ${it.exception}")
-                }
-            }
-                .addOnFailureListener {
-                    Log.e(ContentValues.TAG, "getTPRoleData Error : ${it.printStackTrace()}")
-                }
-
-            dataWrapper.data = roles
-
+            dataWrapper.data = query.collection("TeacherPsychologistRole").get().await().toObjects(
+                TeacherPsychologistRole::class.java)
             dataWrapper.loading = false
             Log.d(ContentValues.TAG, "getTeacherPsychologistRoleData: ${dataWrapper.data}")
         }catch(e : Exception){
             dataWrapper.e = e
             dataWrapper.loading = false
             Log.d(ContentValues.TAG, "getTeacherPsychologistRoleDataError: ${e.message}")
+        }
+
+        return dataWrapper
+    }
+
+    suspend fun getWhatsHot() : FirebaseWrapper<List<WhatsHot>, Boolean, java.lang.Exception> {
+        val dataWrapper = FirebaseWrapper<List<WhatsHot>, Boolean, java.lang.Exception>(null, true, null)
+
+        try{
+            dataWrapper.data = query.collection("WhatsHot").get().await().toObjects(
+                WhatsHot::class.java)
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getWhatsHotData: ${dataWrapper.data}")
+        }catch(e : Exception){
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getWhatsHotDataError: ${e.message}")
+        }
+
+        return dataWrapper
+    }
+
+    suspend fun getCertificateAchievement(id: String) : FirebaseWrapper<List<CertificateAchievement>, Boolean, java.lang.Exception> {
+        val dataWrapper = FirebaseWrapper<List<CertificateAchievement>, Boolean, java.lang.Exception>(null, true, null)
+
+        try{
+            dataWrapper.data = query.collection("TeacherPsychologistData").document(id).collection("CertificateAchievement").get().await().toObjects(
+                CertificateAchievement::class.java)
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getWhatsHotData: ${dataWrapper.data}")
+        }catch(e : Exception){
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getWhatsHotDataError: ${e.message}")
         }
 
         return dataWrapper

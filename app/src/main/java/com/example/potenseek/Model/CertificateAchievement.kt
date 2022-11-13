@@ -1,7 +1,6 @@
 package com.example.potenseek.Model
 
 data class CertificateAchievement(
-    var id: String,
-    var award: String,
-    var name: String
+    var award: String? = null,
+    var event: String? = null
 )

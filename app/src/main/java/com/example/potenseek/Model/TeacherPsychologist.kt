@@ -7,5 +7,5 @@ data class TeacherPsychologist(
     var totalParentsRating: Int? = null,
     var casesSolved: Int? = null,
     var about: String? = null,
-    var role: String? = null
+    var roleID: String? = null
 )

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.potenseek.Model.TeacherPsychologist
 import com.example.potenseek.Model.TeacherPsychologistRole
+import com.example.potenseek.Model.WhatsHot
 import com.example.potenseek.Utils.FirebaseWrapper
 import com.example.potenseek.repository.TeacherPsychologistRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +31,9 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
         FirebaseWrapper(null, false, Exception())
     )
 
-    var _teacherPsychologistRoleData: StateFlow<FirebaseWrapper<List<TeacherPsychologistRole>, Boolean, Exception>> = teacherPsychologistRoleData
+    var whatsHotData = MutableStateFlow<FirebaseWrapper<List<WhatsHot>, Boolean, Exception>>(
+        FirebaseWrapper(null, false, Exception())
+    )
 
     fun getTeacherPsychologistData(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -47,7 +50,7 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
     }
 
     fun getTeacherPsychologistRoleData() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 teacherPsychologistRoleData.value = repository.getTeacherPsychologistRoleData()
                 Log.d(
@@ -55,14 +58,29 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
                     "getTeacherPsychologistRoleDataVM: ${teacherPsychologistRoleData.value}"
                 )
             } catch (e: Exception) {
-                teacherPsychologistData.value.data = listOf()
-                teacherPsychologistData.value.e = e
-                teacherPsychologistData.value.loading = false
+                teacherPsychologistRoleData.value.data = listOf()
+                teacherPsychologistRoleData.value.e = e
+                teacherPsychologistRoleData.value.loading = false
                 Log.d(ContentValues.TAG, "getTeacherPsychologistRoleDataVMError: ${e.message}")
             }
         }
     }
 
-
+    fun getWhatsHotData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                whatsHotData.value = repository.getWhatsHot()
+                Log.d(
+                    ContentValues.TAG,
+                    "getTeacherPsychologistRoleDataVM: ${whatsHotData.value}"
+                )
+            } catch (e: Exception) {
+                whatsHotData.value.data = listOf()
+                whatsHotData.value.e = e
+                whatsHotData.value.loading = false
+                Log.d(ContentValues.TAG, "getTeacherPsychologistRoleDataVMError: ${e.message}")
+            }
+        }
+    }
 
 }

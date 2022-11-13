@@ -9,5 +9,6 @@ enum class NavigationEnum {
     TeacherScheduleActivity,
     HomeScreenActivity,
     InputUserDetailActivity,
+    TeacherEditProfileActivity,
     ChooseProfileActivity
 }

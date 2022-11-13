@@ -13,13 +13,16 @@ import com.example.potenseek.Screens.authentication.AuthViewModel
 import com.example.potenseek.Screens.authentication.LoginScreenActivity
 import com.example.potenseek.Screens.authentication.RegisterScreenActivity
 import com.example.potenseek.Screens.authentication.*
+import com.example.potenseek.Screens.editprofile.TeacherEditProfile
+import com.example.potenseek.Screens.editprofile.TeacherEditProfileViewModel
 import com.example.potenseek.Screens.homepage.HomeScreenActivity
 import com.example.potenseek.Screens.schedule.TeacherSchedule
+import com.google.accompanist.pager.ExperimentalPagerApi
 
 @Composable
-fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: ProfileViewModel = viewModel(), teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel = viewModel()) {
+fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: ProfileViewModel = viewModel(), teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel = viewModel(), teacherEditProfileViewModel: TeacherEditProfileViewModel = viewModel()) {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = NavigationEnum.TeacherPsychologistHomeActivity.name){
+    NavHost(navController, startDestination = NavigationEnum.TeacherEditProfileActivity.name){
         composable(NavigationEnum.SplashScreenActivity.name){
             SplashScreenActivity(navController)
         }
@@ -42,6 +45,10 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: 
 
         composable(NavigationEnum.TeacherScheduleActivity.name){
             TeacherSchedule()
+        }
+
+        composable(NavigationEnum.TeacherEditProfileActivity.name){
+            TeacherEditProfile(teacherEditProfileViewModel)
         }
 
         composable(NavigationEnum.InputUserDetailActivity.name){

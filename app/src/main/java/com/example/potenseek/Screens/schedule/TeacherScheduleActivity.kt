@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.CalendarView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,6 +17,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,15 +58,29 @@ fun TeacherSchedule() {
                 text = "Schedule",
                 modifier = Modifier.padding(20.dp, 16.dp),
                 fontSize = 28.sp,
-                fontWeight = FontWeight.SemiBold
-            )
+                fontWeight = FontWeight.SemiBold)
             AndroidView(factory = { CalendarView(ContextThemeWrapper(it, R.style.CalendarSchedule))}, update = {
                 it.setOnDateChangeListener { calendarView, year, month, day ->
 
                 }
             }, modifier = Modifier
                 .align(alignment = Alignment.CenterHorizontally)
-                .fillMaxWidth())
+                .fillMaxWidth()
+                .wrapContentHeight(align = Alignment.CenterVertically))
+            Row(horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()) {
+                Text(
+                    text = "Consultation Time",
+                    modifier = Modifier.padding(20.dp, 0.dp),
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.SemiBold)
+                Image(painter = painterResource(id = R.drawable.ic_baseline_add_circle_outline_24), contentDescription = "Add", modifier = Modifier
+                    .height(48.dp)
+                    .width(64.dp)
+                    .padding(0.dp, 0.dp, 20.dp, 0.dp))
+            }
         }
     }
 }

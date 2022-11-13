@@ -29,12 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.potenseek.R
-import com.example.potenseek.Screens.ui.theme.Coral
-import com.example.potenseek.Screens.ui.theme.Grey300
-import com.example.potenseek.Screens.ui.theme.GreyBorder
-import com.example.potenseek.Screens.ui.theme.Brown700
-import com.example.potenseek.Screens.ui.theme.Red700
-import com.example.potenseek.Screens.ui.theme.Orange300
+import com.example.potenseek.Screens.ui.theme.*
 import com.example.potenseek.Screens.ui.theme.PotenSeekTheme
 import com.example.potenseek.ui.theme.*
 
@@ -58,7 +53,9 @@ class SettingsActivity : ComponentActivity() {
 
 @Composable
 fun Settings() {
-    Column(modifier = Modifier.verticalScroll(rememberScrollState(), true)) {
+    Column(modifier = Modifier
+        .verticalScroll(rememberScrollState(), true)
+        .background(color = GreyBackground)) {
         val mCheckedState = remember{
             mutableStateOf(false)
         }
@@ -108,11 +105,11 @@ fun Settings() {
                             colorFilter = ColorFilter.tint(Red700))
                         Text(text = "Connected Bank", modifier = Modifier
                             .align(alignment = Alignment.CenterVertically),
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Normal)
                         Spacer(Modifier.weight(1f))
                         Image(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "Back", modifier = Modifier
-                            .height(72.dp)
+                            .height(56.dp)
                             .width(88.dp)
                             .padding(24.dp, 8.dp)
                             .align(alignment = Alignment.CenterVertically),
@@ -134,11 +131,11 @@ fun Settings() {
                             colorFilter = ColorFilter.tint(Red700))
                         Text(text = "Theme Preference", modifier = Modifier
                             .align(alignment = Alignment.CenterVertically),
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Normal)
                         Spacer(Modifier.weight(1f))
                         Image(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "Back", modifier = Modifier
-                            .height(72.dp)
+                            .height(56.dp)
                             .width(88.dp)
                             .padding(24.dp, 8.dp)
                             .align(alignment = Alignment.CenterVertically),
@@ -160,11 +157,11 @@ fun Settings() {
                             colorFilter = ColorFilter.tint(Red700))
                         Text(text = "Language", modifier = Modifier
                             .align(alignment = Alignment.CenterVertically),
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Normal)
                         Spacer(Modifier.weight(1f))
                         Image(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "Back", modifier = Modifier
-                            .height(72.dp)
+                            .height(56.dp)
                             .width(88.dp)
                             .padding(24.dp, 8.dp)
                             .align(alignment = Alignment.CenterVertically),
@@ -186,7 +183,7 @@ fun Settings() {
                             colorFilter = ColorFilter.tint(Red700))
                         Text(text = "Notification", modifier = Modifier
                             .align(alignment = Alignment.CenterVertically),
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Normal)
                         Spacer(Modifier.weight(1f))
                         Switch(checked = mCheckedState.value, onCheckedChange = {
@@ -197,7 +194,7 @@ fun Settings() {
                             checkedTrackColor = Color.Black,
                             uncheckedTrackColor = Color.Black
                         ), modifier = Modifier
-                            .height(72.dp)
+                            .height(56.dp)
                             .width(88.dp)
                             .padding(24.dp, 8.dp)
                             .align(alignment = Alignment.CenterVertically)
@@ -219,11 +216,11 @@ fun Settings() {
                             colorFilter = ColorFilter.tint(Red700))
                         Text(text = "Privacy & Security", modifier = Modifier
                             .align(alignment = Alignment.CenterVertically),
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Normal)
                         Spacer(Modifier.weight(1f))
                         Image(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "Back", modifier = Modifier
-                            .height(72.dp)
+                            .height(56.dp)
                             .width(88.dp)
                             .padding(24.dp, 8.dp)
                             .align(alignment = Alignment.CenterVertically),
@@ -245,11 +242,11 @@ fun Settings() {
                             colorFilter = ColorFilter.tint(Red700))
                         Text(text = "About Us", modifier = Modifier
                             .align(alignment = Alignment.CenterVertically),
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Normal)
                         Spacer(Modifier.weight(1f))
                         Image(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "Back", modifier = Modifier
-                            .height(72.dp)
+                            .height(56.dp)
                             .width(88.dp)
                             .padding(24.dp, 8.dp)
                             .align(alignment = Alignment.CenterVertically),
@@ -271,11 +268,11 @@ fun Settings() {
                             colorFilter = ColorFilter.tint(Red700))
                         Text(text = "Help & Support", modifier = Modifier
                             .align(alignment = Alignment.CenterVertically),
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Normal)
                         Spacer(Modifier.weight(1f))
                         Image(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "Back", modifier = Modifier
-                            .height(72.dp)
+                            .height(56.dp)
                             .width(88.dp)
                             .padding(24.dp, 8.dp)
                             .align(alignment = Alignment.CenterVertically),
@@ -297,11 +294,11 @@ fun Settings() {
                             colorFilter = ColorFilter.tint(Red700))
                         Text(text = "Account", modifier = Modifier
                             .align(alignment = Alignment.CenterVertically),
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Normal)
                         Spacer(Modifier.weight(1f))
                         Image(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "Back", modifier = Modifier
-                            .height(72.dp)
+                            .height(56.dp)
                             .width(88.dp)
                             .padding(24.dp, 8.dp)
                             .align(alignment = Alignment.CenterVertically),
@@ -323,20 +320,19 @@ fun Settings() {
                             colorFilter = ColorFilter.tint(Red700))
                         Text(text = "Logout", modifier = Modifier
                             .align(alignment = Alignment.CenterVertically),
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             fontWeight = FontWeight.Normal)
                         Spacer(Modifier.weight(1f))
                         Image(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24), contentDescription = "Back", modifier = Modifier
-                            .height(72.dp)
+                            .height(56.dp)
                             .width(88.dp)
                             .padding(24.dp, 8.dp)
                             .align(alignment = Alignment.CenterVertically),
                             colorFilter = ColorFilter.tint(Brown700))
                     }
                 }
-
-                Spacer(Modifier.height(60.dp))
             }
+            Spacer(Modifier.height(60.dp))
         }
     }
 

@@ -12,6 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val Coral = Color(0xFFFF4E47)
 val Red700 = Color(0xFFAD0000)
+val Red800 = Color(0xFFA71913)
 val Brown700 = Color(0xFF523838)
 val GreyBorder = Color(0x66919191)
 val Grey300 = Color(0xFF505050)
