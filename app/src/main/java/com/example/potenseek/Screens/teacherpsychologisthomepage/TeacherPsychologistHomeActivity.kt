@@ -46,9 +46,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.potenseek.Model.TeacherPsychologist
 import com.example.potenseek.Model.TeacherPsychologistRole
 import com.example.potenseek.R
-import com.example.potenseek.Screens.ui.theme.Coral
-import com.example.potenseek.Screens.ui.theme.GreyBackground
-import com.example.potenseek.Screens.ui.theme.PotenSeekTheme
+import com.example.potenseek.Screens.ui.theme.*
 import com.example.potenseek.components.TeacherPsychologistCard
 import com.example.potenseek.components.TeacherPsychologistRoleCard
 import com.google.accompanist.pager.ExperimentalPagerApi
@@ -284,14 +282,14 @@ fun DotsIndicator(
                     modifier = Modifier
                         .size(10.dp)
                         .clip(CircleShape)
-                        .background(color = Color.DarkGray)
+                        .background(color = Orange300)
                 )
             } else {
                 Box(
                     modifier = Modifier
                         .size(10.dp)
                         .clip(CircleShape)
-                        .background(color = Color.LightGray)
+                        .background(color = MathColor)
                 )
             }
 

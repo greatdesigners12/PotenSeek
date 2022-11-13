@@ -22,7 +22,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 @Composable
 fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: ProfileViewModel = viewModel(), teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel = viewModel(), teacherEditProfileViewModel: TeacherEditProfileViewModel = viewModel()) {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = NavigationEnum.TeacherEditProfileActivity.name){
+    NavHost(navController, startDestination = NavigationEnum.SplashScreenActivity.name){
         composable(NavigationEnum.SplashScreenActivity.name){
             SplashScreenActivity(navController)
         }
