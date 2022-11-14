@@ -24,6 +24,7 @@ import com.example.potenseek.Model.*
 import com.example.potenseek.R
 import com.example.potenseek.Screens.ui.theme.*
 import java.text.NumberFormat
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -298,6 +299,8 @@ fun CertificateAchievementCard(certificateAchievement: CertificateAchievement) {
 
 @Composable
 fun ChatCard(chat: Chat, parentProfile: ParentProfile) {
+    var msg = chat.message.toString().substring(0, 20).trim() + "..."
+    var time = LocalDateTime.parse(chat.time).hour.toString() + "." + LocalDateTime.parse(chat.time).minute.toString()
     Surface(
         modifier = Modifier
             .padding(16.dp, 8.dp, 16.dp, 16.dp)
@@ -343,8 +346,8 @@ fun ChatCard(chat: Chat, parentProfile: ParentProfile) {
                         fontSize = 20.sp
                     )
                     androidx.compose.material3.Text(
-                        text = chat.message.toString(),
-                        fontSize = 18.sp,
+                        text = msg,
+                        fontSize = 16.sp,
                         modifier = Modifier.padding(0.dp, 2.dp, 0.dp, 0.dp),
                         color = Color.Gray
                     )
@@ -370,11 +373,11 @@ fun ChatCard(chat: Chat, parentProfile: ParentProfile) {
                         fontSize = 20.sp,
                         modifier = Modifier
                             .background(color = Orange300)
-                            .padding(12.dp, 6.dp)
+                            .padding(16.dp, 6.dp)
                     )
                 }
                 androidx.compose.material3.Text(
-                    text = "07.40",
+                    text = time,
                     fontSize = 18.sp,
                     modifier = Modifier.padding(0.dp, 2.dp, 0.dp, 0.dp)
                 )
@@ -411,8 +414,8 @@ fun PaymentCard(payment: Payment, parentProfile: ParentProfile) {
                 fontWeight = FontWeight.SemiBold
             )
             androidx.compose.material3.Text(
-                text = "Pembayaran oleh " + parentProfile.parentName + " sebesar " + formatRupiah.format(payment.amount) + ",- berhasil masuk!",
-                fontSize = 20.sp,
+                text = "Pembayaran oleh " + parentProfile.parentName + " sebesar " + formatRupiah.format(payment.amount) + " berhasil masuk!",
+                fontSize = 18.sp,
                 modifier = Modifier.padding(0.dp, 2.dp, 0.dp, 0.dp)
             )
         }

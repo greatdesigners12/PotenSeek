@@ -69,42 +69,41 @@ fun Inbox(inboxViewModel: InboxViewModel) {
             fontSize = 28.sp,
             fontWeight = FontWeight.SemiBold
         )
-    }
-
-    if (inboxSectionLoading.value) {
-        Row(modifier = Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically){
-            CircularProgressIndicator()
-        }
-    } else {
-        LazyColumn {
-            itemsIndexed(items = inboxViewModel.inboxData.value.data!!) {index, item ->
-                if (item is Chat) {
-                    LaunchedEffect(key1 =  inboxViewModel.parentData.collectAsState().value.data){
-                        inboxViewModel.getParentData(item.from!!)
-                        Log.d(ContentValues.TAG, "inboxGetParentData: ${inboxViewModel.parentData.value.data}")
-                        if(inboxViewModel.parentData.value.data != null){
-                            parent.value = true
+        if (inboxSectionLoading.value) {
+            Row(modifier = Modifier.fillMaxSize(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically){
+                CircularProgressIndicator()
+            }
+        } else {
+            LazyColumn {
+                itemsIndexed(items = inboxViewModel.inboxData.value.data!!) {index, item ->
+                    if (item is Chat) {
+                        LaunchedEffect(key1 =  inboxViewModel.parentData.collectAsState().value.data){
+                            inboxViewModel.getParentData(item.from!!)
+                            Log.d(ContentValues.TAG, "inboxGetParentDataChat: ${inboxViewModel.parentData.value.data}")
+                            if(inboxViewModel.parentData.value.data != null){
+                                parent.value = true
+                            }
                         }
-                    }
 
-                    if (parent.value) {
-                        ChatCard(chat = item, inboxViewModel.parentData.collectAsState().value.data!!)
-                        parent.value = false
-                    }
-                } else if (item is Payment){
-                    LaunchedEffect(key1 =  inboxViewModel.parentData.collectAsState().value.data){
-                        inboxViewModel.getParentData(item.madeby!!)
-                        Log.d(ContentValues.TAG, "inboxGetParentData: ${inboxViewModel.parentData.value.data}")
-                        if(inboxViewModel.parentData.value.data != null){
-                            parent.value = true
+                        if (parent.value) {
+                            ChatCard(chat = item, inboxViewModel.parentData.collectAsState().value.data!!)
+                            Log.d(ContentValues.TAG, "inboxGetParentDataChatX: ${inboxViewModel.parentData.collectAsState().value.data}")
                         }
-                    }
+                    } else if (item is Payment){
+                        LaunchedEffect(key1 =  inboxViewModel.parentData.collectAsState().value.data){
+                            inboxViewModel.getParentData(item.madeby!!)
+                            Log.d(ContentValues.TAG, "inboxGetParentDataPayment: ${inboxViewModel.parentData.value.data}")
+                            if(inboxViewModel.parentData.value.data != null){
+                                parent.value = true
+                            }
+                        }
 
-                    if (parent.value) {
-                        PaymentCard(payment = item, inboxViewModel.parentData.collectAsState().value.data!!)
-                        parent.value = false
+                        if (parent.value) {
+                            Log.d(ContentValues.TAG, "inboxGetParentDataPaymentX: ${inboxViewModel.parentData.collectAsState().value.data}")
+                            PaymentCard(payment = item, inboxViewModel.parentData.collectAsState().value.data!!)
+                        }
                     }
                 }
             }
