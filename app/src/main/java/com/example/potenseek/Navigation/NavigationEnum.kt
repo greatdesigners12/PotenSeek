@@ -7,6 +7,7 @@ enum class NavigationEnum {
     SettingsActivity,
     TeacherPsychologistHomeActivity,
     TeacherScheduleActivity,
+    InboxActivity,
     HomeScreenActivity,
     InputUserDetailActivity,
     TeacherEditProfileActivity,

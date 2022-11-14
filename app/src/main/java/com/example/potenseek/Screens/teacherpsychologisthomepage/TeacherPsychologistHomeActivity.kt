@@ -42,6 +42,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.potenseek.Model.TeacherPsychologist
 import com.example.potenseek.Model.TeacherPsychologistRole
@@ -76,7 +77,7 @@ class TeacherPsychologistHomeActivity : ComponentActivity() {
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalPagerApi::class)
 @Composable
-fun TeacherPsychologistHome(teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel) {
+fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel) {
     val teacherPsychologistSectionLoading = remember {
         mutableStateOf(true)
     }

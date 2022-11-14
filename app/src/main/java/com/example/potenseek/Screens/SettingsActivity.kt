@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.potenseek.R
 import com.example.potenseek.Screens.ui.theme.*
 import com.example.potenseek.Screens.ui.theme.PotenSeekTheme
@@ -44,7 +45,6 @@ class SettingsActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Settings()
                 }
             }
         }
@@ -52,7 +52,7 @@ class SettingsActivity : ComponentActivity() {
 }
 
 @Composable
-fun Settings() {
+fun Settings(navController: NavController) {
     Column(modifier = Modifier
         .verticalScroll(rememberScrollState(), true)
         .background(color = GreyBackground)) {
@@ -336,12 +336,4 @@ fun Settings() {
         }
     }
 
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun DefaultPreview() {
-    PotenSeekTheme {
-        Settings()
-    }
 }

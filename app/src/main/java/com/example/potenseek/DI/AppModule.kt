@@ -1,6 +1,7 @@
 package com.example.potenseek.DI
 
 import com.example.potenseek.repository.AuthRepository
+import com.example.potenseek.repository.InboxRepository
 import com.example.potenseek.repository.ProfileRepository
 import com.example.potenseek.repository.TeacherPsychologistRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -25,4 +26,8 @@ object AppModule {
     @Singleton
     @Provides
     fun provideTeacherPsychologistRepository() : TeacherPsychologistRepository = TeacherPsychologistRepository(query = FirebaseFirestore.getInstance(), queryAuth = FirebaseAuth.getInstance())
+
+    @Singleton
+    @Provides
+    fun provideInboxRepository() : InboxRepository = InboxRepository(query = FirebaseFirestore.getInstance(), queryAuth = FirebaseAuth.getInstance())
 }

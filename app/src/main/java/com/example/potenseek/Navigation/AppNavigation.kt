@@ -16,13 +16,16 @@ import com.example.potenseek.Screens.authentication.*
 import com.example.potenseek.Screens.editprofile.TeacherEditProfile
 import com.example.potenseek.Screens.editprofile.TeacherEditProfileViewModel
 import com.example.potenseek.Screens.homepage.HomeScreenActivity
+import com.example.potenseek.Screens.inbox.Inbox
+import com.example.potenseek.Screens.inbox.InboxActivity
+import com.example.potenseek.Screens.inbox.InboxViewModel
 import com.example.potenseek.Screens.schedule.TeacherSchedule
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @Composable
-fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: ProfileViewModel = viewModel(), teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel = viewModel(), teacherEditProfileViewModel: TeacherEditProfileViewModel = viewModel()) {
+fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: ProfileViewModel = viewModel(), teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel = viewModel(), teacherEditProfileViewModel: TeacherEditProfileViewModel = viewModel(), inboxViewModel: InboxViewModel = viewModel()) {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = NavigationEnum.SplashScreenActivity.name){
+    NavHost(navController, startDestination = NavigationEnum.InboxActivity.name){
         composable(NavigationEnum.SplashScreenActivity.name){
             SplashScreenActivity(navController)
         }
@@ -36,19 +39,23 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: 
         }
 
         composable(NavigationEnum.SettingsActivity.name){
-            Settings()
+            Settings(navController)
         }
 
         composable(NavigationEnum.TeacherPsychologistHomeActivity.name){
-            TeacherPsychologistHome(teacherPsychologistHomeViewModel)
+            TeacherPsychologistHome(navController, teacherPsychologistHomeViewModel)
         }
 
         composable(NavigationEnum.TeacherScheduleActivity.name){
-            TeacherSchedule()
+            TeacherSchedule(navController)
         }
 
         composable(NavigationEnum.TeacherEditProfileActivity.name){
-            TeacherEditProfile(teacherEditProfileViewModel)
+            TeacherEditProfile(navController, teacherEditProfileViewModel)
+        }
+
+        composable(NavigationEnum.InboxActivity.name){
+            Inbox(inboxViewModel)
         }
 
         composable(NavigationEnum.InputUserDetailActivity.name){

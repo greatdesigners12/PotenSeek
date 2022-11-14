@@ -17,15 +17,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.potenseek.Model.CertificateAchievement
-import com.example.potenseek.Model.TeacherPsychologist
-import com.example.potenseek.Model.TeacherPsychologistRole
+import com.example.potenseek.Model.*
 import com.example.potenseek.R
 import com.example.potenseek.Screens.ui.theme.*
+import java.text.NumberFormat
+import java.util.*
 import kotlin.math.roundToInt
 
 @Composable
@@ -39,7 +38,7 @@ fun profileCard(name : String){
 }
 
 @Composable
-fun TeacherScheduleCard() {
+fun TeacherScheduleCard(tpSchedule: TPSchedule) {
     Surface(
         modifier = Modifier
             .padding(16.dp, 8.dp, 16.dp, 16.dp)
@@ -61,13 +60,15 @@ fun TeacherScheduleCard() {
             Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth(0.865f)) {
-                androidx.compose.material3.Text(text = "17.00 - 19.00",
+                androidx.compose.material3.Text(
+                    text = tpSchedule.from + " - " + tpSchedule.to,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier
                         .padding(12.dp, 0.dp, 0.dp, 0.dp)
                 )
-                androidx.compose.material3.Text(text = "Online with Mrs. Alexia",
+                androidx.compose.material3.Text(
+                    text = tpSchedule.place + " with Mrs. Alexia",
                     fontSize = 17.sp,
                     modifier = Modifier
                         .padding(8.dp, 0.dp, 0.dp, 0.dp)
@@ -264,17 +265,17 @@ fun CertificateAchievementCard(certificateAchievement: CertificateAchievement) {
     }
 
     Surface(modifier = Modifier
-            .wrapContentSize()
-            .padding(8.dp, 8.dp)
-            .background(color = GreyBackground),
+        .wrapContentSize()
+        .padding(8.dp, 8.dp)
+        .background(color = GreyBackground),
         shape = RoundedCornerShape(8.dp),
         shadowElevation = 6.dp
     ) {
         Column(modifier = Modifier
-                .wrapContentWidth()
-                .background(color = Red800)
-                .height(height = 216.dp)
-                .padding(16.dp, 12.dp),
+            .wrapContentWidth()
+            .background(color = Red800)
+            .height(height = 216.dp)
+            .padding(16.dp, 12.dp),
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally) {
             Image(painter = painterResource(id = arr[rand]), contentDescription = "Medal", modifier = Modifier
@@ -291,6 +292,129 @@ fun CertificateAchievementCard(certificateAchievement: CertificateAchievement) {
                     textAlign = TextAlign.Center
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun ChatCard(chat: Chat, parentProfile: ParentProfile) {
+    Surface(
+        modifier = Modifier
+            .padding(16.dp, 8.dp, 16.dp, 16.dp)
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .background(color = GreyBackground),
+        shape = RoundedCornerShape(12.dp),
+        shadowElevation = 8.dp,
+        color = Color.White
+    ) {
+        Row(
+            modifier = Modifier
+                .wrapContentHeight()
+                .background(color = Color.White)
+        ) {
+            Row(modifier = Modifier
+                .fillMaxWidth(0.8f),
+                verticalAlignment = Alignment.CenterVertically) {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .wrapContentHeight()
+                ) {
+                    Card(shape = RoundedCornerShape(200.dp)) {
+                        Image(
+                            painter = painterResource(id = R.drawable.defaultprofile),
+                            contentDescription = "Chat Profile",
+                            modifier = Modifier
+                                .size(64.dp, 64.dp)
+                        )
+                    }
+                }
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .padding(4.dp, 16.dp)
+                        .wrapContentHeight()
+                ) {
+                    androidx.compose.material3.Text(
+                        text = parentProfile.parentName.toString(),
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 20.sp
+                    )
+                    androidx.compose.material3.Text(
+                        text = chat.message.toString(),
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(0.dp, 2.dp, 0.dp, 0.dp),
+                        color = Color.Gray
+                    )
+                }
+            }
+            Column(
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .padding(4.dp, 16.dp)
+                    .wrapContentHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Surface(
+                    modifier = Modifier
+                        .padding(0.dp, 0.dp, 0.dp, 4.dp),
+                    shape = RoundedCornerShape(100.dp),
+                    shadowElevation = 4.dp,
+                    color = Orange300
+                ) {
+                    androidx.compose.material3.Text(
+                        text = "1",
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .background(color = Orange300)
+                            .padding(12.dp, 6.dp)
+                    )
+                }
+                androidx.compose.material3.Text(
+                    text = "07.40",
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(0.dp, 2.dp, 0.dp, 0.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun PaymentCard(payment: Payment, parentProfile: ParentProfile) {
+    val localeID = Locale("in", "ID")
+    val formatRupiah: NumberFormat = NumberFormat.getCurrencyInstance(localeID)
+
+    Surface(
+        modifier = Modifier
+            .padding(16.dp, 8.dp, 16.dp, 16.dp)
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .background(color = GreyBackground),
+        shape = RoundedCornerShape(12.dp),
+        shadowElevation = 8.dp,
+        color = Color.White
+    ) {
+        Column(
+            modifier = Modifier
+                .wrapContentHeight()
+                .padding(24.dp, 16.dp)
+                .background(color = Color.White)
+        ) {
+            androidx.compose.material3.Text(
+                text = "PotenPay: Pembayaran Berhasil",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 4.dp),
+                fontWeight = FontWeight.SemiBold
+            )
+            androidx.compose.material3.Text(
+                text = "Pembayaran oleh " + parentProfile.parentName + " sebesar " + formatRupiah.format(payment.amount) + ",- berhasil masuk!",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(0.dp, 2.dp, 0.dp, 0.dp)
+            )
         }
     }
 }

@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavController
 import com.example.potenseek.R
 import com.example.potenseek.Screens.ui.theme.Grey100
 import com.example.potenseek.ui.theme.PotenSeekTheme
@@ -38,7 +39,6 @@ class TeacherScheduleActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Scaffold() {
-                        TeacherSchedule()
                     }
                 }
             }
@@ -47,7 +47,7 @@ class TeacherScheduleActivity : ComponentActivity() {
 }
 
 @Composable
-fun TeacherSchedule() {
+fun TeacherSchedule(navController: NavController) {
     var date by remember {
         mutableStateOf("")
     }
@@ -83,10 +83,4 @@ fun TeacherSchedule() {
             }
         }
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun PreviewPage() {
-    TeacherSchedule()
 }

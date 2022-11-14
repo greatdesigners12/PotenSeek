@@ -30,6 +30,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.potenseek.Model.CertificateAchievement
 import com.example.potenseek.R
 import com.example.potenseek.Screens.ui.theme.*
@@ -56,7 +57,7 @@ class TeacherEditProfileActivity : ComponentActivity() {
 }
 
 @Composable
-fun TeacherEditProfile(teacherEditProfileViewModel: TeacherEditProfileViewModel) {
+fun TeacherEditProfile(navController: NavController, teacherEditProfileViewModel: TeacherEditProfileViewModel) {
     val certificateAchievementSectionLoading = remember {
         mutableStateOf(true)
     }
