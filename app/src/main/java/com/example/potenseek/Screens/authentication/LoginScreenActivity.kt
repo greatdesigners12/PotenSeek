@@ -6,21 +6,25 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.potenseek.Navigation.NavigationEnum
+import com.example.potenseek.R
 import com.example.potenseek.Utils.FirebaseWrapper
 import com.example.potenseek.components.*
 
@@ -70,7 +74,7 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
 
     if(showAlertDialog.value){
         (if(authViewModel.data.collectAsState().value.data == "success") authViewModel.data.collectAsState().value.data else authViewModel.data.collectAsState().value.e?.message.toString())?.let {
-            SimpleAlertDialog(title = if(authViewModel.data.collectAsState().value.data == "success") "Success" else "Register Failed",
+            SimpleAlertDialog(title = if(authViewModel.data.collectAsState().value.data == "success") "Success" else "Login Failed",
                 message = it
             ){
 
@@ -80,11 +84,13 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()){
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(top = 25.dp, start = 10.dp, end = 10.dp)){
         Column(modifier = Modifier
             .padding(10.dp)
             .fillMaxSize() ,horizontalAlignment = Alignment.CenterHorizontally){
-            Text("LOGIN", modifier = Modifier.padding(vertical = 10.dp), fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            heading()
             basicInputField("Email" ,emailValue.value){
                 emailValue.value = it
             }
@@ -111,8 +117,8 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
                 }
             }
             Row(verticalAlignment = Alignment.CenterVertically){
-                Text("Go to register page, ")
-                Text("Click here", modifier = Modifier.clickable {
+                Text("Don't have any account ? ")
+                Text("Create a new one !", modifier = Modifier.clickable {
                     navController.popBackStack()
                     navController.navigate(NavigationEnum.RegisterScreenActivity.name)
 

@@ -3,6 +3,7 @@ package com.example.potenseek.Screens.authentication
 import android.graphics.Color
 import android.util.Log
 import android.widget.Spinner
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
@@ -12,12 +13,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.potenseek.Navigation.NavigationEnum
+import com.example.potenseek.R
 import com.example.potenseek.components.*
 
 @Composable
@@ -75,11 +79,13 @@ fun RegisterScreenActivity(navController: NavController, authViewModel: AuthView
     val passwordVisible = remember{
         mutableStateOf(false)
     }
-    Box(modifier = Modifier.fillMaxSize()){
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(10.dp)){
         Column(modifier = Modifier
             .padding(10.dp)
             .fillMaxSize() ,horizontalAlignment = Alignment.CenterHorizontally){
-            Text("Register", modifier = Modifier.padding(vertical = 10.dp), fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            heading()
             basicInputField("Email", emailValue.value){
                 emailValue.value = it
             }
@@ -107,7 +113,7 @@ fun RegisterScreenActivity(navController: NavController, authViewModel: AuthView
 
             }
             Row(modifier = Modifier.padding(top = 10.dp)){
-                Text("Go to login page, ")
+                Text("Back to login ? ")
                 Text("Click here", style = TextStyle(color = MaterialTheme.colors.primary) , modifier = Modifier.clickable {
                     authViewModel.resetData()
                     navController.popBackStack()

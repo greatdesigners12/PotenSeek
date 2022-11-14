@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.potenseek.R
+import com.example.potenseek.components.heading
 import com.example.potenseek.components.profileCard
 
 @Composable
@@ -49,6 +50,7 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
         }
     }
     Column(modifier = Modifier.fillMaxSize() ,verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+        heading()
         Text("Orang tua", fontWeight = FontWeight.Bold, fontSize = 25.sp)
         if(!parentSectionLoading.value){
             Row(){

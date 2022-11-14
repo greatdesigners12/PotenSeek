@@ -1,5 +1,6 @@
 package com.example.potenseek.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -12,7 +13,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun BasicButton(components : @Composable () -> Unit, modifier: Modifier = Modifier.padding(top = 10.dp), onClick : () -> Unit) {
-    Button(onClick, modifier = modifier) {
+    Button(onClick, modifier = modifier.fillMaxWidth().padding(0.dp)) {
         components()
     }
 }
