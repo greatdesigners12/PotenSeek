@@ -196,8 +196,11 @@ fun homepageanak() {
                                 style = MaterialTheme.typography.h4)
                             Image(
                                 modifier = Modifier
-                                    .size(50.dp, 50.dp),
-                                painter = painterResource(id = R.drawable.ic_launcher_background),
+                                    .size(50.dp, 50.dp)
+                                    .clickable {
+                                               //navigate to edit profile here
+                                    },
+                                painter = painterResource(id = R.drawable.bigprofile),
                                 contentDescription = "PotenSeek",
                             )
                         }
@@ -239,9 +242,9 @@ fun recentgames(){
                 items(data) { game ->
                     Column() {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_launcher_background),
+                            painter = painterResource(id = R.drawable.icongame),
                             contentDescription = "GameIcon",
-                            modifier = Modifier.clip(RoundedCornerShape(10.dp))
+                            modifier = Modifier.clip(RoundedCornerShape(10.dp)).size(70.dp)
                         )
                         Text(
                             text = game.title,
@@ -259,9 +262,13 @@ fun recentgames(){
 fun games(){
 
     //dummy data
-    class recentGame(var title : String)
+    class recentGame(var title : String, var activityname: String)
     var data = ArrayList<recentGame>()
-    var dummy = recentGame("dummy")
+    var snake = recentGame("Snake", "SnakeGameActivity")
+    var twenty = recentGame("2048", "TwentyGameActivity")
+    var dummy = recentGame("dummy", "dummy")
+    data.add(snake)
+    data.add(twenty)
     data.add(dummy)
     data.add(dummy)
     data.add(dummy)
@@ -283,11 +290,16 @@ fun games(){
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ){
             items(data) { game ->
-                Column() {
+                Column(modifier = Modifier.clickable {
+                    if(game.activityname != "dummy"){
+                        //navigation here to game
+                    }})
+                     {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
+                        painter = painterResource(id = R.drawable.icongame),
                         contentDescription = "GameIcon",
                         modifier = Modifier.clip(RoundedCornerShape(10.dp))
+                            .size(70.dp)
                     )
                     Text(text = game.title)
                 }

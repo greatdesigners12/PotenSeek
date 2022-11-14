@@ -80,7 +80,7 @@ fun profile() {
                 )
 
                 Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    painter = painterResource(id = R.drawable.bigprofile),
                     contentDescription = "profileIMG",
                     modifier = Modifier.clip(RoundedCornerShape(10.dp))
                 )
@@ -171,9 +171,9 @@ fun profile() {
             var data = ArrayList<child>()
             var dummy = child(5)
             data.add(dummy)
-            Row() {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    painter = painterResource(id = R.drawable.ageimg),
                     contentDescription = "GameIcon",
                     modifier = Modifier.weight(1f)
                 )
@@ -181,7 +181,7 @@ fun profile() {
                 Column(
                     modifier = Modifier
                         .weight(3f)
-                        .padding(start = 20.dp, top = 10.dp)
+                        .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
                 ) {
                     Text(
                         text = "Age",
@@ -191,7 +191,7 @@ fun profile() {
                     )
                     Text(
                         text = dummy.age.toString() + " years old",
-                        modifier = Modifier.padding(top = 10.dp)
+                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
                     )
                 }
             }
@@ -225,9 +225,9 @@ fun profile() {
             items(data) { achievement ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
+                        painter = painterResource(id = R.drawable.achievements),
                         contentDescription = "GameIcon",
-                        modifier = Modifier.clip(RoundedCornerShape(10.dp))
+                        modifier = Modifier.clip(RoundedCornerShape(10.dp)).size(150.dp)
                     )
                     Text(text = achievement.title)
                 }

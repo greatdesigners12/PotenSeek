@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
 import com.example.potenseek.Screens.anak.gamessample.twenty.store.PreferenceRepository
 
-class MainActivity : ComponentActivity() {
+class TwentyGameActivity : ComponentActivity() {
 
     private val preferenceRepository: PreferenceRepository by lazy { PreferenceRepository(this) }
 

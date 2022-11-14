@@ -1,7 +1,6 @@
 package com.example.potenseek.Screens.anak.gamessample
 
 import android.os.Bundle
-import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -9,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
@@ -17,12 +17,10 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
@@ -39,7 +37,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.util.*
 
-class snakeGameActivity : ComponentActivity() {
+class SnakeGameActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -61,6 +59,12 @@ class snakeGameActivity : ComponentActivity() {
 
 data class State(val food:Pair<Int, Int>, val snake:List<Pair<Int,Int>>)
 
+class Score{
+    companion object{
+        var skor = 0
+    }
+}
+
 class Game(private val scope: CoroutineScope){
     private val mutex: Mutex = Mutex()
     private val mutableState: MutableStateFlow<State> = MutableStateFlow(State(food = Pair(5,5), snake = listOf(Pair(7,7))))
@@ -73,7 +77,6 @@ class Game(private val scope: CoroutineScope){
             }
         }
     }
-
     init {
         scope.launch{
             var snakeLength = 4
@@ -84,18 +87,20 @@ class Game(private val scope: CoroutineScope){
                     val newPosition = it.snake.first().let { poz ->
                         mutex.withLock {
                             Pair(
-                                poz.first + move.first,
-                                poz.second + move.second
+                                (poz.first + move.first + BOARD_SIZE) % BOARD_SIZE,
+                                (poz.second + move.second + BOARD_SIZE) % BOARD_SIZE
                             )
                         }
                     }
 
                     if (newPosition == it.food){
                         snakeLength++
+                        Score.skor = snakeLength - 4
                     }
 
                     if(it.snake.contains(newPosition)){
                         snakeLength = 4
+                        Score.skor = snakeLength - 4
                     }
 
                     it.copy(
@@ -108,11 +113,9 @@ class Game(private val scope: CoroutineScope){
                         snake = listOf(newPosition) + it.snake.take(snakeLength - 1)
                     )
                 }
-
             }
         }
     }
-
     companion object{
         const val BOARD_SIZE = 16
     }
@@ -151,6 +154,8 @@ fun Buttons(onDirectionChange: (Pair<Int, Int>)->Unit) {
         Button(onClick = { onDirectionChange(Pair(0, 1)) }, modifier = buttonSize) {
             Icon(Icons.Default.KeyboardArrowDown, null)
         }
+        Text(text = "Score", modifier = Modifier.padding(top = 6.dp))
+        Text(text = Score.skor.toString())
     }
 }
 
@@ -179,8 +184,6 @@ fun Board(state: State){
                 .background(color = "#EE4F48".color, Shapes.small))
         }
     }
-    
-
 }
 
 @Preview(showBackground = true)
