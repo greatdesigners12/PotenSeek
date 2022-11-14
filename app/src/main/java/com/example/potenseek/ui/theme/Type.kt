@@ -9,7 +9,8 @@ import androidx.compose.ui.unit.sp
 import com.example.potenseek.R
 
 val OpenSans = FontFamily(
-    Font(R.font.opensans_regular)
+    Font(R.font.opensans_regular),
+    Font(R.font.opensans_semibold, FontWeight.SemiBold)
 )
 
 // Set of Material typography styles to start with
