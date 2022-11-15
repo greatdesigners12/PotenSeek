@@ -128,6 +128,7 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
         Log.d(TAG, "teacherPsychologistHomeData: ${teacherPsychologistHomeViewModel.teacherPsychologistData.value.data}")
         if(teacherPsychologistHomeViewModel.teacherPsychologistData.value.data != null){
             teacherPsychologistSectionLoading.value = false
+            roletemp.value = 0
         }
     }
 
@@ -305,6 +306,7 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
                             shape = RoundedCornerShape(25.dp),
                             shadowElevation = 4.dp,
                             onClick = {
+                                teacherPsychologistSectionLoading.value = true
                                 if (teacherPsychologistRole.role == "Psychologist") {
                                     teacherPsychologistHomeViewModel.getTeacherPsychologistData(1)
                                     roletemp.value = 1
