@@ -36,6 +36,8 @@ class GameViewModel(
 
     val isDarkTheme = preferenceRepository.isNightMode
 
+    val isQuit = false
+
     val game = Game(
         size = 4,
         score = preferenceRepository.score,
@@ -81,7 +83,13 @@ class GameViewModel(
         game.restart()
     }
 
-    fun undoMove(){
+    fun undoMove() = with(preferenceRepository) {
+        if (previousBoardState.isNotEmpty()) {
+            game.setValues(previousBoardState)
+            game.score = previousScore
+            boardState = previousBoardState
+            score = _score.updateAndGet { previousScore }
+        }
 
     }
 }

@@ -1,5 +1,7 @@
 package com.example.potenseek.Screens.anak.gamessample.twenty.ui.components
 
+import android.app.Activity
+import android.content.Context
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -7,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +28,7 @@ fun Header(
     onNewRequest: () -> Unit = {},
     onUndoRequest: () -> Unit = {},
 ) {
+    val contxt = LocalContext.current
     Row(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = modifier
@@ -124,10 +128,12 @@ fun Header(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(.7f)
-                    .clickable { onUndoRequest() }
+                    .clickable {
+                        finish(contxt)
+                    }
             ) {
                 Text(
-                    text = "Quit",
+                    text = "QUIT",
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.W900,
                     fontSize = 22.sp,
@@ -137,6 +143,11 @@ fun Header(
             }
         }
     }
+}
+
+fun finish(contxt: Context) {
+    val activity = (contxt as? Activity)
+    activity?.finish()
 }
 
 @Preview(showBackground = true)

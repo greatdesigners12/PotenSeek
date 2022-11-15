@@ -81,7 +81,7 @@ fun profile() {
                 )
 
                 Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    painter = painterResource(id = R.drawable.bigprofile),
                     contentDescription = "profileIMG",
                     modifier = Modifier.clip(RoundedCornerShape(10.dp))
                 )
@@ -172,17 +172,17 @@ fun profile() {
             var data = ArrayList<child>()
             var dummy = child(5)
             data.add(dummy)
-            Row() {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    painter = painterResource(id = R.drawable.ageimg),
                     contentDescription = "GameIcon",
                     modifier = Modifier.weight(1f)
                 )
-                
+
                 Column(
                     modifier = Modifier
                         .weight(3f)
-                        .padding(start = 20.dp, top = 10.dp)
+                        .padding(start = 20.dp, top = 10.dp, bottom = 10.dp)
                 ) {
                     Text(
                         text = "Age",
@@ -192,11 +192,12 @@ fun profile() {
                     )
                     Text(
                         text = dummy.age.toString() + " years old",
-                        modifier = Modifier.padding(top = 10.dp)
+                        modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)
                     )
                 }
             }
         }
+
 
         Text(
             text = "Achievements",
@@ -209,10 +210,12 @@ fun profile() {
 
         class achievement(var title : String)
         var data = ArrayList<achievement>()
-        var dummy = achievement("dummy")
+        var dummy = achievement("Snake 10 Hours")
+        var dummy2 = achievement("Snake 20 Hours")
+        var dummy3 = achievement("2048 10 Hours")
         data.add(dummy)
-        data.add(dummy)
-        data.add(dummy)
+        data.add(dummy2)
+        data.add(dummy3)
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
@@ -222,13 +225,13 @@ fun profile() {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
 
-        ){
+            ){
             items(data) { achievement ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
+                        painter = painterResource(id = R.drawable.achievements),
                         contentDescription = "GameIcon",
-                        modifier = Modifier.clip(RoundedCornerShape(10.dp))
+                        modifier = Modifier.clip(RoundedCornerShape(10.dp)).size(150.dp)
                     )
                     Text(text = achievement.title)
                 }

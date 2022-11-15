@@ -184,7 +184,7 @@ fun homepageanak() {
                                     }
                                     .size(50.dp, 50.dp),
                             )
-                            Text(text = "This is a search bar",
+                            Text(text = "Search...",
                                 fontSize = 16.sp,
                                 style = MaterialTheme.typography.h4)
                             Image(
@@ -335,7 +335,7 @@ fun games(){
                                         if (i.title == "2048"){
                                             val atmptnew = i.attemptTotal + 1
                                             var updte = GamesPlayed(i.title, i.hours,atmptnew, i.attemptPass)
-                                            gmsplayed.games.set(j, updte)
+                                            gmsplayed.games[j] = updte
                                         }
                                         j++
                                     }
