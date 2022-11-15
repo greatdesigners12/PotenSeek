@@ -45,7 +45,7 @@ class TeacherPsychologistRepository @Inject constructor(private val query : Fire
     suspend fun getTeacherPsychologistData(search: String) : FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception> {
         val dataWrapper = FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception>(null, true, null)
         try{
-            dataWrapper.data = query.collection("TeacherPsychologistData").whereEqualTo("name", "" + search).get().await().toObjects(
+            dataWrapper.data = query.collection("TeacherPsychologistData").orderBy("name").startAt(search).endAt(search+"\uf8ff").get().await().toObjects(
                 TeacherPsychologist::class.java)
             dataWrapper.loading = false
             Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${dataWrapper.data}")

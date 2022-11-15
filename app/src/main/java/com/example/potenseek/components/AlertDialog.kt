@@ -40,7 +40,7 @@ fun ConsultationTimeDialog() {
     var txtField = remember {
         mutableStateOf("")
     }
-    AlertDialog(title={Text(text = "Add Consultation Time", fontSize = 16.sp)}, text = {
+    AlertDialog(title={Text(text = "Add Consultation Time", fontSize = 18.sp)}, text = {
         Row(modifier = Modifier
             .padding(0.dp, 8.dp, 0.dp, 0.dp)) {
             TextField(
@@ -58,7 +58,7 @@ fun ConsultationTimeDialog() {
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
-                placeholder = { Text(text = "Enter value") },
+                placeholder = { Text(text = "Enter ") },
                 value = txtField.value,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 onValueChange = {
@@ -68,10 +68,10 @@ fun ConsultationTimeDialog() {
     }, buttons = {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Button(onClick = {},
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
-                    .padding(0.dp, 0.dp, 0.dp, 8.dp)
-                    .background(color = Coral)
+                    .padding(0.dp, 0.dp, 0.dp, 8.dp),
+                colors = ButtonDefaults.buttonColors(Coral)
             ) {
                 Text(text = "Add", color = Color.White)
             }
