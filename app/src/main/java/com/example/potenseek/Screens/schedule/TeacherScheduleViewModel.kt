@@ -1,11 +1,11 @@
-package com.example.potenseek.Screens.inbox
+package com.example.potenseek.Screens.schedule
 
 import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.potenseek.Model.ParentProfile
-import com.example.potenseek.Model.TeacherPsychologist
+import com.example.potenseek.Model.TPSchedule
 import com.example.potenseek.Utils.FirebaseWrapper
 import com.example.potenseek.repository.InboxRepository
 import com.example.potenseek.repository.TeacherPsychologistRepository
@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class InboxViewModel @Inject constructor(private val repository: InboxRepository) : ViewModel() {
-    var inboxData = MutableStateFlow<FirebaseWrapper<List<Any>, Boolean, Exception>>(
+class TeacherScheduleViewModel @Inject constructor(private val repository: TeacherPsychologistRepository) : ViewModel() {
+    var scheduleData = MutableStateFlow<FirebaseWrapper<List<TPSchedule>, Boolean, Exception>>(
         FirebaseWrapper(null, false, Exception())
     )
 
@@ -25,35 +25,30 @@ class InboxViewModel @Inject constructor(private val repository: InboxRepository
         FirebaseWrapper(null, false, Exception())
     )
 
-    var parentId = MutableStateFlow<FirebaseWrapper<String, Boolean, Exception>>(
-        FirebaseWrapper(null, false, Exception())
-    )
-
-    fun getInboxData(uID: String){
+    fun getScheduleData(uID: String, date: String){
         viewModelScope.launch(Dispatchers.IO) {
             try{
-                inboxData.value = repository.getInboxData(uID)
-                Log.d(ContentValues.TAG, "getInboxData: ${inboxData.value}")
+                scheduleData.value = repository.getSchedule(uID, date)
+                Log.d(ContentValues.TAG, "getScheduleData: ${scheduleData.value}")
             }catch (e : Exception){
-                inboxData.value.data = listOf()
-                inboxData.value.e = e
-                inboxData.value.loading = false
-                Log.d(ContentValues.TAG, "getInboxDataErr: ${e.message}")
+                scheduleData.value.data = listOf()
+                scheduleData.value.e = e
+                scheduleData.value.loading = false
+                Log.d(ContentValues.TAG, "getScheduleDataErr: ${e.message}")
             }
         }
     }
 
-    fun getParentData(id: String){
+    fun getUserData(uID: String){
         viewModelScope.launch(Dispatchers.IO) {
             try{
-                parentData.value = repository.getUserData(id)
-                parentId.value.data = id
-                Log.d(ContentValues.TAG, "getParentData: ${parentData.value}")
+                parentData.value = repository.getUserData(uID)
+                Log.d(ContentValues.TAG, "getUserData: ${parentData.value}")
             }catch (e : Exception){
                 parentData.value.data = null
                 parentData.value.e = e
                 parentData.value.loading = false
-                Log.d(ContentValues.TAG, "getParentData: ${e.message}")
+                Log.d(ContentValues.TAG, "getUserDataErr: ${e.message}")
             }
         }
     }

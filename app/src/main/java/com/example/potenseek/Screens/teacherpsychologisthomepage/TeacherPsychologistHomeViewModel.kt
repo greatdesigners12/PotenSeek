@@ -27,6 +27,10 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
         FirebaseWrapper(null, false, Exception())
     )
 
+    var teacherPsychologistDataAll = MutableStateFlow<FirebaseWrapper<List<TeacherPsychologist>, Boolean, Exception>>(
+        FirebaseWrapper(null, false, Exception())
+    )
+
     var teacherPsychologistRoleData = MutableStateFlow<FirebaseWrapper<List<TeacherPsychologistRole>, Boolean, Exception>>(
         FirebaseWrapper(null, false, Exception())
     )
@@ -39,12 +43,27 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
         viewModelScope.launch(Dispatchers.IO) {
             try{
                 teacherPsychologistData.value = repository.getTeacherPsychologistData()
+                teacherPsychologistDataAll.value = teacherPsychologistData.value
                 Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${teacherPsychologistData.value}")
-            }catch (e : Exception){
+            }catch (e : Exception) {
                 teacherPsychologistData.value.data = listOf()
                 teacherPsychologistData.value.e = e
                 teacherPsychologistData.value.loading = false
                 Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${e.message}")
+            }
+        }
+    }
+
+    fun getTeacherPsychologistData(roleID: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            try{
+                teacherPsychologistData.value = repository.getTeacherPsychologistData(roleID)
+                Log.d(ContentValues.TAG, "getTeacherPsychologistDataFilter: ${teacherPsychologistData.value}")
+            }catch (e : Exception){
+                teacherPsychologistData.value.data = listOf()
+                teacherPsychologistData.value.e = e
+                teacherPsychologistData.value.loading = false
+                Log.d(ContentValues.TAG, "getTeacherPsychologistDataFilterErr: ${e.message}")
             }
         }
     }

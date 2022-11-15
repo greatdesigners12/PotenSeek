@@ -1,5 +1,6 @@
 package com.example.potenseek.components
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.potenseek.Model.*
 import com.example.potenseek.R
+import com.example.potenseek.Screens.teacherpsychologisthomepage.TeacherPsychologistHomeViewModel
 import com.example.potenseek.Screens.ui.theme.*
 import java.text.NumberFormat
 import java.time.LocalDateTime
@@ -39,20 +42,19 @@ fun profileCard(name : String){
 }
 
 @Composable
-fun TeacherScheduleCard(tpSchedule: TPSchedule) {
+fun TeacherScheduleCard(tpSchedule: TPSchedule, parentProfile: ParentProfile) {
     Surface(
         modifier = Modifier
             .padding(16.dp, 8.dp, 16.dp, 16.dp)
             .fillMaxWidth()
-            .wrapContentHeight()
             .background(color = GreyBackground),
         shape = RoundedCornerShape(12.dp),
-        shadowElevation = 8.dp,
+        shadowElevation = 4.dp,
         color = Color.White
     ) {
         Row(
             modifier = Modifier
-                .wrapContentHeight()
+                .fillMaxWidth()
                 .background(color = Color.White)
                 .padding(0.dp, 8.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -69,10 +71,10 @@ fun TeacherScheduleCard(tpSchedule: TPSchedule) {
                         .padding(12.dp, 0.dp, 0.dp, 0.dp)
                 )
                 androidx.compose.material3.Text(
-                    text = tpSchedule.place + " with Mrs. Alexia",
+                    text = tpSchedule.place + " with " + parentProfile.name,
                     fontSize = 17.sp,
                     modifier = Modifier
-                        .padding(8.dp, 0.dp, 0.dp, 0.dp)
+                        .padding(12.dp, 0.dp, 0.dp, 0.dp)
                 )
             }
             Image(painter = painterResource(id = R.drawable.ic_baseline_close_24), contentDescription = "Add", modifier = Modifier
@@ -87,6 +89,17 @@ fun TeacherScheduleCard(tpSchedule: TPSchedule) {
 @Composable
 fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist, teacherPsychologistRole: List<TeacherPsychologistRole>) {
     var rating = ((teacherPsychologist.totalRating!! / teacherPsychologist.totalParentsRating!!) * 100.0).roundToInt() / 100.0
+    var bgcolor: Color
+
+    if (teacherPsychologist.roleID == "1") {
+        bgcolor = Orange300
+    } else if (teacherPsychologist.roleID == "2") {
+        bgcolor = PianoColor
+    } else if (teacherPsychologist.roleID == "3") {
+        bgcolor = MathColor
+    } else {
+        bgcolor = GuitarColor
+    }
 
     Surface(
         modifier = Modifier
@@ -95,7 +108,7 @@ fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist, teacherPsy
             .wrapContentHeight()
             .background(color = GreyBackground),
         shape = RoundedCornerShape(12.dp),
-        shadowElevation = 8.dp,
+        shadowElevation = 4.dp,
         color = Color.White,
         onClick = {
 
@@ -174,9 +187,9 @@ fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist, teacherPsy
                         modifier = Modifier,
                         shape = RoundedCornerShape(25.dp),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Orange300
+                            backgroundColor = bgcolor
                         ),
-                        elevation = ButtonDefaults.elevation(10.dp)
+                        elevation = ButtonDefaults.elevation(6.dp)
                     ) {
                         androidx.compose.material3.Text(
                             text = teacherPsychologistRole[teacherPsychologist.roleID!!.toInt()].role.toString(),
@@ -193,7 +206,7 @@ fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist, teacherPsy
                         colors = ButtonDefaults.buttonColors(
                             backgroundColor = Coral
                         ),
-                        elevation = ButtonDefaults.elevation(10.dp)
+                        elevation = ButtonDefaults.elevation(6.dp)
                     ) {
                         androidx.compose.material3.Text(
                             text = "Profile",
@@ -209,10 +222,10 @@ fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist, teacherPsy
 }
 
 @Composable
-fun TeacherPsychologistRoleCard(teacherPsychologistRole: TeacherPsychologistRole) {
+fun TeacherPsychologistRoleCard(teacherPsychologistRole: TeacherPsychologistRole, teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel) {
     var bgcolor: Color
     var paddingSize: Dp
-    if (teacherPsychologistRole.role == "Psychologist") {
+    if (teacherPsychologistRole.role == "All") {
         paddingSize = 24.dp
     } else {
         paddingSize = 8.dp
@@ -224,8 +237,10 @@ fun TeacherPsychologistRoleCard(teacherPsychologistRole: TeacherPsychologistRole
         bgcolor = PianoColor
     } else if (teacherPsychologistRole.role == "Math Lesson") {
         bgcolor = MathColor
-    } else {
+    } else if (teacherPsychologistRole.role == "Guitar Lesson") {
         bgcolor = GuitarColor
+    } else {
+        bgcolor = AllColor
     }
 
     Surface(
@@ -236,7 +251,17 @@ fun TeacherPsychologistRoleCard(teacherPsychologistRole: TeacherPsychologistRole
         shape = RoundedCornerShape(25.dp),
         shadowElevation = 4.dp,
         onClick = {
-
+            if (teacherPsychologistRole.role == "Psychologist") {
+                teacherPsychologistHomeViewModel.getTeacherPsychologistData("1")
+            } else if (teacherPsychologistRole.role == "Piano Lesson") {
+                teacherPsychologistHomeViewModel.getTeacherPsychologistData("2")
+            } else if (teacherPsychologistRole.role == "Math Lesson") {
+                teacherPsychologistHomeViewModel.getTeacherPsychologistData("3")
+            } else if (teacherPsychologistRole.role == "Guitar Lesson") {
+                teacherPsychologistHomeViewModel.getTeacherPsychologistData("4")
+            } else {
+                teacherPsychologistHomeViewModel.getTeacherPsychologistData()
+            }
         }
     ) {
         Row(modifier = Modifier
@@ -341,7 +366,7 @@ fun ChatCard(chat: Chat, parentProfile: ParentProfile) {
                         .wrapContentHeight()
                 ) {
                     androidx.compose.material3.Text(
-                        text = parentProfile.parentName.toString(),
+                        text = parentProfile.name.toString(),
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 20.sp
                     )
@@ -414,7 +439,7 @@ fun PaymentCard(payment: Payment, parentProfile: ParentProfile) {
                 fontWeight = FontWeight.SemiBold
             )
             androidx.compose.material3.Text(
-                text = "Pembayaran oleh " + parentProfile.parentName + " sebesar " + formatRupiah.format(payment.amount) + " berhasil masuk!",
+                text = "Pembayaran oleh " + parentProfile.name + " sebesar " + formatRupiah.format(payment.amount) + " berhasil masuk!",
                 fontSize = 18.sp,
                 modifier = Modifier.padding(0.dp, 2.dp, 0.dp, 0.dp)
             )

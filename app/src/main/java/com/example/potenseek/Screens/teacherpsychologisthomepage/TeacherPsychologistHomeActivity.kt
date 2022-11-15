@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -90,6 +91,10 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
         mutableStateOf(true)
     }
 
+    val roletemp = remember {
+        mutableStateOf("All")
+    }
+
     val focusRequester = remember {
         FocusRequester()
     }
@@ -104,8 +109,18 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
     val kc = LocalSoftwareKeyboardController.current
     kc!!.hide()
 
-    LaunchedEffect(key1 =  teacherPsychologistHomeViewModel.teacherPsychologistData.collectAsState().value.data){
+    LaunchedEffect(key1 =  teacherPsychologistHomeViewModel.teacherPsychologistDataAll.collectAsState().value.data){
         teacherPsychologistHomeViewModel.getTeacherPsychologistData()
+        Log.d(TAG, "teacherPsychologistHomeData: ${teacherPsychologistHomeViewModel.teacherPsychologistDataAll.value.data}")
+        if(teacherPsychologistHomeViewModel.teacherPsychologistDataAll.value.data != null){
+            teacherPsychologistSectionLoading.value = false
+        }
+    }
+
+    LaunchedEffect(key1 =  teacherPsychologistHomeViewModel.teacherPsychologistData.collectAsState().value.data){
+        if (roletemp.value != "All") {
+            teacherPsychologistHomeViewModel.getTeacherPsychologistData(roletemp.value)
+        }
         Log.d(TAG, "teacherPsychologistHomeData: ${teacherPsychologistHomeViewModel.teacherPsychologistData.value.data}")
         if(teacherPsychologistHomeViewModel.teacherPsychologistData.value.data != null){
             teacherPsychologistSectionLoading.value = false
@@ -241,7 +256,62 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
             if (!teacherPsychologistRoleSectionLoading.value) {
                 LazyRow {
                     itemsIndexed(items = teacherPsychologistHomeViewModel.teacherPsychologistRoleData.value.data!!) {index, item ->
-                        TeacherPsychologistRoleCard(teacherPsychologistRole = item)
+                        var bgcolor: Color
+                        var paddingSize: Dp
+                        var teacherPsychologistRole = item
+                        if (teacherPsychologistRole.role == "All") {
+                            paddingSize = 24.dp
+                        } else {
+                            paddingSize = 8.dp
+                        }
+
+                        if (teacherPsychologistRole.role == "Psychologist") {
+                            bgcolor = Orange300
+                        } else if (teacherPsychologistRole.role == "Piano Lesson") {
+                            bgcolor = PianoColor
+                        } else if (teacherPsychologistRole.role == "Math Lesson") {
+                            bgcolor = MathColor
+                        } else if (teacherPsychologistRole.role == "Guitar Lesson") {
+                            bgcolor = GuitarColor
+                        } else {
+                            bgcolor = AllColor
+                        }
+
+                        Surface(
+                            modifier = Modifier
+                                .padding(paddingSize, 6.dp, 8.dp, 2.dp)
+                                .wrapContentSize()
+                                .background(color = GreyBackground),
+                            shape = RoundedCornerShape(25.dp),
+                            shadowElevation = 4.dp,
+                            onClick = {
+                                if (teacherPsychologistRole.role == "Psychologist") {
+                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData("1")
+                                    roletemp.value = "1"
+                                } else if (teacherPsychologistRole.role == "Piano Lesson") {
+                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData("2")
+                                    roletemp.value = "2"
+                                } else if (teacherPsychologistRole.role == "Math Lesson") {
+                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData("3")
+                                    roletemp.value = "3"
+                                } else if (teacherPsychologistRole.role == "Guitar Lesson") {
+                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData("4")
+                                    roletemp.value = "4"
+                                } else {
+                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData()
+                                }
+                            }
+                        ) {
+                            Row(modifier = Modifier
+                                .wrapContentWidth()
+                                .background(color = bgcolor)
+                                .padding(12.dp, 4.dp)) {
+                                androidx.compose.material3.Text(
+                                    text = teacherPsychologistRole.role.toString(),
+                                    fontSize = 16.sp
+                                )
+                            }
+                        }
                     }
                 }
             }

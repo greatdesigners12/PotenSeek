@@ -27,6 +27,21 @@ class TeacherPsychologistRepository @Inject constructor(private val query : Fire
         return dataWrapper
     }
 
+    suspend fun getTeacherPsychologistData(roleID: String) : FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception> {
+        val dataWrapper = FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception>(null, true, null)
+        try{
+            dataWrapper.data = query.collection("TeacherPsychologistData").whereEqualTo("roleID", roleID).get().await().toObjects(
+                TeacherPsychologist::class.java)
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${dataWrapper.data}")
+        }catch(e : Exception){
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getTeacherPsychologistDataError: ${e.message}")
+        }
+        return dataWrapper
+    }
+
     suspend fun getTeacherPsychologistRoleData() : FirebaseWrapper<List<TeacherPsychologistRole>, Boolean, java.lang.Exception> {
         val dataWrapper = FirebaseWrapper<List<TeacherPsychologistRole>, Boolean, java.lang.Exception>(null, true, null)
 
@@ -68,13 +83,46 @@ class TeacherPsychologistRepository @Inject constructor(private val query : Fire
             dataWrapper.data = query.collection("TeacherPsychologistData").document(id).collection("CertificateAchievement").get().await().toObjects(
                 CertificateAchievement::class.java)
             dataWrapper.loading = false
-            Log.d(ContentValues.TAG, "getWhatsHotData: ${dataWrapper.data}")
+            Log.d(ContentValues.TAG, "getCertificateAchievementData: ${dataWrapper.data}")
         }catch(e : Exception){
             dataWrapper.e = e
             dataWrapper.loading = false
-            Log.d(ContentValues.TAG, "getWhatsHotDataError: ${e.message}")
+            Log.d(ContentValues.TAG, "getCertificateAchievementDataError: ${e.message}")
         }
 
+        return dataWrapper
+    }
+
+    suspend fun getSchedule(id: String, date: String) : FirebaseWrapper<List<TPSchedule>, Boolean, java.lang.Exception> {
+        val dataWrapper = FirebaseWrapper<List<TPSchedule>, Boolean, java.lang.Exception>(null, true, null)
+
+        try{
+            dataWrapper.data = query.collection("TeacherPsychologistData").document(id).collection("Schedule").whereEqualTo("date", date).get().await().toObjects(
+                TPSchedule::class.java)
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getScheduleData: ${dataWrapper.data}")
+        }catch(e : Exception){
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getScheduleDataError: ${e.message}")
+        }
+
+        return dataWrapper
+    }
+
+    suspend fun getUserData(id: String) : FirebaseWrapper<ParentProfile, Boolean, Exception>{
+        val dataWrapper = FirebaseWrapper<ParentProfile, Boolean, java.lang.Exception>(null, true, null)
+        try{
+            dataWrapper.data = query.collection("UserData").document(id).get().await().toObject(
+                ParentProfile::class.java)
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getUserData: ${dataWrapper.data}")
+        }catch(e : Exception){
+
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getUserDataErr: ${e.message}")
+        }
         return dataWrapper
     }
 }

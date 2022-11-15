@@ -52,7 +52,7 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
         Text("Orang tua", fontWeight = FontWeight.Bold, fontSize = 25.sp)
         if(!parentSectionLoading.value){
             Row(){
-                profileCard(name = profileViewModel.parentData.collectAsState().value.data!!.parentName!!)
+                profileCard(name = profileViewModel.parentData.collectAsState().value.data!!.name!!)
 
             }
         }else{

@@ -20,12 +20,19 @@ import com.example.potenseek.Screens.inbox.Inbox
 import com.example.potenseek.Screens.inbox.InboxActivity
 import com.example.potenseek.Screens.inbox.InboxViewModel
 import com.example.potenseek.Screens.schedule.TeacherSchedule
+import com.example.potenseek.Screens.schedule.TeacherScheduleViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @Composable
-fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: ProfileViewModel = viewModel(), teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel = viewModel(), teacherEditProfileViewModel: TeacherEditProfileViewModel = viewModel(), inboxViewModel: InboxViewModel = viewModel()) {
+fun AppNavigation(authViewModel: AuthViewModel = viewModel(),
+                  profileViewModel: ProfileViewModel = viewModel(),
+                  teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel = viewModel(),
+                  teacherEditProfileViewModel: TeacherEditProfileViewModel = viewModel(),
+                  inboxViewModel: InboxViewModel = viewModel(),
+                  teacherScheduleViewModel: TeacherScheduleViewModel = viewModel()
+) {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = NavigationEnum.InboxActivity.name){
+    NavHost(navController, startDestination = NavigationEnum.TeacherPsychologistHomeActivity.name){
         composable(NavigationEnum.SplashScreenActivity.name){
             SplashScreenActivity(navController)
         }
@@ -47,7 +54,7 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: 
         }
 
         composable(NavigationEnum.TeacherScheduleActivity.name){
-            TeacherSchedule(navController)
+            TeacherSchedule(navController, teacherScheduleViewModel)
         }
 
         composable(NavigationEnum.TeacherEditProfileActivity.name){

@@ -1,3 +1,3 @@
 package com.example.potenseek.Model
 
-data class ParentProfile(var parentName: String? = null)
+data class ParentProfile(var name: String? = null, var role: String? = null)
