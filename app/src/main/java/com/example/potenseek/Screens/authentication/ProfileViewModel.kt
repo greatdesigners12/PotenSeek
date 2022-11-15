@@ -71,9 +71,9 @@ class ProfileViewModel @Inject constructor(private val repository: ProfileReposi
         }
     }
 
+
     fun getChildData(){
         val query = FirebaseFirestore.getInstance()
-
 
         viewModelScope.launch(Dispatchers.IO) {
             query.collection("ChildData").whereEqualTo("parentId", FirebaseAuth.getInstance().currentUser?.uid!!).addSnapshotListener { snapshots, e ->

@@ -5,10 +5,7 @@ import android.graphics.Color.parseColor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -27,6 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -37,7 +36,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.potenseek.R
 import com.example.potenseek.Screens.anak.gamessample.snakeGameActivity
+import com.example.potenseek.Screens.anak.gamessample.twenty.ui.twentyGameActivity
+import com.example.potenseek.models.GamesPlayed
+import com.example.potenseek.models.gmsplayed
 import com.example.potenseek.ui.theme.PotenSeekTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 
@@ -63,14 +67,15 @@ fun homepageanak() {
                     verticalArrangement = Arrangement.SpaceBetween) {
 
                     //All elements
-                    Column {
+                    Column(modifier = Modifier.padding(top = 24.dp)) {
 
                         Image(
-                            painter = painterResource(id = R.drawable.ic_launcher_background),
+                            painter = painterResource(id = R.drawable.logo),
                             contentDescription = "PotenSeek",
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp, horizontal = 24.dp),
+                                .padding(vertical = 8.dp)
+                                .size(100.dp),
                         )
                         Row(modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp)) {
                             Text(
@@ -185,13 +190,13 @@ fun homepageanak() {
                             Image(
                                 modifier = Modifier
                                     .size(50.dp, 50.dp),
-                                painter = painterResource(id = R.drawable.ic_launcher_background),
+                                painter = painterResource(id = R.drawable.bigprofile),
                                 contentDescription = "PotenSeek",
                             )
                         }
                     }
                 }
-                recentgames()
+                //recentgames()
                 games()
             }
         }
@@ -207,6 +212,8 @@ fun recentgames(){
     var data = ArrayList<recentGame>()
     var dummy = recentGame("dummy")
     data.add(dummy)
+    val context = LocalContext.current
+
 
     if(!data.isEmpty()){
         Column(){
@@ -227,9 +234,12 @@ fun recentgames(){
                 items(data) { game ->
                     Column() {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_launcher_background),
+                            painter = painterResource(id = R.drawable.icongame),
                             contentDescription = "GameIcon",
-                            modifier = Modifier.clip(RoundedCornerShape(10.dp))
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable {
+                                context.startActivity(Intent(context, snakeGameActivity::class.java))
+                            }.size(80.dp)
                         )
                         Text(
                             text = game.title,
@@ -246,18 +256,18 @@ fun recentgames(){
 @Composable
 fun games(){
 
-    //dummy data
-    class recentGame(var title : String)
+    //disini tambah gamenya lex
+
+    class recentGame(var title : String, var activityname: String)
     var data = ArrayList<recentGame>()
-    var dummy = recentGame("dummy")
-    data.add(dummy)
-    data.add(dummy)
-    data.add(dummy)
-    data.add(dummy)
-    data.add(dummy)
+    var snake = recentGame("Snake", "snakeGameActivity")
+    var twenty = recentGame("2048", "twentyGameActivity")
+    data.add(snake)
+    data.add(twenty)
+    //insert games here
     val context = LocalContext.current
 
-    Column(){
+    Column(modifier = Modifier.padding(top = 18.dp)){
         Text(
             text = "Games",
             fontWeight = FontWeight.Bold,
@@ -273,19 +283,76 @@ fun games(){
         ){
             items(data) { game ->
                 Column() {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = "GameIcon",
-                        modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable {
-                            context.startActivity(Intent(context, snakeGameActivity::class.java))
-                        }
-                    )
-                    Text(text = game.title)
+                    if(game.activityname == "snakeGameActivity"){
+                        Image(
+                            painter = painterResource(id = R.drawable.snakgame),
+                            contentDescription = "GameIcon",
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable {
+                                val gamess = gmsplayed.games
+                                var test : MutableList<GamesPlayed> = emptyList<GamesPlayed>().toMutableList()
+                                for (i in gamess){
+                                    if(i.title == "Snake"){
+                                        test.add(i)
+                                    }
+                                }
+                                if(test.isNotEmpty()){
+                                    var j = 0
+                                    for (i in gamess){
+                                        if (i.title == "Snake"){
+                                            val atmptnew = i.attemptTotal + 1
+                                            var updte = GamesPlayed(i.title, i.hours,atmptnew, i.attemptPass)
+                                            gmsplayed.games.set(j, updte)
+                                        }
+                                        j++
+                                    }
+                                }else{
+                                    var snake = GamesPlayed("Snake", 2, 4, 20)
+                                    gmsplayed.games.add(snake)
+                                }
+
+                                context.startActivity(Intent(context, snakeGameActivity::class.java))
+                            }.size(80.dp)
+                        )
+
+                        Text(text = game.title)
+                    }else if(game.activityname == "twentyGameActivity"){
+                        Image(
+                            painter = painterResource(id = R.drawable.twentygame),
+                            contentDescription = "GameIcon",
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable {
+                                val gamess = gmsplayed.games
+                                var test : MutableList<GamesPlayed> = emptyList<GamesPlayed>().toMutableList()
+                                for (i in gamess){
+                                    if(i.title == "2048"){
+                                        test.add(i)
+                                    }
+                                }
+                                if(test.isNotEmpty()){
+                                    var j = 0
+                                    for (i in gamess){
+                                        if (i.title == "2048"){
+                                            val atmptnew = i.attemptTotal + 1
+                                            var updte = GamesPlayed(i.title, i.hours,atmptnew, i.attemptPass)
+                                            gmsplayed.games.set(j, updte)
+                                        }
+                                        j++
+                                    }
+                                }else{
+                                    var twenty = GamesPlayed("2048", 1, 2, 13)
+                                    gmsplayed.games.add(twenty)
+                                }
+
+                                    context.startActivity(Intent(context, twentyGameActivity::class.java))
+                            }.size(80.dp).border(BorderStroke(5.dp, SolidColor("#e6e6e6".color)))
+                        )
+                        Text(text = game.title)
+                    }
                 }
             }
         }
     }
 }
-
 
 

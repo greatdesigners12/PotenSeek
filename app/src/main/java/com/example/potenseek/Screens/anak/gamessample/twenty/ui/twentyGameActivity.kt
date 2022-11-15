@@ -3,10 +3,11 @@ package com.example.potenseek.Screens.anak.gamessample.twenty.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import com.example.potenseek.Screens.anak.gamessample.twenty.store.PreferenceRepository
 
-class MainActivity : ComponentActivity() {
+class twentyGameActivity : ComponentActivity() {
 
     private val preferenceRepository: PreferenceRepository by lazy { PreferenceRepository(this) }
 

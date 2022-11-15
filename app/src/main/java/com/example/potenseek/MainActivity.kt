@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.potenseek.Navigation.AppNavigation
+import com.example.potenseek.Navigation.NavigationEnum
+import com.example.potenseek.Screens.anak.homepageanak
 import com.example.potenseek.Screens.authentication.AuthViewModel
 import com.example.potenseek.Screens.homeortu.HomeortuScreen
 import com.example.potenseek.Screens.profileanak.ProfileanakScreen
@@ -30,7 +32,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    AppNavigation()
+                    homepageanak()
                 }
             }
         }

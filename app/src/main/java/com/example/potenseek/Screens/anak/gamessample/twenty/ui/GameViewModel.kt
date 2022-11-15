@@ -1,15 +1,21 @@
 package com.example.potenseek.Screens.anak.gamessample.twenty.ui
 
+import android.app.Activity
 import android.content.Context
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.potenseek.Screens.anak.gamessample.finish
 import com.example.potenseek.Screens.anak.gamessample.twenty.model.Game
 import com.example.potenseek.Screens.anak.gamessample.twenty.store.PreferenceRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 import kotlin.time.Duration.Companion.seconds
 
 class GameViewModel(
@@ -75,13 +81,8 @@ class GameViewModel(
         game.restart()
     }
 
-    fun undoMove() = with(preferenceRepository) {
-        if (previousBoardState.isNotEmpty()) {
-            game.setValues(previousBoardState)
-            game.score = previousScore
-            boardState = previousBoardState
-            score = _score.updateAndGet { previousScore }
-        }
+    fun undoMove(){
+
     }
 }
 

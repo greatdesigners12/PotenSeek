@@ -127,7 +127,7 @@ fun Header(
                     .clickable { onUndoRequest() }
             ) {
                 Text(
-                    text = stringResource(R.string.action_undo),
+                    text = "Quit",
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.W900,
                     fontSize = 22.sp,
