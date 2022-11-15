@@ -51,13 +51,22 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
         mutableStateOf(false)
     }
 
+    val mainLoading = remember{
+        mutableStateOf(true)
+    }
+
     LaunchedEffect(key1 = true){
+        if(FirebaseAuth.getInstance().currentUser == null){
+            mainLoading.value = false
+        }
+        profileViewModel.checkIfUserDataExist()
         profileViewModel.checkIfUserJobExist()
+
     }
 
     LaunchedEffect(key1 = authViewModel.data.collectAsState().value.data){
 
-        authViewModel.checkIfUserExist(navController)
+
 
         loading.value = authViewModel.data.value.loading
 
@@ -73,17 +82,31 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
 
         }
 
-        if(FirebaseAuth.getInstance().currentUser != null){
-            navController.navigate(NavigationEnum.InputUserDetailActivity.name)
-        }
+
 
 
 
     }
 
     LaunchedEffect(key1 = profileViewModel.isJobExist.collectAsState().value){
-        if(profileViewModel.isJobExist.value.data == "exist"){
+
+
+
+        if(profileViewModel.isJobExist.value == "exist"){
+            navController.popBackStack()
             navController.navigate(NavigationEnum.TeacherPsychologistHomeActivity.name)
+        }
+
+
+
+
+    }
+
+    LaunchedEffect(key1 = profileViewModel.isExist.collectAsState().value){
+        if(profileViewModel.isExist.value == "exist"){
+            Log.d(TAG, "LoginScreenActivity: hi bro")
+            navController.popBackStack()
+            navController.navigate(NavigationEnum.InputUserDetailActivity.name)
         }
     }
 
@@ -101,56 +124,68 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .padding(top = 50.dp, start = 10.dp, end = 10.dp)){
-        Column(modifier = Modifier
-            .padding(10.dp)
-            .fillMaxSize() ,horizontalAlignment = Alignment.CenterHorizontally){
-            heading()
-            basicInputField("Email" ,emailValue.value){
-                emailValue.value = it
+        .padding(top = 50.dp, start = 10.dp, end = 10.dp)) {
+        if (mainLoading.value) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
             }
-            passwordInputField(
-                inputValue = passwordValue.value,
-                passwordVisible = passwordVisible.value,
-                pwdIcon = { passwordVisible.value = !passwordVisible.value },
-
-            ){
-                passwordValue.value = it
-            }
-            Box(modifier = Modifier.padding(vertical = 10.dp)){
-                BasicButton( components = {
-
-                    if(loading.value){
-                        CircularProgressIndicator(color = Color.White)
-                    }else{
-                        Text(text = "LOGIN",modifier = Modifier.padding(top = 10.dp),fontWeight = FontWeight.Bold, fontSize = 20.sp)
-
-                    }
-                }) {
-                    loading.value = true
-                    authViewModel.login(emailValue.value, passwordValue.value)
+        } else {
+            Column(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                heading()
+                basicInputField("Email", emailValue.value) {
+                    emailValue.value = it
                 }
-            }
-            Row(verticalAlignment = Alignment.CenterVertically){
-                Text("Don't have any account ? ")
-                Text("Create a new one !", modifier = Modifier.clickable {
+                passwordInputField(
+                    inputValue = passwordValue.value,
+                    passwordVisible = passwordVisible.value,
+                    pwdIcon = { passwordVisible.value = !passwordVisible.value },
 
-                    navController.navigate(NavigationEnum.RegisterScreenActivity.name)
+                    ) {
+                    passwordValue.value = it
+                }
 
-                }, color = MaterialTheme.colors.primary)
-            }
+                    BasicButton(components = {
 
-            Row(){
-                Text("Are you psychologist or teacher ? ")
-                Text("Click here !", modifier = Modifier.clickable {
+                        if (loading.value) {
+                            CircularProgressIndicator(color = Color.White)
+                        } else {
+                            Text(
+                                text = "LOGIN",
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 20.sp
+                            )
 
-                    navController.navigate(NavigationEnum.RegisterJobActivity.name)
+                        }
+                    }) {
+                        loading.value = true
+                        authViewModel.login(emailValue.value, passwordValue.value)
+                    }
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("Don't have any account ? ")
+                    Text("Create a new one !", modifier = Modifier.clickable {
 
-                }, color = MaterialTheme.colors.primary)
+                        navController.navigate(NavigationEnum.RegisterScreenActivity.name)
+
+                    }, color = MaterialTheme.colors.primary)
+                }
+                Spacer(modifier = Modifier.height(20.dp))
+                Row() {
+                    Text("Are you psychologist or teacher ? ")
+                    Text("Click here !", modifier = Modifier.clickable {
+
+                        navController.navigate(NavigationEnum.RegisterJobActivity.name)
+
+                    }, color = MaterialTheme.colors.primary)
+                }
+
             }
 
         }
-
     }
 
 

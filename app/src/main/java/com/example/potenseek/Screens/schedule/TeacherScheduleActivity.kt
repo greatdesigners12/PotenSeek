@@ -38,23 +38,6 @@ import kotlinx.coroutines.delay
 import java.time.LocalDate
 import java.util.*
 
-class TeacherScheduleActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PotenSeekTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Scaffold() {
-                    }
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun TeacherSchedule(navController: NavController, teacherScheduleViewModel: TeacherScheduleViewModel) {

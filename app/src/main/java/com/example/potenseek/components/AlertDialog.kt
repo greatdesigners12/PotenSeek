@@ -33,6 +33,14 @@ fun SimpleAlertDialog(title : String, message : String, onAction : () -> Unit) {
     }, onDismissRequest = {})
 }
 
+@Composable
+fun CustomAlertDialog(title : String, onDismiss : () -> Unit, components : @Composable () -> Unit) {
+    AlertDialog(title={Text(title)}, modifier = Modifier.fillMaxWidth().height(200.dp) , text = {components()}, buttons = {
+
+
+    }, onDismissRequest = onDismiss)
+}
+
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun ConsultationTimeDialog() {

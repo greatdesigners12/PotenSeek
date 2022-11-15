@@ -1,9 +1,6 @@
 package com.example.potenseek.Screens.authentication
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -45,24 +42,30 @@ fun inputUserDetailActivity(navController: NavController, viewModel: ProfileView
         mutableStateOf("")
     }
 
+    val basicLoading = remember{
+        mutableStateOf(true)
+    }
+
 
     LaunchedEffect(key1 = true){
         viewModel.checkIfUserJobExist()
     }
+
     LaunchedEffect(key1 = viewModel.isJobExist.collectAsState().value){
-        if(viewModel.isJobExist.value.data == "exist"){
+        if(viewModel.isExist.value != null && viewModel.isJobExist.value != null){
+            basicLoading.value = false
+        }
+        if(viewModel.isJobExist.value == "exist"){
+            navController.popBackStack()
             navController.navigate(NavigationEnum.TeacherPsychologistHomeActivity.name)
         }
-    }
-
-
-
-    LaunchedEffect(key1 = viewModel.isExist.collectAsState().value.data){
-        if(viewModel.isExist.value.data == "exist"){
+        if(viewModel.isExist.value == "exist"){
             navController.popBackStack()
             navController.navigate(NavigationEnum.ChooseProfileActivity.name)
         }
     }
+
+
 
     LaunchedEffect(key1 = viewModel.data.collectAsState().value.data){
         val curData = viewModel.data.value
@@ -83,33 +86,50 @@ fun inputUserDetailActivity(navController: NavController, viewModel: ProfileView
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(20.dp) ,horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+    if(basicLoading.value){
+        Box(modifier=Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+            CircularProgressIndicator()
+        }
+    }else{
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(20.dp) ,horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Text("ISI DATA DIRI", fontWeight = FontWeight.Bold, fontSize = 25.sp)
-        basicInputField("Nama Orang Tua" ,inputValue = parentName.value){
+        basicInputField("Nama Orang Tua", inputValue = parentName.value) {
             parentName.value = it
         }
 
-        basicInputField("Nama Anak" ,inputValue = childName.value){
+        basicInputField("Nama Anak", inputValue = childName.value) {
             childName.value = it
         }
 
-        basicInputField("Umur Anak" , inputValue = childAge.value, keyboardType = KeyboardType.Number){
+        basicInputField(
+            "Umur Anak",
+            inputValue = childAge.value,
+            keyboardType = KeyboardType.Number
+        ) {
             childAge.value = it
         }
         BasicButton(components = {
-            if(loading.value){
+            if (loading.value) {
                 CircularProgressIndicator(color = Color.White)
-            }else{
+            } else {
                 Text("Buat Profile")
             }
 
         }) {
             loading.value = true
-            if(parentName.value.isNotEmpty() && childName.value.isNotEmpty() && childAge.value != ""){
-                viewModel.createProfile(parentName.value, "parent",childName.value, childAge.value.toInt())
-            }else{
+            if (parentName.value.isNotEmpty() && childName.value.isNotEmpty() && childAge.value != "") {
+                viewModel.createProfile(
+                    parentName.value,
+                    "parent",
+                    childName.value,
+                    childAge.value.toInt()
+                )
+            } else {
                 customErrorMsg.value = "All input mustn't be empty"
             }
         }
+    }
     }
 }

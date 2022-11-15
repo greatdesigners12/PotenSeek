@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun basicInputField(label : String, inputValue : String, keyboardType: KeyboardType = KeyboardType.Text, onValueChanged : (String) -> Unit){
-    OutlinedTextField(value = inputValue, onValueChanged, singleLine = true, label= {Text(label)}, modifier = Modifier.fillMaxWidth())
+    OutlinedTextField(value = inputValue, onValueChanged, singleLine = true, label= {Text(label)}, modifier = Modifier.fillMaxWidth(), keyboardOptions = KeyboardOptions(keyboardType = keyboardType))
 }
 
 @Composable

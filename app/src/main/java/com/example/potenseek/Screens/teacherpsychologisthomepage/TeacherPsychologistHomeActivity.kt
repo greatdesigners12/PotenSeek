@@ -1,15 +1,10 @@
 package com.example.potenseek.Screens.teacherpsychologisthomepage
 
 import android.content.ContentValues.TAG
-import android.icu.number.Scale
-import android.os.Bundle
 import android.util.Log
-import android.widget.GridLayout.FILL
-import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -19,7 +14,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -31,7 +25,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -39,42 +32,22 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
-import com.example.potenseek.Model.TeacherPsychologist
-import com.example.potenseek.Model.TeacherPsychologistRole
+import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.R
 import com.example.potenseek.Screens.ui.theme.*
 import com.example.potenseek.components.TeacherPsychologistCard
-import com.example.potenseek.components.TeacherPsychologistRoleCard
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 
-class TeacherPsychologistHomeActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContent {
-            PotenSeekTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Scaffold() {
-                    }
-                }
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalPagerApi::class)
 @Composable
@@ -169,13 +142,34 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
             var textColor by remember {
                 mutableStateOf(Color.Gray)
             }
+            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+                Text(
+                    text = "What's Hot",
+                    modifier = Modifier
+                        .padding(vertical = 10.dp)
+                        .padding(start = 20.dp),
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_baseline_exit), contentDescription = "",
+                    modifier = Modifier
+                        .width(50.dp)
+                        .height(50.dp)
+                        .padding(vertical = 10.dp)
+                        .padding(end = 20.dp)
+                        .clickable {
 
-            Text(
-                text = "What's Hot",
-                modifier = Modifier.padding(20.dp, 16.dp, 20.dp, 8.dp),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.SemiBold
-            )
+                            Firebase.auth.signOut()
+
+                            navController.popBackStack()
+                            navController.navigate(NavigationEnum.LoginScreenActivity.name)
+
+
+                        }
+                )
+            }
+            
 
             if (whatsHotSectionLoading.value) {
                 Spacer(modifier = Modifier.height(40.dp))

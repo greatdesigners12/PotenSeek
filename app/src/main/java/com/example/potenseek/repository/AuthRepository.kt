@@ -45,7 +45,8 @@ class AuthRepository @Inject constructor(private val query : FirebaseAuth, priva
         try{
             val data = hashMapOf(
                 "name" to fullName,
-                "role" to role
+                "role" to role,
+                "pin" to ""
             )
             query.createUserWithEmailAndPassword(email, password).await()
             firestore.collection("UserData").document(query.currentUser?.uid!!).set(data).await()
