@@ -54,7 +54,7 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
         }
     }
 
-    fun getTeacherPsychologistData(roleID: String){
+    fun getTeacherPsychologistData(roleID: Int){
         viewModelScope.launch(Dispatchers.IO) {
             try{
                 teacherPsychologistData.value = repository.getTeacherPsychologistData(roleID)
@@ -64,6 +64,20 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
                 teacherPsychologistData.value.e = e
                 teacherPsychologistData.value.loading = false
                 Log.d(ContentValues.TAG, "getTeacherPsychologistDataFilterErr: ${e.message}")
+            }
+        }
+    }
+
+    fun getTeacherPsychologistData(search: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            try{
+                teacherPsychologistData.value = repository.getTeacherPsychologistData(search)
+                Log.d(ContentValues.TAG, "getTeacherPsychologistDataSearch: ${teacherPsychologistData.value}")
+            }catch (e : Exception){
+                teacherPsychologistData.value.data = listOf()
+                teacherPsychologistData.value.e = e
+                teacherPsychologistData.value.loading = false
+                Log.d(ContentValues.TAG, "getTeacherPsychologistDataSearchErr: ${e.message}")
             }
         }
     }

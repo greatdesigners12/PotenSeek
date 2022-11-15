@@ -92,7 +92,11 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
     }
 
     val roletemp = remember {
-        mutableStateOf("All")
+        mutableStateOf(0)
+    }
+
+    val search = remember {
+        mutableStateOf("")
     }
 
     val focusRequester = remember {
@@ -118,12 +122,23 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
     }
 
     LaunchedEffect(key1 =  teacherPsychologistHomeViewModel.teacherPsychologistData.collectAsState().value.data){
-        if (roletemp.value != "All") {
+        if (roletemp.value != 0) {
             teacherPsychologistHomeViewModel.getTeacherPsychologistData(roletemp.value)
         }
         Log.d(TAG, "teacherPsychologistHomeData: ${teacherPsychologistHomeViewModel.teacherPsychologistData.value.data}")
         if(teacherPsychologistHomeViewModel.teacherPsychologistData.value.data != null){
             teacherPsychologistSectionLoading.value = false
+        }
+    }
+
+    LaunchedEffect(key1 =  teacherPsychologistHomeViewModel.teacherPsychologistData.collectAsState().value.data){
+        if (search.value != "") {
+            teacherPsychologistHomeViewModel.getTeacherPsychologistData(search.value)
+        }
+        Log.d(TAG, "teacherPsychologistHomeData: ${teacherPsychologistHomeViewModel.teacherPsychologistData.value.data}")
+        if(teacherPsychologistHomeViewModel.teacherPsychologistData.value.data != null){
+            teacherPsychologistSectionLoading.value = false
+            search.value = ""
         }
     }
 
@@ -220,6 +235,7 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
                     singleLine = true,
                     onValueChange = {newText ->
                         text = newText
+                        search.value = text
 
                         if (text == "") {
                             textColor = Color.Gray
@@ -234,12 +250,16 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
                     ),
                     textStyle = TextStyle.Default.copy(fontSize = 20.sp, color = textColor),
                     trailingIcon = {
-                        IconButton(onClick = {}) {
+                        IconButton(onClick = {
+                            teacherPsychologistHomeViewModel.getTeacherPsychologistData(search.value)
+                        }) {
                             Icon(painter = painterResource(id = R.drawable.ic_baseline_search_24), contentDescription = "", modifier = Modifier.size(30.dp))
                         }
                     },
                     keyboardActions = KeyboardActions(onDone = {
                         focusManager.clearFocus()
+
+                        teacherPsychologistHomeViewModel.getTeacherPsychologistData(search.value)
                     }),
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
@@ -286,17 +306,17 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
                             shadowElevation = 4.dp,
                             onClick = {
                                 if (teacherPsychologistRole.role == "Psychologist") {
-                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData("1")
-                                    roletemp.value = "1"
+                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData(1)
+                                    roletemp.value = 1
                                 } else if (teacherPsychologistRole.role == "Piano Lesson") {
-                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData("2")
-                                    roletemp.value = "2"
+                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData(2)
+                                    roletemp.value = 2
                                 } else if (teacherPsychologistRole.role == "Math Lesson") {
-                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData("3")
-                                    roletemp.value = "3"
+                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData(3)
+                                    roletemp.value = 3
                                 } else if (teacherPsychologistRole.role == "Guitar Lesson") {
-                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData("4")
-                                    roletemp.value = "4"
+                                    teacherPsychologistHomeViewModel.getTeacherPsychologistData(4)
+                                    roletemp.value = 4
                                 } else {
                                     teacherPsychologistHomeViewModel.getTeacherPsychologistData()
                                 }

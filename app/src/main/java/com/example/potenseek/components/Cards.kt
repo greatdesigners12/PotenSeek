@@ -42,7 +42,7 @@ fun profileCard(name : String){
 }
 
 @Composable
-fun TeacherScheduleCard(tpSchedule: TPSchedule, parentProfile: ParentProfile) {
+fun TeacherScheduleCard(tpSchedule: TPSchedule) {
     Surface(
         modifier = Modifier
             .padding(16.dp, 8.dp, 16.dp, 16.dp)
@@ -71,7 +71,7 @@ fun TeacherScheduleCard(tpSchedule: TPSchedule, parentProfile: ParentProfile) {
                         .padding(12.dp, 0.dp, 0.dp, 0.dp)
                 )
                 androidx.compose.material3.Text(
-                    text = tpSchedule.place + " with " + parentProfile.name,
+                    text = tpSchedule.place + " with " + tpSchedule.with,
                     fontSize = 17.sp,
                     modifier = Modifier
                         .padding(12.dp, 0.dp, 0.dp, 0.dp)

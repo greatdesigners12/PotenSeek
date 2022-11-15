@@ -115,17 +115,7 @@ fun TeacherSchedule(navController: NavController, teacherScheduleViewModel: Teac
             } else {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
                     itemsIndexed(items = teacherScheduleViewModel.scheduleData.value.data!!) {index, item ->
-                        LaunchedEffect(key1 = item) {
-                            teacherScheduleViewModel.getUserData(item.with.toString())
-                            Log.d(ContentValues.TAG, "teacherScheduleHomeDataParent: ${item.with}")
-                        }
-
-                        if (teacherScheduleViewModel.parentData.collectAsState().value.data != null) {
-                            TeacherScheduleCard(
-                                tpSchedule = item,
-                                teacherScheduleViewModel.parentData.collectAsState().value.data!!
-                            )
-                        }
+                            TeacherScheduleCard(tpSchedule = item)
                     }
                 }
             }

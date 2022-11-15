@@ -27,10 +27,25 @@ class TeacherPsychologistRepository @Inject constructor(private val query : Fire
         return dataWrapper
     }
 
-    suspend fun getTeacherPsychologistData(roleID: String) : FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception> {
+    suspend fun getTeacherPsychologistData(roleID: Int) : FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception> {
         val dataWrapper = FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception>(null, true, null)
         try{
-            dataWrapper.data = query.collection("TeacherPsychologistData").whereEqualTo("roleID", roleID).get().await().toObjects(
+            dataWrapper.data = query.collection("TeacherPsychologistData").whereEqualTo("roleID", "" + roleID).get().await().toObjects(
+                TeacherPsychologist::class.java)
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${dataWrapper.data}")
+        }catch(e : Exception){
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getTeacherPsychologistDataError: ${e.message}")
+        }
+        return dataWrapper
+    }
+
+    suspend fun getTeacherPsychologistData(search: String) : FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception> {
+        val dataWrapper = FirebaseWrapper<List<TeacherPsychologist>, Boolean, java.lang.Exception>(null, true, null)
+        try{
+            dataWrapper.data = query.collection("TeacherPsychologistData").whereEqualTo("name", "" + search).get().await().toObjects(
                 TeacherPsychologist::class.java)
             dataWrapper.loading = false
             Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${dataWrapper.data}")
