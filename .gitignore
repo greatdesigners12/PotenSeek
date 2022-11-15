@@ -13,4 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/src/main/java/com/example/potenseek/
+/app/src/main/java/com/example/potenseek/Navigation
+/app/src/main/java/com/example/potenseek/Components
+/app/src/main/java/com/example/potenseek/Repository
