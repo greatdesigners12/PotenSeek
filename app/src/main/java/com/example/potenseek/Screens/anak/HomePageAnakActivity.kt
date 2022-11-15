@@ -44,6 +44,7 @@ import kotlinx.coroutines.launch
 //hexcode color
 val String.color get() = Color(parseColor(this))
 
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun homepageanak() {
 
