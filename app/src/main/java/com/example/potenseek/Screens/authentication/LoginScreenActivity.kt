@@ -91,7 +91,7 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
 
     Box(modifier = Modifier
         .fillMaxSize()
-        .padding(top = 25.dp, start = 10.dp, end = 10.dp)){
+        .padding(top = 50.dp, start = 10.dp, end = 10.dp)){
         Column(modifier = Modifier
             .padding(10.dp)
             .fillMaxSize() ,horizontalAlignment = Alignment.CenterHorizontally){
@@ -124,17 +124,17 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
             Row(verticalAlignment = Alignment.CenterVertically){
                 Text("Don't have any account ? ")
                 Text("Create a new one !", modifier = Modifier.clickable {
-                    navController.popBackStack()
+
                     navController.navigate(NavigationEnum.RegisterScreenActivity.name)
 
                 }, color = MaterialTheme.colors.primary)
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically){
-                Text("Want to register as teacher or psychologist ? ")
+            Row(){
+                Text("Are you psychologist or teacher ? ")
                 Text("Click here !", modifier = Modifier.clickable {
-                    navController.popBackStack()
-                    navController.navigate(NavigationEnum.RegisterScreenActivity.name)
+
+                    navController.navigate(NavigationEnum.RegisterJobActivity.name)
 
                 }, color = MaterialTheme.colors.primary)
             }

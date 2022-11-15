@@ -81,7 +81,7 @@ fun RegisterScreenActivity(navController: NavController, authViewModel: AuthView
     }
     Box(modifier = Modifier
         .fillMaxSize()
-        .padding(10.dp)){
+        .padding(top = 50.dp, start = 10.dp, end = 10.dp)){
         Column(modifier = Modifier
             .padding(10.dp)
             .fillMaxSize() ,horizontalAlignment = Alignment.CenterHorizontally){

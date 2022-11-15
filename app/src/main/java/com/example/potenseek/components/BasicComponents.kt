@@ -14,7 +14,7 @@ import com.example.potenseek.R
 
 @Composable
 fun heading(){
-    Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Logo", modifier= Modifier.scale(1.5f))
+    Image(painter = painterResource(id = R.drawable.logo), contentDescription = "Logo", modifier= Modifier.scale(2.5f))
     Text("Discover your true potential!", modifier = Modifier.padding(top = 10.dp, bottom = 10.dp), fontSize = 17.sp, fontWeight = FontWeight.Bold)
 
 }

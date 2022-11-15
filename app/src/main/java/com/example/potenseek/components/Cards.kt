@@ -19,7 +19,7 @@ fun profileCard(name : String, func : () -> Unit){
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable {
         func()
     }){
-        Image(painter = painterResource(id = R.drawable.ic_launcher_background), modifier = Modifier
+        Image(painter = painterResource(id = R.drawable.unknown), modifier = Modifier
             .width(100.dp)
             .height(100.dp) ,contentDescription = "", contentScale = ContentScale.Fit)
         Text(name)
