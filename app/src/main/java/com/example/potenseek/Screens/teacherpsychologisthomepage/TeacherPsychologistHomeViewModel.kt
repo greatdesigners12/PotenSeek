@@ -46,7 +46,7 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
                 teacherPsychologistDataAll.value = teacherPsychologistData.value
                 Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${teacherPsychologistData.value}")
             }catch (e : Exception) {
-                teacherPsychologistData.value.data = listOf()
+                teacherPsychologistData.value.data = null
                 teacherPsychologistData.value.e = e
                 teacherPsychologistData.value.loading = false
                 Log.d(ContentValues.TAG, "getTeacherPsychologistData: ${e.message}")
@@ -60,7 +60,7 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
                 teacherPsychologistData.value = repository.getTeacherPsychologistData(roleID)
                 Log.d(ContentValues.TAG, "getTeacherPsychologistDataFilter: ${teacherPsychologistData.value}")
             }catch (e : Exception){
-                teacherPsychologistData.value.data = listOf()
+                teacherPsychologistData.value.data = null
                 teacherPsychologistData.value.e = e
                 teacherPsychologistData.value.loading = false
                 Log.d(ContentValues.TAG, "getTeacherPsychologistDataFilterErr: ${e.message}")
@@ -74,7 +74,7 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
                 teacherPsychologistData.value = repository.getTeacherPsychologistData(search)
                 Log.d(ContentValues.TAG, "getTeacherPsychologistDataSearch: ${teacherPsychologistData.value}")
             }catch (e : Exception){
-                teacherPsychologistData.value.data = listOf()
+                teacherPsychologistData.value.data = null
                 teacherPsychologistData.value.e = e
                 teacherPsychologistData.value.loading = false
                 Log.d(ContentValues.TAG, "getTeacherPsychologistDataSearchErr: ${e.message}")
@@ -91,7 +91,7 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
                     "getTeacherPsychologistRoleDataVM: ${teacherPsychologistRoleData.value}"
                 )
             } catch (e: Exception) {
-                teacherPsychologistRoleData.value.data = listOf()
+                teacherPsychologistRoleData.value.data = null
                 teacherPsychologistRoleData.value.e = e
                 teacherPsychologistRoleData.value.loading = false
                 Log.d(ContentValues.TAG, "getTeacherPsychologistRoleDataVMError: ${e.message}")
@@ -108,7 +108,7 @@ class TeacherPsychologistHomeViewModel @Inject constructor(private val repositor
                     "getTeacherPsychologistRoleDataVM: ${whatsHotData.value}"
                 )
             } catch (e: Exception) {
-                whatsHotData.value.data = listOf()
+                whatsHotData.value.data = null
                 whatsHotData.value.e = e
                 whatsHotData.value.loading = false
                 Log.d(ContentValues.TAG, "getTeacherPsychologistRoleDataVMError: ${e.message}")

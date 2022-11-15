@@ -349,7 +349,8 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
                     itemsIndexed(items = teacherPsychologistHomeViewModel.teacherPsychologistData.value.data!!) {index, item ->
                         TeacherPsychologistCard(
                             teacherPsychologist = item,
-                            teacherPsychologistHomeViewModel.teacherPsychologistRoleData.collectAsState().value.data!!
+                            teacherPsychologistHomeViewModel.teacherPsychologistRoleData.collectAsState().value.data!!,
+                            navController
                         )
                     }
                 }

@@ -108,11 +108,11 @@ class TeacherPsychologistRepository @Inject constructor(private val query : Fire
         return dataWrapper
     }
 
-    suspend fun getSchedule(id: String, date: String) : FirebaseWrapper<List<TPSchedule>, Boolean, java.lang.Exception> {
+    suspend fun getSchedule(tid: String, date: String) : FirebaseWrapper<List<TPSchedule>, Boolean, java.lang.Exception> {
         val dataWrapper = FirebaseWrapper<List<TPSchedule>, Boolean, java.lang.Exception>(null, true, null)
 
         try{
-            dataWrapper.data = query.collection("TeacherPsychologistData").document(id).collection("Schedule").whereEqualTo("date", date).get().await().toObjects(
+            dataWrapper.data = query.collection("Schedule").whereEqualTo("teapsyUID", tid).whereEqualTo("date", date).get().await().toObjects(
                 TPSchedule::class.java)
             dataWrapper.loading = false
             Log.d(ContentValues.TAG, "getScheduleData: ${dataWrapper.data}")
@@ -137,6 +137,119 @@ class TeacherPsychologistRepository @Inject constructor(private val query : Fire
             dataWrapper.e = e
             dataWrapper.loading = false
             Log.d(ContentValues.TAG, "getUserDataErr: ${e.message}")
+        }
+        return dataWrapper
+    }
+
+    suspend fun getParentsData() : FirebaseWrapper<List<ParentProfile>, Boolean, Exception>{
+        val dataWrapper = FirebaseWrapper<List<ParentProfile>, Boolean, java.lang.Exception>(null, true, null)
+        try{
+            dataWrapper.data = query.collection("UserData").whereEqualTo("role", "parent").get().await().toObjects(
+                ParentProfile::class.java)
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getParentsData: ${dataWrapper.data}")
+        }catch(e : Exception){
+
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getParentsDataErr: ${e.message}")
+        }
+        return dataWrapper
+    }
+
+    suspend fun getParentsID(name: String) : FirebaseWrapper<String, Boolean, Exception>{
+        val dataWrapper = FirebaseWrapper<String, Boolean, java.lang.Exception>(null, true, null)
+        try{
+            query.collection("UserData").whereEqualTo("name", name).whereEqualTo("role", "parent").get().addOnCompleteListener {
+                dataWrapper.data = it.result.documents.first().id
+            }
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getParentsIDData: ${dataWrapper.data}")
+        }catch(e : Exception){
+
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getParentsIDDataErr: ${e.message}")
+        }
+        return dataWrapper
+    }
+
+    suspend fun getChildID(name: String, pID: String) : FirebaseWrapper<String, Boolean, Exception>{
+        val dataWrapper = FirebaseWrapper<String, Boolean, java.lang.Exception>(null, true, null)
+        try{
+            query.collection("ChildData").whereEqualTo("name", name).whereEqualTo("parentId", pID).get().addOnCompleteListener {
+                dataWrapper.data = it.result.documents.first().id
+            }
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getChildIDData: ${dataWrapper.data}")
+        }catch(e : Exception){
+
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getChildIDDataErr: ${e.message}")
+        }
+        return dataWrapper
+    }
+
+
+    suspend fun deleteSchedule(childUID: String, parentUID: String, teapsyUID: String, title: String) : FirebaseWrapper<String, Boolean, Exception>{
+        val dataWrapper = FirebaseWrapper<String, Boolean, java.lang.Exception>(null, true, null)
+        try{
+            query.collection("Schedule").whereEqualTo("childUID", childUID).whereEqualTo("parentUID", parentUID).whereEqualTo("teapsyUID", teapsyUID).whereEqualTo("title", title).get().addOnCompleteListener {
+                query.collection("Schedule").document(it.result.documents.first().id).delete()
+            }
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getChildIDData: ${dataWrapper.data}")
+        }catch(e : Exception){
+
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getChildIDDataErr: ${e.message}")
+        }
+        return dataWrapper
+    }
+
+    suspend fun createSchedule(childUID : String, date : String, hourEnd : String, hourStart : String, isOffline : Boolean, parentUID : String, teapsyUID : String, title : String) : FirebaseWrapper<String, Boolean, Exception>{
+        val dataWrapper = FirebaseWrapper<String, Boolean, java.lang.Exception>("", true, null)
+        try{
+            val schedule = hashMapOf(
+                "childUID" to childUID,
+                "date" to date,
+                "hourEnd" to hourEnd,
+                "hourStart" to hourStart,
+                "isOffline" to isOffline,
+                "parentUID" to parentUID,
+                "teapsyUID" to teapsyUID,
+                "title" to title,
+                "with" to "Gary"
+            )
+
+            query.collection("Schedule").add(schedule)
+            dataWrapper.data = "success"
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "createScheduleData: ${dataWrapper.data}")
+        }catch(e : Exception){
+
+            dataWrapper.data = "failed"
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "createScheduleDataErr: ${e.message}")
+        }
+        return dataWrapper
+    }
+
+    suspend fun getParentsChildData(pID: String) : FirebaseWrapper<List<ChildProfile>, Boolean, Exception>{
+        val dataWrapper = FirebaseWrapper<List<ChildProfile>, Boolean, java.lang.Exception>(null, true, null)
+        try{
+            dataWrapper.data = query.collection("ChildData").whereEqualTo("parentId", pID).get().await().toObjects(
+                ChildProfile::class.java)
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getParentsChildDataRep: ${dataWrapper.data}")
+        }catch(e : Exception){
+
+            dataWrapper.e = e
+            dataWrapper.loading = false
+            Log.d(ContentValues.TAG, "getParentsChildDataErrRep: ${e.message}")
         }
         return dataWrapper
     }

@@ -11,6 +11,8 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val Coral = Color(0xFFFF4E47)
+val Close = Color(0xFFD63A3A)
+val Save = Color(0xFF4AB337)
 val Red700 = Color(0xFFAD0000)
 val Red800 = Color(0xFFA71913)
 val Brown700 = Color(0xFF523838)

@@ -32,7 +32,7 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel(),
                   teacherScheduleViewModel: TeacherScheduleViewModel = viewModel()
 ) {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = NavigationEnum.TeacherPsychologistHomeActivity.name){
+    NavHost(navController, startDestination = NavigationEnum.TeacherScheduleActivity.name){
         composable(NavigationEnum.SplashScreenActivity.name){
             SplashScreenActivity(navController)
         }

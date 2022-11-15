@@ -3,6 +3,7 @@ package com.example.potenseek.components
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -22,8 +23,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.potenseek.Model.*
+import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.R
+import com.example.potenseek.Screens.schedule.TeacherScheduleViewModel
 import com.example.potenseek.Screens.teacherpsychologisthomepage.TeacherPsychologistHomeViewModel
 import com.example.potenseek.Screens.ui.theme.*
 import java.text.NumberFormat
@@ -42,7 +46,7 @@ fun profileCard(name : String){
 }
 
 @Composable
-fun TeacherScheduleCard(tpSchedule: TPSchedule) {
+fun TeacherScheduleCard(tpSchedule: TPSchedule, teacherScheduleViewModel: TeacherScheduleViewModel) {
     Surface(
         modifier = Modifier
             .padding(16.dp, 8.dp, 16.dp, 16.dp)
@@ -64,30 +68,33 @@ fun TeacherScheduleCard(tpSchedule: TPSchedule) {
                 modifier = Modifier
                     .fillMaxWidth(0.865f)) {
                 androidx.compose.material3.Text(
-                    text = tpSchedule.from + " - " + tpSchedule.to,
+                    text = tpSchedule.hourStart + " - " + tpSchedule.hourEnd,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier
                         .padding(12.dp, 0.dp, 0.dp, 0.dp)
                 )
                 androidx.compose.material3.Text(
-                    text = tpSchedule.place + " with " + tpSchedule.with,
+                    text = tpSchedule.title!!,
                     fontSize = 17.sp,
                     modifier = Modifier
                         .padding(12.dp, 0.dp, 0.dp, 0.dp)
                 )
             }
-            Image(painter = painterResource(id = R.drawable.ic_baseline_close_24), contentDescription = "Add", modifier = Modifier
+            Image(painter = painterResource(id = R.drawable.ic_baseline_close_24), contentDescription = "Delete", modifier = Modifier
                 .height(36.dp)
                 .width(48.dp)
-                .padding(0.dp, 0.dp, 12.dp, 0.dp))
+                .padding(0.dp, 0.dp, 12.dp, 0.dp)
+                .clickable {
+                    teacherScheduleViewModel.deleteSchedule(tpSchedule)
+                })
         }
 
     }
 }
 
 @Composable
-fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist, teacherPsychologistRole: List<TeacherPsychologistRole>) {
+fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist, teacherPsychologistRole: List<TeacherPsychologistRole>, navController: NavController) {
     var rating = ((teacherPsychologist.totalRating!! / teacherPsychologist.totalParentsRating!!) * 100.0).roundToInt() / 100.0
     var bgcolor: Color
 
@@ -200,7 +207,7 @@ fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist, teacherPsy
                     }
                     Spacer(modifier = Modifier.width(4.dp))
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {},
                         modifier = Modifier,
                         shape = RoundedCornerShape(25.dp),
                         colors = ButtonDefaults.buttonColors(
