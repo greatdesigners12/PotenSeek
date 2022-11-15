@@ -43,7 +43,15 @@ class AuthViewModel @Inject constructor(private val authRepository : AuthReposit
     fun register(email : String, password : String){
 
         viewModelScope.launch(Dispatchers.IO){
-            data.value = authRepository.register(email, password)
+            data.value = authRepository.register(email, password, "parent")
+
+        }
+    }
+
+    fun registerJob(email : String, password : String, fullName : String, role : String){
+
+        viewModelScope.launch(Dispatchers.IO){
+            data.value = authRepository.registerJob(email, password, fullName, role)
 
         }
     }

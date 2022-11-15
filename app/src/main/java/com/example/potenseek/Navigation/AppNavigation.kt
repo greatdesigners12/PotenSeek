@@ -6,7 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.potenseek.Screens.SplashScreenActivity
+
+import com.example.potenseek.Screens.anak.homepageanak
 import com.example.potenseek.Screens.authentication.*
+import com.example.potenseek.Screens.homeortu.HomeortuScreen
 import com.example.potenseek.Screens.homepage.HomeScreenActivity
 
 @Composable
@@ -35,6 +38,18 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel(), profileViewModel: 
 
         composable(NavigationEnum.HomeScreenActivity.name){
             HomeScreenActivity(navController)
+        }
+
+        composable(NavigationEnum.HomePageAnakActivity.name){
+            homepageanak()
+        }
+
+        composable(NavigationEnum.HomeParentActivity.name){
+            HomeortuScreen()
+        }
+
+        composable(NavigationEnum.RegisterJobActivity.name){
+            RegisterJobActivity(navController, authViewModel)
         }
     }
 }

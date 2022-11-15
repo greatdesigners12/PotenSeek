@@ -6,5 +6,8 @@ enum class NavigationEnum {
     RegisterScreenActivity,
     HomeScreenActivity,
     InputUserDetailActivity,
-    ChooseProfileActivity
+    ChooseProfileActivity,
+    HomePageAnakActivity,
+    HomeParentActivity,
+    RegisterJobActivity
 }

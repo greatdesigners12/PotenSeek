@@ -25,7 +25,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Screens.anak.snakeGameActivity"
+            android:name=".Screens.anak.gamessample.snakeGameActivity"
             android:exported="false"
             android:label="@string/title_activity_snake_game"
             android:theme="@style/Theme.PotenSeek">

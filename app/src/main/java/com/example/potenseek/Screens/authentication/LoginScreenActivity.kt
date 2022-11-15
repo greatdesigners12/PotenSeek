@@ -27,6 +27,7 @@ import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.R
 import com.example.potenseek.Utils.FirebaseWrapper
 import com.example.potenseek.components.*
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewModel) {
@@ -66,6 +67,10 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
             navController.navigate(NavigationEnum.InputUserDetailActivity.name)
 
 
+        }
+
+        if(FirebaseAuth.getInstance().currentUser != null){
+            navController.navigate(NavigationEnum.InputUserDetailActivity.name)
         }
 
 
@@ -119,6 +124,15 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
             Row(verticalAlignment = Alignment.CenterVertically){
                 Text("Don't have any account ? ")
                 Text("Create a new one !", modifier = Modifier.clickable {
+                    navController.popBackStack()
+                    navController.navigate(NavigationEnum.RegisterScreenActivity.name)
+
+                }, color = MaterialTheme.colors.primary)
+            }
+
+            Row(verticalAlignment = Alignment.CenterVertically){
+                Text("Want to register as teacher or psychologist ? ")
+                Text("Click here !", modifier = Modifier.clickable {
                     navController.popBackStack()
                     navController.navigate(NavigationEnum.RegisterScreenActivity.name)
 

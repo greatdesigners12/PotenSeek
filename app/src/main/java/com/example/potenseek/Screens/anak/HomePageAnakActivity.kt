@@ -1,5 +1,6 @@
 package com.example.potenseek.Screens.anak
 
+import android.content.Intent
 import android.graphics.Color.parseColor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,6 +11,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -23,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -31,32 +36,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.potenseek.R
+import com.example.potenseek.Screens.anak.gamessample.snakeGameActivity
 import com.example.potenseek.ui.theme.PotenSeekTheme
 import kotlinx.coroutines.launch
 
 
-class HomePageAnakActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PotenSeekTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.primary
-                ) {
-                    homepageanak()
-                }
-            }
-        }
-    }
-}
-
 //hexcode color
 val String.color get() = Color(parseColor(this))
 
-@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun homepageanak() {
 
@@ -231,7 +218,7 @@ fun recentgames(){
 
             //recent game lazyrow
             LazyVerticalGrid(
-                cells = GridCells.Fixed(4),
+                columns = GridCells.Fixed(4),
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -267,6 +254,7 @@ fun games(){
     data.add(dummy)
     data.add(dummy)
     data.add(dummy)
+    val context = LocalContext.current
 
     Column(){
         Text(
@@ -277,7 +265,7 @@ fun games(){
         )
         //game array
         LazyVerticalGrid(
-            cells = GridCells.Fixed(4),
+            columns = GridCells.Fixed(4),
             modifier = Modifier.padding(vertical = 8.dp, horizontal = 24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -287,7 +275,9 @@ fun games(){
                     Image(
                         painter = painterResource(id = R.drawable.ic_launcher_background),
                         contentDescription = "GameIcon",
-                        modifier = Modifier.clip(RoundedCornerShape(10.dp))
+                        modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable {
+                            context.startActivity(Intent(context, snakeGameActivity::class.java))
+                        }
                     )
                     Text(text = game.title)
                 }

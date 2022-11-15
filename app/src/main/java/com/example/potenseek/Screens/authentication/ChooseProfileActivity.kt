@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.potenseek.Model.ChildProfile
+import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.R
 import com.example.potenseek.components.heading
 import com.example.potenseek.components.profileCard
@@ -29,32 +31,40 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
         mutableStateOf(true)
     }
 
-
-
     val childSectionLoading = remember{
         mutableStateOf(true)
     }
+
+    val childData = remember{
+        mutableStateOf<List<ChildProfile>>(listOf<ChildProfile>())
+    }
+
+
+
     LaunchedEffect(key1 = profileViewModel.parentData.collectAsState().value.data){
         profileViewModel.getChildData()
+        profileViewModel.getParentData()
         Log.d(TAG, "chooseAccountActivity: ${profileViewModel.parentData.value.data}")
         if(profileViewModel.parentData.value.data != null){
             parentSectionLoading.value = false
         }
 
     }
-    LaunchedEffect(key1 =  profileViewModel.childData.collectAsState().value.data){
-        profileViewModel.getParentData()
-        Log.d(TAG, "chooseAccountActivity: ${profileViewModel.childData.value.data}")
-        if(profileViewModel.childData.value.data != null){
-            childSectionLoading.value = false
-        }
+
+    LaunchedEffect(key1 = profileViewModel.childData.collectAsState().value){
+        childData.value = profileViewModel.childData.value
+        childSectionLoading.value = false
     }
+
+
     Column(modifier = Modifier.fillMaxSize() ,verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
         heading()
         Text("Orang tua", fontWeight = FontWeight.Bold, fontSize = 25.sp)
         if(!parentSectionLoading.value){
             Row(){
-                profileCard(name = profileViewModel.parentData.collectAsState().value.data!!.parentName!!)
+                profileCard(name = profileViewModel.parentData.collectAsState().value.data!!.name!!){
+                    navController.navigate(NavigationEnum.HomeParentActivity.name)
+                }
 
             }
         }else{
@@ -66,8 +76,11 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
         Text("Anak", fontWeight = FontWeight.Bold, fontSize = 25.sp)
         if(!childSectionLoading.value){
             LazyRow{
-                items(items = profileViewModel.childData.value.data!!){child ->
-                    profileCard(child.name!!)
+                items(items = childData.value){child ->
+                    profileCard(child.name!!){
+                        navController.navigate(NavigationEnum.HomePageAnakActivity.name)
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
                 }
             }
         }else{

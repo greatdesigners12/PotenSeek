@@ -12,6 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.potenseek.Navigation.AppNavigation
 import com.example.potenseek.Screens.authentication.AuthViewModel
+import com.example.potenseek.Screens.homeortu.HomeortuScreen
+import com.example.potenseek.Screens.profileanak.ProfileanakScreen
+import com.example.potenseek.Screens.schedule.ScheduleScreen
+import com.example.potenseek.Screens.statistics.StatisticScreen
 import com.example.potenseek.ui.theme.PotenSeekTheme
 import dagger.hilt.android.AndroidEntryPoint
 

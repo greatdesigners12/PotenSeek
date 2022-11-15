@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object AppModule {
     @Singleton
     @Provides
-    fun provideAuthRepository() : AuthRepository = AuthRepository(query = FirebaseAuth.getInstance())
+    fun provideAuthRepository() : AuthRepository = AuthRepository(query = FirebaseAuth.getInstance(), firestore = FirebaseFirestore.getInstance())
 
     @Singleton
     @Provides

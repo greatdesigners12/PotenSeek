@@ -3,6 +3,7 @@ package com.example.potenseek.Screens.authentication
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -72,7 +73,7 @@ fun inputUserDetailActivity(navController: NavController, viewModel: ProfileView
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize() ,horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+    Column(modifier = Modifier.fillMaxSize().padding(20.dp) ,horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
         Text("ISI DATA DIRI", fontWeight = FontWeight.Bold, fontSize = 25.sp)
         basicInputField("Nama Orang Tua" ,inputValue = parentName.value){
             parentName.value = it
@@ -95,7 +96,7 @@ fun inputUserDetailActivity(navController: NavController, viewModel: ProfileView
         }) {
             loading.value = true
             if(parentName.value.isNotEmpty() && childName.value.isNotEmpty() && childAge.value != ""){
-                viewModel.createProfile(parentName.value, childName.value, childAge.value.toInt())
+                viewModel.createProfile(parentName.value, "parent",childName.value, childAge.value.toInt())
             }else{
                 customErrorMsg.value = "All input mustn't be empty"
             }
