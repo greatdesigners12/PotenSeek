@@ -30,6 +30,7 @@ import com.example.potenseek.R
 import com.example.potenseek.Screens.schedule.TeacherScheduleViewModel
 import com.example.potenseek.Screens.teacherpsychologisthomepage.TeacherPsychologistHomeViewModel
 import com.example.potenseek.Screens.ui.theme.*
+import com.example.potenseek.helper.GlobalVar
 import java.text.NumberFormat
 import java.time.LocalDateTime
 import java.util.*
@@ -49,7 +50,7 @@ fun profileCard(name : String){
 fun TeacherScheduleCard(tpSchedule: TPSchedule, teacherScheduleViewModel: TeacherScheduleViewModel) {
     Surface(
         modifier = Modifier
-            .padding(16.dp, 8.dp, 16.dp, 16.dp)
+            .padding(16.dp, 8.dp, 16.dp, 4.dp)
             .fillMaxWidth()
             .background(color = GreyBackground),
         shape = RoundedCornerShape(12.dp),
@@ -86,7 +87,7 @@ fun TeacherScheduleCard(tpSchedule: TPSchedule, teacherScheduleViewModel: Teache
                 .width(48.dp)
                 .padding(0.dp, 0.dp, 12.dp, 0.dp)
                 .clickable {
-                    teacherScheduleViewModel.deleteSchedule(tpSchedule)
+                    GlobalVar.scheduleList.remove(tpSchedule)
                 })
         }
 
