@@ -1,5 +1,6 @@
 package com.example.potenseek.Screens.profileanak
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -15,11 +16,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.potenseek.R
 import com.example.potenseek.ui.theme.*
 
 @Composable
@@ -65,12 +69,14 @@ fun ProfileanakScreen(
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Row() {
-                    Box(
-                        modifier = Modifier
-                            .size(120.dp)
-                            .padding(16.dp)
-                            .background(Color.Black)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.rectangle_2),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(140.dp).padding(16.dp)
                     )
                     Column() {
                         Text(
@@ -124,11 +130,11 @@ fun ProfileanakScreen(
                 elevation = 8.dp
             ) {
                 Row() {
-                    Box(
-                        modifier = Modifier
-                            .size(120.dp)
-                            .padding(16.dp)
-                            .background(Color.Black)
+                    Image(
+                        painter = painterResource(id = R.drawable.rectangle_23),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier.size(120.dp).padding(16.dp)
                     )
                     Column() {
                         Row(
@@ -221,11 +227,11 @@ fun ProfileanakScreen(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(50.dp)
-                                .padding(16.dp)
-                                .background(Color.Black)
+                        Image(
+                            painter = painterResource(id = R.drawable.frame_icon_game_dummy),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.size(80.dp).padding(16.dp)
                         )
                         Text(
                             text = gameStat.title,
@@ -254,11 +260,11 @@ fun ProfileanakScreen(
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(16.dp)
-                                    .background(Color.Black)
+                            Image(
+                                painter = painterResource(id = R.drawable.frame_icon_game_dummy),
+                                contentDescription = null,
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier.size(80.dp).padding(16.dp)
                             )
                             Text(
                                 text = gameStat.title,
@@ -288,11 +294,11 @@ fun ProfileanakScreen(
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .padding(16.dp)
-                                    .background(Color.Black)
+                            Image(
+                                painter = painterResource(id = R.drawable.frame_icon_game_dummy),
+                                contentDescription = null,
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier.size(80.dp).padding(16.dp)
                             )
                             Text(
                                 text = gameStat.title,
