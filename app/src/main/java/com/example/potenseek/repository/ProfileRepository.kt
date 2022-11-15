@@ -79,9 +79,28 @@ class ProfileRepository @Inject constructor(private val query : FirebaseFirestor
         try{
             Log.d(TAG, "checkIfUserDataExist: brooo")
             val childData = query.collection("ChildData").whereEqualTo("parentId", queryAuth.uid.toString()).get().await().isEmpty
-            val parentData = query.collection("UserData").document(queryAuth.uid.toString()).get().await().exists()
+            val parentData = query.collection("UserData").document(queryAuth.uid.toString()).get().await()
 
-            if(!childData && parentData){
+            if(!childData && parentData.exists() && (parentData.data?.get("role") != "Teacher" || parentData.data?.get("role") != "Psychologist")){
+                dataWrapper.data = "exist"
+            }else{
+                dataWrapper.data = "not exist"
+            }
+            dataWrapper.loading = false
+        }catch(e : Exception){
+            dataWrapper.data = "not exist"
+            dataWrapper.e = e
+            dataWrapper.loading = false
+        }
+        return dataWrapper
+    }
+
+    suspend fun checkIfJobExist() : FirebaseWrapper<String, Boolean, java.lang.Exception>{
+        val dataWrapper = FirebaseWrapper<String, Boolean, java.lang.Exception>("", true, null)
+        try{
+            val childData = query.collection("UserData").whereIn("role", listOf("Teacher", "Psychologist")).get().await().isEmpty
+
+            if(!childData){
                 dataWrapper.data = "exist"
             }else{
                 dataWrapper.data = "not exist"

@@ -29,7 +29,7 @@ class ProfileViewModel @Inject constructor(private val repository: ProfileReposi
     var parentData = MutableStateFlow<FirebaseWrapper<Account, Boolean, Exception>>(FirebaseWrapper(null, false, Exception()))
     var childData = MutableStateFlow<ArrayList<ChildProfile>>(ArrayList<ChildProfile>())
     var isExist = MutableStateFlow<FirebaseWrapper<String, Boolean, Exception>>(FirebaseWrapper(null, false, Exception()))
-
+    var isJobExist = MutableStateFlow<FirebaseWrapper<String, Boolean, Exception>>(FirebaseWrapper(null, false, Exception()))
 
 
     fun createProfile(parentName : String, role : String, childName : String, childAge : Int){
@@ -62,6 +62,19 @@ class ProfileViewModel @Inject constructor(private val repository: ProfileReposi
         viewModelScope.launch(Dispatchers.IO) {
             try{
                 isExist.value = repository.checkIfUserDataExist()
+
+            }catch (e : Exception){
+                data.value.data = "not exist"
+                data.value.e = e
+                data.value.loading = false
+            }
+        }
+    }
+
+    fun checkIfUserJobExist(){
+        viewModelScope.launch(Dispatchers.IO) {
+            try{
+                isJobExist.value = repository.checkIfJobExist()
 
             }catch (e : Exception){
                 data.value.data = "not exist"

@@ -46,6 +46,16 @@ fun inputUserDetailActivity(navController: NavController, viewModel: ProfileView
     }
 
 
+    LaunchedEffect(key1 = true){
+        viewModel.checkIfUserJobExist()
+    }
+    LaunchedEffect(key1 = viewModel.isJobExist.collectAsState().value){
+        if(viewModel.isJobExist.value.data == "exist"){
+            navController.navigate(NavigationEnum.TeacherPsychologistHomeActivity.name)
+        }
+    }
+
+
 
     LaunchedEffect(key1 = viewModel.isExist.collectAsState().value.data){
         if(viewModel.isExist.value.data == "exist"){

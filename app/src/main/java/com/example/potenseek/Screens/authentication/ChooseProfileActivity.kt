@@ -41,6 +41,8 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
 
 
 
+
+
     LaunchedEffect(key1 = profileViewModel.parentData.collectAsState().value.data){
         profileViewModel.getChildData()
         profileViewModel.getParentData()
@@ -62,6 +64,7 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
         Text("Orang tua", fontWeight = FontWeight.Bold, fontSize = 25.sp)
         if(!parentSectionLoading.value){
             Row(){
+
                 profileCard(name = profileViewModel.parentData.collectAsState().value.data!!.name!!){
                     navController.navigate(NavigationEnum.HomeParentActivity.name)
                 }

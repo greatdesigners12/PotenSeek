@@ -30,7 +30,7 @@ import com.example.potenseek.components.*
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewModel) {
+fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewModel, profileViewModel: ProfileViewModel) {
     val emailValue = remember{
         mutableStateOf("")
     }
@@ -49,6 +49,10 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
 
     val loading = remember{
         mutableStateOf(false)
+    }
+
+    LaunchedEffect(key1 = true){
+        profileViewModel.checkIfUserJobExist()
     }
 
     LaunchedEffect(key1 = authViewModel.data.collectAsState().value.data){
@@ -75,6 +79,12 @@ fun LoginScreenActivity(navController: NavController, authViewModel : AuthViewMo
 
 
 
+    }
+
+    LaunchedEffect(key1 = profileViewModel.isJobExist.collectAsState().value){
+        if(profileViewModel.isJobExist.value.data == "exist"){
+            navController.navigate(NavigationEnum.TeacherPsychologistHomeActivity.name)
+        }
     }
 
     if(showAlertDialog.value){
