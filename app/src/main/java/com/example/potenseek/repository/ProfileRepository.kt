@@ -20,7 +20,8 @@ class ProfileRepository @Inject constructor(private val query : FirebaseFirestor
         try{
             val data = hashMapOf(
                 "name" to name,
-                "role" to role
+                "role" to role,
+                "pin" to ""
             )
             if(role != "teacher"){
                 val childData = mutableMapOf<String, Any>(

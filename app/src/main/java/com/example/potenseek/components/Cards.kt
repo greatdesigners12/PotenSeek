@@ -29,7 +29,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.potenseek.Model.*
+import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.R
 import com.example.potenseek.Screens.teacherpsychologisthomepage.TeacherPsychologistHomeViewModel
 import com.example.potenseek.Screens.ui.theme.*
@@ -97,7 +99,7 @@ fun TeacherScheduleCard(tpSchedule: TPSchedule) {
 }
 
 @Composable
-fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist, teacherPsychologistRole: List<TeacherPsychologistRole>) {
+fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist, teacherPsychologistRole: List<TeacherPsychologistRole>, navController: NavController) {
     var rating = ((teacherPsychologist.totalRating!! / teacherPsychologist.totalParentsRating!!) * 100.0).roundToInt() / 100.0
     var bgcolor: Color
 
@@ -210,7 +212,7 @@ fun TeacherPsychologistCard(teacherPsychologist: TeacherPsychologist, teacherPsy
                     }
                     Spacer(modifier = Modifier.width(4.dp))
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = { navController.navigate(NavigationEnum.TeacherEditProfileActivity.name) },
                         modifier = Modifier,
                         shape = RoundedCornerShape(25.dp),
                         colors = ButtonDefaults.buttonColors(

@@ -1,6 +1,7 @@
 package com.example.potenseek.Navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -9,6 +10,7 @@ import com.example.potenseek.Screens.Settings
 import com.example.potenseek.Screens.SplashScreenActivity
 
 import com.example.potenseek.Screens.anak.homepageanak
+import com.example.potenseek.Screens.anak.profile
 import com.example.potenseek.Screens.authentication.*
 import com.example.potenseek.Screens.homeortu.HomeortuScreen
 
@@ -20,13 +22,18 @@ import com.example.potenseek.Screens.authentication.RegisterScreenActivity
 import com.example.potenseek.Screens.authentication.*
 import com.example.potenseek.Screens.editprofile.TeacherEditProfile
 import com.example.potenseek.Screens.editprofile.TeacherEditProfileViewModel
+import com.example.potenseek.Screens.homeortu.HomeortuViewModel
 
 import com.example.potenseek.Screens.homepage.HomeScreenActivity
 import com.example.potenseek.Screens.inbox.Inbox
 import com.example.potenseek.Screens.inbox.InboxActivity
 import com.example.potenseek.Screens.inbox.InboxViewModel
+import com.example.potenseek.Screens.profileanak.ProfileanakScreen
+import com.example.potenseek.Screens.profileanak.ProfileanakViewModel
 import com.example.potenseek.Screens.schedule.TeacherSchedule
 import com.example.potenseek.Screens.schedule.TeacherScheduleViewModel
+import com.example.potenseek.Screens.statistics.StatisticScreen
+import com.example.potenseek.Screens.statistics.StatisticViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 
 @Composable
@@ -35,7 +42,12 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel(),
                   teacherPsychologistHomeViewModel: TeacherPsychologistHomeViewModel = viewModel(),
                   teacherEditProfileViewModel: TeacherEditProfileViewModel = viewModel(),
                   inboxViewModel: InboxViewModel = viewModel(),
-                  teacherScheduleViewModel: TeacherScheduleViewModel = viewModel()
+                  teacherScheduleViewModel: TeacherScheduleViewModel = viewModel(),
+                  profileanakViewModel: ProfileanakViewModel = viewModel(),
+                  statisticViewModel: StatisticViewModel = hiltViewModel(),
+                  homeOrtuViewModel: HomeortuViewModel = hiltViewModel(),
+
+
 ) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = NavigationEnum.SplashScreenActivity.name){
@@ -84,15 +96,32 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel(),
         }
 
         composable(NavigationEnum.HomePageAnakActivity.name){
-            homepageanak()
+            homepageanak(navController)
         }
 
         composable(NavigationEnum.HomeParentActivity.name){
-            HomeortuScreen()
+            HomeortuScreen( navController, homeOrtuViewModel )
         }
 
         composable(NavigationEnum.RegisterJobActivity.name){
             RegisterJobActivity(navController, authViewModel)
         }
+
+        composable(NavigationEnum.ProfileAnakActivity.name){
+            profile(navController)
+        }
+
+        composable(NavigationEnum.StatisticActivity.name){
+            StatisticScreen( statisticViewModel, navController)
+        }
+
+        composable(NavigationEnum.StatisticActivity.name){
+            StatisticScreen( statisticViewModel, navController)
+        }
+
+        composable(NavigationEnum.TeacherEditProfileActivity.name){
+            TeacherEditProfile(navController = navController, teacherEditProfileViewModel = teacherEditProfileViewModel)
+        }
+
     }
 }

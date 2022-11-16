@@ -20,7 +20,7 @@
         android:theme="@style/Theme.PotenSeek"
         tools:targetApi="31" >
         <activity
-            android:name=".TeacherEditProfileActivity"
+            android:name=".Screens.editprofile.TeacherEditProfileActivity"
             android:exported="false"
             android:label="@string/title_activity_teacher_edit_profile"
             android:theme="@style/Theme.PotenSeek" >
@@ -38,9 +38,9 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".friendlistActivity"
+            android:name=".Screens.anak.gamessample.twenty.ui.twentyGameActivity"
             android:exported="false"
-            android:label="@string/title_activity_friendlist"
+            android:label="twentyGameActivity"
             android:theme="@style/Theme.PotenSeek">
             <meta-data
                 android:name="android.app.lib_name"

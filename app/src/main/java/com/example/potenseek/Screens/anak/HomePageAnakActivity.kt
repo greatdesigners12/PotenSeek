@@ -5,10 +5,7 @@ import android.graphics.Color.parseColor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,12 +18,13 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,18 +33,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.R
 import com.example.potenseek.Screens.anak.gamessample.snakeGameActivity
+import com.example.potenseek.Screens.anak.gamessample.twenty.ui.twentyGameActivity
+import com.example.potenseek.models.GamesPlayed
+import com.example.potenseek.models.gmsplayed
 import com.example.potenseek.ui.theme.PotenSeekTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 
 //hexcode color
 val String.color get() = Color(parseColor(this))
 
-@Composable
-fun homepageanak() {
 
+@Composable
+fun homepageanak(navController: NavController) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    var selectedText = remember { mutableStateOf("") }
+    val dropDownMenu = remember{
+        mutableStateOf(false)
+    }
     PotenSeekTheme {
         val drawerState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
@@ -62,14 +73,15 @@ fun homepageanak() {
                     verticalArrangement = Arrangement.SpaceBetween) {
 
                     //All elements
-                    Column {
+                    Column(modifier = Modifier.padding(top = 24.dp)) {
 
                         Image(
-                            painter = painterResource(id = R.drawable.ic_launcher_background),
+                            painter = painterResource(id = R.drawable.logo),
                             contentDescription = "PotenSeek",
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 8.dp, horizontal = 24.dp),
+                                .padding(vertical = 8.dp)
+                                .size(100.dp),
                         )
                         Row(modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp)) {
                             Text(
@@ -124,20 +136,9 @@ fun homepageanak() {
                         modifier = Modifier
                             .weight(1f, false)
                     ) {
-                        Text(
-                            text = "Account",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 22.sp,
-                            modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp)
-                        )
-                        Text(
-                            text = "Logout",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 22.sp,
-                            modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp)
-                        )
+
+
+
                     }
                 }
             }
@@ -151,46 +152,101 @@ fun homepageanak() {
                         .padding(start = 0.dp, top = 20.dp, end = 0.dp, bottom = 0.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
-                    Card(
-                        shape = RoundedCornerShape(100.dp),
-                        backgroundColor = MaterialTheme.colors.surface,
-                        modifier = Modifier
-                            .padding(vertical = 1.dp, horizontal = 24.dp)
-                            .size(width = 300.dp, height = 50.dp)
-                    ) {
-                        Row(
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
+                        Card(
+                            shape = RoundedCornerShape(100.dp),
+                            backgroundColor = MaterialTheme.colors.surface,
                             modifier = Modifier
-                                .height(200.dp)
-                                .padding(8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ){
-                            Icon(
-                                Icons.Default.Menu,
-                                null,
+                                .padding(vertical = 1.dp, horizontal = 24.dp)
+                                .size(width = 300.dp, height = 50.dp)
+                        ) {
+                            Row(
                                 modifier = Modifier
-                                    .clickable {
-                                        scope.launch {
-                                            drawerState.apply {
-                                                if (isClosed) open() else close()
+                                    .height(200.dp)
+                                    .padding(8.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ){
+                                Icon(
+                                    Icons.Default.Menu,
+                                    null,
+                                    modifier = Modifier
+                                        .clickable {
+                                            scope.launch {
+                                                drawerState.apply {
+                                                    if (isClosed) open() else close()
+                                                }
                                             }
                                         }
-                                    }
-                                    .size(50.dp, 50.dp),
-                            )
-                            Text(text = "This is a search bar",
-                                fontSize = 16.sp,
-                                style = MaterialTheme.typography.h4)
-                            Image(
-                                modifier = Modifier
-                                    .size(50.dp, 50.dp),
-                                painter = painterResource(id = R.drawable.ic_launcher_background),
-                                contentDescription = "PotenSeek",
-                            )
+                                        .size(50.dp, 50.dp),
+                                )
+
+                                Text(text = "Search...",
+                                    fontSize = 16.sp,
+                                    style = MaterialTheme.typography.h4)
+
+                                Image(
+                                    modifier = Modifier
+                                        .size(50.dp, 50.dp)
+                                        .clickable {
+
+
+                                            dropDownMenu.value = true
+                                        },
+                                    painter = painterResource(id = R.drawable.bigprofile),
+                                    contentDescription = "PotenSeek",
+                                )
+
+
+                            }
+
+
+                        }
+
+
+                     }
+
+                    }
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
+                    Box(modifier = Modifier.width(150.dp)){
+                        DropdownMenu(
+                            expanded = dropDownMenu.value,
+                            onDismissRequest = { dropDownMenu.value = false },
+                            modifier = Modifier.width(150.dp)) {
+                            DropdownMenuItem(onClick = {
+
+                                selectedText.value = "Profile"
+                                if(selectedText.value == "Account"){
+                                    navController.navigate(NavigationEnum.ProfileAnakActivity.name)
+                                }else{
+                                    navController.popBackStack()
+                                }
+                                dropDownMenu.value = false
+                            }) {
+
+                                Text(text = "Account")
+                            }
+                            DropdownMenuItem(onClick = {
+                                selectedText.value = "different"
+                                if(selectedText.value == "Account"){
+                                    navController.navigate(NavigationEnum.ChooseProfileActivity.name)
+                                }else{
+                                    navController.popBackStack()
+                                    navController.navigate(NavigationEnum.ChooseProfileActivity.name)
+
+                                }
+                                dropDownMenu.value = false
+                            }) {
+
+                                Text(text = "Switch Account")
+                            }
+
                         }
                     }
+
                 }
-                recentgames()
+
+
                 games()
             }
         }
@@ -206,6 +262,8 @@ fun recentgames(){
     var data = ArrayList<recentGame>()
     var dummy = recentGame("dummy")
     data.add(dummy)
+    val context = LocalContext.current
+
 
     if(!data.isEmpty()){
         Column(){
@@ -226,9 +284,20 @@ fun recentgames(){
                 items(data) { game ->
                     Column() {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_launcher_background),
+                            painter = painterResource(id = R.drawable.icongame),
                             contentDescription = "GameIcon",
-                            modifier = Modifier.clip(RoundedCornerShape(10.dp))
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(10.dp))
+                                .clickable {
+                                    context.startActivity(
+                                        Intent(
+                                            context,
+                                            snakeGameActivity::class.java
+                                        )
+                                    )
+                                }
+                                .size(80.dp)
                         )
                         Text(
                             text = game.title,
@@ -245,18 +314,18 @@ fun recentgames(){
 @Composable
 fun games(){
 
-    //dummy data
-    class recentGame(var title : String)
+    //disini tambah gamenya lex
+
+    class recentGame(var title : String, var activityname: String)
     var data = ArrayList<recentGame>()
-    var dummy = recentGame("dummy")
-    data.add(dummy)
-    data.add(dummy)
-    data.add(dummy)
-    data.add(dummy)
-    data.add(dummy)
+    var snake = recentGame("Snake", "snakeGameActivity")
+    var twenty = recentGame("2048", "twentyGameActivity")
+    data.add(snake)
+    data.add(twenty)
+    //insert games here
     val context = LocalContext.current
 
-    Column(){
+    Column(modifier = Modifier.padding(top = 18.dp)){
         Text(
             text = "Games",
             fontWeight = FontWeight.Bold,
@@ -272,19 +341,105 @@ fun games(){
         ){
             items(data) { game ->
                 Column() {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
-                        contentDescription = "GameIcon",
-                        modifier = Modifier.clip(RoundedCornerShape(10.dp)).clickable {
-                            context.startActivity(Intent(context, snakeGameActivity::class.java))
-                        }
-                    )
-                    Text(text = game.title)
+                    if(game.activityname == "snakeGameActivity"){
+                        Image(
+                            painter = painterResource(id = R.drawable.snakgame),
+                            contentDescription = "GameIcon",
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(10.dp))
+                                .clickable {
+                                    val gamess = gmsplayed.games
+                                    var test: MutableList<GamesPlayed> =
+                                        emptyList<GamesPlayed>().toMutableList()
+                                    for (i in gamess) {
+                                        if (i.title == "Snake") {
+                                            test.add(i)
+                                        }
+                                    }
+                                    if (test.isNotEmpty()) {
+                                        var j = 0
+                                        for (i in gamess) {
+                                            if (i.title == "Snake") {
+                                                val atmptnew = i.attemptTotal + 1
+                                                var updte = GamesPlayed(
+                                                    i.title,
+                                                    i.hours,
+                                                    atmptnew,
+                                                    i.attemptPass
+                                                )
+                                                gmsplayed.games.set(j, updte)
+                                            }
+                                            j++
+                                        }
+                                    } else {
+                                        var snake = GamesPlayed("Snake", 2, 4, 20)
+                                        gmsplayed.games.add(snake)
+                                    }
+
+                                    context.startActivity(
+                                        Intent(
+                                            context,
+                                            snakeGameActivity::class.java
+                                        )
+                                    )
+                                }
+                                .size(80.dp)
+                        )
+
+                        Text(text = game.title)
+                    }else if(game.activityname == "twentyGameActivity"){
+                        Image(
+                            painter = painterResource(id = R.drawable.twentygame),
+                            contentDescription = "GameIcon",
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(10.dp))
+                                .clickable {
+                                    val gamess = gmsplayed.games
+                                    var test: MutableList<GamesPlayed> =
+                                        emptyList<GamesPlayed>().toMutableList()
+                                    for (i in gamess) {
+                                        if (i.title == "2048") {
+                                            test.add(i)
+                                        }
+                                    }
+                                    if (test.isNotEmpty()) {
+                                        var j = 0
+                                        for (i in gamess) {
+                                            if (i.title == "2048") {
+                                                val atmptnew = i.attemptTotal + 1
+                                                var updte = GamesPlayed(
+                                                    i.title,
+                                                    i.hours,
+                                                    atmptnew,
+                                                    i.attemptPass
+                                                )
+                                                gmsplayed.games[j] = updte
+                                            }
+                                            j++
+                                        }
+                                    } else {
+                                        var twenty = GamesPlayed("2048", 1, 2, 13)
+                                        gmsplayed.games.add(twenty)
+                                    }
+
+                                    context.startActivity(
+                                        Intent(
+                                            context,
+                                            twentyGameActivity::class.java
+                                        )
+                                    )
+                                }
+                                .size(80.dp)
+                                .border(BorderStroke(5.dp, SolidColor("#e6e6e6".color)))
+                        )
+                        Text(text = game.title)
+                    }
                 }
             }
         }
     }
 }
-
 
 

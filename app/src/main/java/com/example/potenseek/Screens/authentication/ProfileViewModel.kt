@@ -68,7 +68,7 @@ class ProfileViewModel @Inject constructor(private val repository: ProfileReposi
         viewModelScope.launch(Dispatchers.IO) {
             try{
                 isExist.value = repository.checkIfUserDataExist().data
-
+                Log.d(TAG, "a: ${isExist.value}")
             }catch (e : Exception){
                 data.value.data = "not exist"
                 data.value.e = e
@@ -76,6 +76,7 @@ class ProfileViewModel @Inject constructor(private val repository: ProfileReposi
             }
         }
     }
+
 
     fun checkIfUserJobExist(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -93,13 +94,12 @@ class ProfileViewModel @Inject constructor(private val repository: ProfileReposi
 
 
     fun checkIfPinExist(id : String){
+
         viewModelScope.launch(Dispatchers.IO) {
             try{
                 var data = MutableStateFlow<FirebaseWrapper<Boolean?, Boolean, Exception>>(FirebaseWrapper(false, true, Exception()))
                 data.value.data = repository.checkIfPinExist(id).data
                 isPinExist.value = data.value
-
-
             }catch (e : Exception){
                 data.value.data = "not exist"
                 data.value.e = e

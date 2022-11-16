@@ -49,6 +49,8 @@ fun inputUserDetailActivity(navController: NavController, viewModel: ProfileView
 
     LaunchedEffect(key1 = true){
         viewModel.checkIfUserJobExist()
+        navController.popBackStack()
+        navController.navigate(NavigationEnum.ChooseProfileActivity.name)
     }
 
     LaunchedEffect(key1 = viewModel.isJobExist.collectAsState().value){
@@ -94,7 +96,9 @@ fun inputUserDetailActivity(navController: NavController, viewModel: ProfileView
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(20.dp) ,horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+
         Text("ISI DATA DIRI", fontWeight = FontWeight.Bold, fontSize = 25.sp)
+
         basicInputField("Nama Orang Tua", inputValue = parentName.value) {
             parentName.value = it
         }

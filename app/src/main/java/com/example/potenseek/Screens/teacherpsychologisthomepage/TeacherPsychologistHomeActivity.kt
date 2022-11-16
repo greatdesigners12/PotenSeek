@@ -41,6 +41,7 @@ import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.R
 import com.example.potenseek.Screens.ui.theme.*
 import com.example.potenseek.components.TeacherPsychologistCard
+import com.example.potenseek.components.logoutBtn
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -151,23 +152,7 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
                     fontSize = 28.sp,
                     fontWeight = FontWeight.SemiBold
                 )
-                Image(
-                    painter = painterResource(id = R.drawable.ic_baseline_exit), contentDescription = "",
-                    modifier = Modifier
-                        .width(50.dp)
-                        .height(50.dp)
-                        .padding(vertical = 10.dp)
-                        .padding(end = 20.dp)
-                        .clickable {
-
-                            Firebase.auth.signOut()
-
-                            navController.popBackStack()
-                            navController.navigate(NavigationEnum.LoginScreenActivity.name)
-
-
-                        }
-                )
+                logoutBtn(navController = navController)
             }
             
 
@@ -343,7 +328,8 @@ fun TeacherPsychologistHome(navController: NavController, teacherPsychologistHom
                     itemsIndexed(items = teacherPsychologistHomeViewModel.teacherPsychologistData.value.data!!) {index, item ->
                         TeacherPsychologistCard(
                             teacherPsychologist = item,
-                            teacherPsychologistHomeViewModel.teacherPsychologistRoleData.collectAsState().value.data!!
+                            teacherPsychologistHomeViewModel.teacherPsychologistRoleData.collectAsState().value.data!!,
+                            navController
                         )
                     }
                 }

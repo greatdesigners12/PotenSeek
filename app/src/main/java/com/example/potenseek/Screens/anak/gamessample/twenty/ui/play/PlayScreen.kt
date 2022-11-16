@@ -55,10 +55,6 @@ fun PlayScreen(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Footer(
-            moves = moves,
-            secondsElapsed = timeElapsed
-        )
     }
 }
 

@@ -19,12 +19,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.components.GameStat
 import com.example.potenseek.ui.theme.*
 
 @Composable
 fun StatisticScreen(
-    viewModel: StatisticViewModel = hiltViewModel()
+    viewModel: StatisticViewModel, navController: NavController
 ) {
     val state = viewModel.state
     val totalHour = state.gamesPlayedList.sumOf { it.hours }
@@ -42,7 +44,10 @@ fun StatisticScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = {},
+                        onClick = {
+                            navController.popBackStack()
+                            navController.navigate(NavigationEnum.HomeParentActivity.name)
+                        },
                         modifier = Modifier
                     ) {
                         Icon(Icons.Filled.ArrowBack, "Back")
@@ -121,8 +126,3 @@ fun StatisticScreen(
     
 }
 
-@Preview
-@Composable
-fun StatisticScreenPrev() {
-    StatisticScreen()
-}

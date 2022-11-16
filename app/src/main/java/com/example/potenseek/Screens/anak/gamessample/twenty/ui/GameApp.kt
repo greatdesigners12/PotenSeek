@@ -20,6 +20,7 @@ fun GameApp(
 ) {
     val isDarkTheme by gameViewModel.isDarkTheme.collectAsState()
     val game = gameViewModel.game
+    var cntxt = LocalContext.current
 
     ProvideWindowInsets {
         GameTheme(darkTheme = isDarkTheme) {

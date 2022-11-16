@@ -10,13 +10,13 @@ enum class NavigationEnum {
     InboxActivity,
     HomeScreenActivity,
     InputUserDetailActivity,
-
     ChooseProfileActivity,
     HomePageAnakActivity,
     HomeParentActivity,
     RegisterJobActivity,
-
     TeacherEditProfileActivity,
-
+    ProfileAnakActivity,
+    StatisticActivity,
+    EditTeacherProfileActivity
 
 }

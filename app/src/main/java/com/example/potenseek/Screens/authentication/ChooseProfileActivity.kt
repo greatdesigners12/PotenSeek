@@ -3,6 +3,7 @@ package com.example.potenseek.Screens.authentication
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.navigation.NavController
@@ -27,6 +28,7 @@ import com.example.potenseek.Model.ChildProfile
 import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.R
 import com.example.potenseek.components.*
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun chooseAccountActivity(navController: NavController, profileViewModel: ProfileViewModel) {
@@ -70,6 +72,15 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
         mutableStateOf(false)
     }
 
+    LaunchedEffect(key1 = true){
+        if(FirebaseAuth.getInstance().currentUser == null){
+            navController.popBackStack()
+            navController.navigate(NavigationEnum.LoginScreenActivity.name)
+        }
+
+
+    }
+
 
     LaunchedEffect(profileViewModel.isPinExist.collectAsState().value){
         if(profileViewModel.isPinExist.value != null){
@@ -81,8 +92,13 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
     }
 
     LaunchedEffect(profileViewModel.isPinCorrent.collectAsState().value){
-        if(profileViewModel.isPinCorrent.value != null){
+        if(profileViewModel.isPinCorrent.value.data != null){
             if(profileViewModel.isPinCorrent.value.data == true){
+                Log.d(TAG, "${profileViewModel.isPinCorrent.value.data}")
+                profileViewModel.isPinCorrent.value.data = null
+                Log.d(TAG, "bruhhhh wae")
+                Log.d(TAG, "${profileViewModel.isPinAdded.value.data}")
+                navController.popBackStack()
                 navController.navigate(NavigationEnum.HomePageAnakActivity.name)
             }else{
                 isBtnModalLoading.value = false
@@ -93,6 +109,9 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
     LaunchedEffect(profileViewModel.isPinAdded.collectAsState().value){
         if(profileViewModel.isPinAdded.value != null){
             if(profileViewModel.isPinAdded.value.data == true){
+
+                profileViewModel.isPinAdded.value.data = null
+                navController.popBackStack()
                 navController.navigate(NavigationEnum.HomePageAnakActivity.name)
             }else{
                 isBtnModalLoading.value = false
@@ -112,6 +131,7 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
     LaunchedEffect(profileViewModel.isParentPinCorrent.collectAsState().value){
         if(profileViewModel.isParentPinCorrent.value.data != null){
             if(profileViewModel.isParentPinCorrent.value.data == true){
+                navController.popBackStack()
                 navController.navigate(NavigationEnum.HomeParentActivity.name)
             }else{
                 isBtnModalLoading.value = false
@@ -122,6 +142,7 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
     LaunchedEffect(profileViewModel.isParentPinAdded.collectAsState().value){
         if(profileViewModel.isParentPinAdded.value.data != null){
             if(profileViewModel.isParentPinAdded.value.data == true){
+                navController.popBackStack()
                 navController.navigate(NavigationEnum.HomeParentActivity.name)
             }else{
                 isBtnModalLoading.value = false
@@ -138,6 +159,7 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
             if(isModalLoading.value){
                 CircularProgressIndicator()
             }else{
+
                 Column() {
                     basicInputField(label = "PIN", inputValue = pin.value, keyboardType = KeyboardType.Number){
                         pin.value = it
@@ -185,17 +207,27 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
         childSectionLoading.value = false
     }
 
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .padding(10.dp), contentAlignment = Alignment.TopEnd){
+        Image(painter = painterResource(id = R.drawable.ic_baseline_exit), contentDescription = "logout", modifier = Modifier.clickable {
+            FirebaseAuth.getInstance().signOut()
+            navController.popBackStack()
+            navController.navigate(NavigationEnum.LoginScreenActivity.name)
+        })
+    }
 
     Column(modifier = Modifier.fillMaxSize() ,verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
         heading()
         Text("Orang tua", fontWeight = FontWeight.Bold, fontSize = 25.sp)
         if(!parentSectionLoading.value){
             Row(){
-
-                profileCard(name = profileViewModel.parentData.collectAsState().value.data!!.name!!){
-                    openPinDialog.value = !openPinDialog.value
-                    profileViewModel.checkIfParentPinExist()
-                    isModalLoading.value = true
+                if(FirebaseAuth.getInstance().currentUser != null){
+                    profileCard(name = profileViewModel.parentData.collectAsState().value.data!!.name!!){
+                        openPinDialog.value = !openPinDialog.value
+                        profileViewModel.checkIfParentPinExist()
+                        isModalLoading.value = true
+                    }
                 }
 
             }
@@ -227,4 +259,5 @@ fun chooseAccountActivity(navController: NavController, profileViewModel: Profil
 
     }
 }
+
 

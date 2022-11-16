@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -15,25 +16,41 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.components.ScheduleCard
+import com.example.potenseek.components.logoutBtn
 import com.example.potenseek.ui.theme.OpenSans
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun HomeortuScreen(
-    viewModel: HomeortuViewModel = hiltViewModel()
+     navController: NavController, viewModel : HomeortuViewModel
 ) {
     var state = viewModel.state
-
+    LaunchedEffect(true){
+        if(FirebaseAuth.getInstance().currentUser == null){
+            navController.popBackStack()
+            navController.navigate(NavigationEnum.LoginScreenActivity.name)
+        }
+    }
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        Text(
-            text = "Home",
-            fontSize = 30.sp,
-            fontFamily = OpenSans,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(start = 8.dp, bottom = 12.dp, top = 8.dp)
-        )
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 8.dp, end = 8.dp), horizontalArrangement = Arrangement.SpaceBetween){
+            Text(
+                text = "Home",
+                fontSize = 30.sp,
+                fontFamily = OpenSans,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(start = 8.dp, bottom = 12.dp, top = 8.dp)
+            )
+            logoutBtn(navController = navController)
+            
+        }
+        
         Card(
             shape = RoundedCornerShape(16.dp),
             elevation = 8.dp,
@@ -136,7 +153,7 @@ fun HomeortuScreen(
                                 Button(
                                     shape = RoundedCornerShape(16.dp),
                                     colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFFAA47)),
-                                    onClick = { /*TODO*/ }
+                                    onClick = { navController.navigate(NavigationEnum.StatisticActivity.name)}
                                 ) {
                                     Text(
                                         text = "Statistic",
@@ -166,8 +183,3 @@ fun HomeortuScreen(
     }
 }
 
-@Preview
-@Composable
-fun HomeortuScreenPrev() {
-    HomeortuScreen()
-}
