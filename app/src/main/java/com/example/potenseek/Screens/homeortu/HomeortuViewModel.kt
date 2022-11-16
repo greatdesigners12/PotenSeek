@@ -50,10 +50,7 @@ class HomeortuViewModel @Inject constructor(
                     name = "Felix",
                     age = 5
                 ),
-                ChildProfile(
-                    name = "Jennifer",
-                    age = 8
-                ),
+
             )
         )
     }

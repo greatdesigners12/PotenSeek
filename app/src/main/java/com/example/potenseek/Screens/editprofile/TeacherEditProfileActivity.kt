@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.potenseek.Model.CertificateAchievement
+import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.R
 import com.example.potenseek.Screens.ui.theme.*
 import com.example.potenseek.Screens.ui.theme.PotenSeekTheme
@@ -82,13 +83,14 @@ fun TeacherEditProfile(navController: NavController, teacherEditProfileViewModel
             Image(painter = painterResource(id = R.drawable.ic_baseline_arrow_back_24), contentDescription = "Back", modifier = Modifier
                 .height(72.dp)
                 .width(88.dp)
-                .padding(16.dp, 16.dp))
+                .padding(16.dp, 16.dp).clickable {
+                    navController.popBackStack()
+                    navController.navigate(NavigationEnum.TeacherPsychologistHomeActivity.name)
+                })
             Column(modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()) {
-                Text(text = "Edit Profile", modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally)
-                    .padding(0.dp, 16.dp), color = Color.White, fontSize = 26.sp, fontWeight = FontWeight.Medium)
+
                 Image(painter = painterResource(id = R.drawable.defaultprofile), contentDescription = "Edit Profile", modifier = Modifier
                     .height(144.dp)
                     .align(alignment = Alignment.CenterHorizontally)
