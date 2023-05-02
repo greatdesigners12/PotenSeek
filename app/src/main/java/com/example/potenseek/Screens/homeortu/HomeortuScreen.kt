@@ -166,7 +166,7 @@ fun HomeortuScreen(
                                 Button(
                                     shape = RoundedCornerShape(16.dp),
                                     colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFFE266)),
-                                    onClick = { /*TODO*/ }
+                                    onClick = { navController.navigate(NavigationEnum.profileChildScreenActivity.name) }
                                 ) {
                                     Text(
                                         text = "Profile",

@@ -48,6 +48,7 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel(),
                   homeOrtuViewModel: HomeortuViewModel = hiltViewModel(),
 
 
+
 ) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = NavigationEnum.SplashScreenActivity.name){
@@ -121,6 +122,10 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel(),
 
         composable(NavigationEnum.TeacherEditProfileActivity.name){
             TeacherEditProfile(navController = navController, teacherEditProfileViewModel = teacherEditProfileViewModel)
+        }
+
+        composable(NavigationEnum.profileChildScreenActivity.name){
+            ProfileanakScreen( profileanakViewModel,navController)
         }
 
     }

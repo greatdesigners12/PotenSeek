@@ -1,6 +1,7 @@
 package com.example.potenseek.Screens.profileanak
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
@@ -20,11 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.potenseek.ui.theme.*
 
 @Composable
 fun ProfileanakScreen(
-    viewModel: ProfileanakViewModel = hiltViewModel()
+    viewModel: ProfileanakViewModel = hiltViewModel(),
+    navController: NavController
 ) {
 
     var state = viewModel.state
@@ -42,7 +45,10 @@ fun ProfileanakScreen(
                 },
                 navigationIcon = {
                     IconButton(
-                        onClick = {},
+                        onClick = {
+                                  navController.popBackStack()
+
+                        },
                         modifier = Modifier
                     ) {
                         Icon(Icons.Filled.ArrowBack, "Back")
@@ -100,7 +106,7 @@ fun ProfileanakScreen(
                             modifier = Modifier.padding(vertical = 6.dp)
                         ) {
                             Text(
-                                text = "3 Friends",
+                                text = "0 Friends",
                                 fontSize = 16.sp,
                                 fontFamily = OpenSans,
                                 fontWeight = FontWeight.SemiBold,
@@ -200,6 +206,60 @@ fun ProfileanakScreen(
                             }
                         }
                     }
+                }
+            }
+            Text(
+                text = "Top 3 Recommendations",
+                fontSize = 30.sp,
+                fontFamily = OpenSans,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 12.dp)
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(14.dp)
+            ) {
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = 8.dp,
+                    backgroundColor = Color(0xFFFFAA47)
+                ) {
+                    Text(
+                        text = "spatial awareness",
+                        fontSize = 16.sp,
+                        fontFamily = OpenSans,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+                    )
+                }
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = 8.dp,
+                    backgroundColor = Color(0xFFFFAA47)
+                ) {
+                    Text(
+                        text = "future prediction",
+                        fontSize = 16.sp,
+                        fontFamily = OpenSans,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+                    )
+                }
+                Card(
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = 8.dp,
+                    backgroundColor = Color(0xFFFFAA47)
+                ) {
+                    Text(
+                        text = "calculation",
+                        fontSize = 16.sp,
+                        fontFamily = OpenSans,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+                    )
                 }
             }
             Text(
@@ -306,8 +366,3 @@ fun ProfileanakScreen(
     }
 }
 
-@Preview
-@Composable
-fun ProfileanakScreenPrev() {
-    ProfileanakScreen()
-}

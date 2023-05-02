@@ -17,6 +17,7 @@ enum class NavigationEnum {
     TeacherEditProfileActivity,
     ProfileAnakActivity,
     StatisticActivity,
-    EditTeacherProfileActivity
+    EditTeacherProfileActivity,
+    profileChildScreenActivity
 
 }
