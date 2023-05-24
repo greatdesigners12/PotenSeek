@@ -21,25 +21,25 @@ class ProfileanakViewModel @Inject constructor(
             gamesPlayedList = listOf(
                 GamesPlayed(
                     title = "Sing'A'Long",
-                    hours = 70,
+                    timeElapsed = 70,
                     attemptPass = 1231,
                     attemptTotal = 1421
                 ),
                 GamesPlayed(
                     title = "AnimaLove",
-                    hours = 10,
+                    timeElapsed = 10,
                     attemptPass = 70,
                     attemptTotal = 123
                 ),
                 GamesPlayed(
                     title = "Trainager",
-                    hours = 10,
+                    timeElapsed = 10,
                     attemptPass = 40,
                     attemptTotal = 107
                 ),
                 GamesPlayed(
                     title = "ColorIT",
-                    hours = 10,
+                    timeElapsed = 10,
                     attemptPass = 35,
                     attemptTotal = 93
                 )

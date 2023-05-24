@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.potenseek.Navigation.BottomNavigations
+
 import com.example.potenseek.Navigation.NavigationEnum
 import com.example.potenseek.components.ScheduleCard
 import com.example.potenseek.components.logoutBtn
@@ -181,7 +181,7 @@ fun HomeortuScreen(
                 }
             }
         }
-        BottomNavigations(navController)
+
     }
 }
 

@@ -20,13 +20,13 @@ class StatisticViewModel @Inject constructor(
             gamesPlayedList = listOf(
                 GamesPlayed(
                     title = "Snake Game",
-                    hours = 70,
+                    timeElapsed = 70,
                     attemptPass = 1231,
                     attemptTotal = 1421
                 ),
                 GamesPlayed(
                     title = "2048 Game",
-                    hours = 10,
+                    timeElapsed = 10,
                     attemptPass = 70,
                     attemptTotal = 123
                 )

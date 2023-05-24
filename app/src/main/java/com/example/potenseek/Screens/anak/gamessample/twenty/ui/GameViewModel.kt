@@ -9,9 +9,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.potenseek.Screens.anak.gamessample.finish
 import com.example.potenseek.Screens.anak.gamessample.twenty.model.Game
 import com.example.potenseek.Screens.anak.gamessample.twenty.store.PreferenceRepository
+import com.example.potenseek.models.gmsplayed
+import com.example.potenseek.tempDataStorage.globalVar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -19,7 +20,7 @@ import kotlin.coroutines.coroutineContext
 import kotlin.time.Duration.Companion.seconds
 
 class GameViewModel(
-    private val preferenceRepository: PreferenceRepository
+    val preferenceRepository: PreferenceRepository
 ) : ViewModel() {
 
     private val _playTimeInSecs = MutableStateFlow(preferenceRepository.timeElapsed)
@@ -44,13 +45,21 @@ class GameViewModel(
         state = preferenceRepository.boardState,
         onScoreChange = { score ->
             preferenceRepository.score = _score.updateAndGet { score }
-            if (highScore.value < score) preferenceRepository.highScore = _highScore.updateAndGet { score }
+            if (highScore.value < score){
+                preferenceRepository.highScore = _highScore.updateAndGet { score }
+                globalVar.twentyHighScore = score
+            }
         },
         onMove = {
             with(preferenceRepository) {
                 moves = _moves.updateAndGet { it + 1 }
                 paused = false
                 boardState = it
+                for (i in gmsplayed.games) {
+                    if (i.title == "2048") {
+                        i.timeElapsed = preferenceRepository.timeElapsed
+                    }
+                }
             }
         },
     )
@@ -76,7 +85,7 @@ class GameViewModel(
         with(preferenceRepository) {
             moves = _moves.updateAndGet { 0 }
             score = _score.updateAndGet { 0 }
-            timeElapsed = _playTimeInSecs.updateAndGet { 0 }
+            //timeElapsed = _playTimeInSecs.updateAndGet { 0 }
             boardState = emptyList()
             previousBoardState = emptyList()
         }

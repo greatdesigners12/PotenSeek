@@ -24,7 +24,7 @@ import com.example.potenseek.ui.theme.OpenSans
 
 @Composable
 fun GameStat(
-    totalHour: Int,
+    totalHour: Long,
     data: GamesPlayed,
     modifier: Modifier = Modifier
 ) {
@@ -55,7 +55,7 @@ fun GameStat(
                     modifier = Modifier.padding(top = 8.dp, bottom = 2.dp)
                 )
                 Text(
-                    text = "${((data.hours.toDouble()/totalHour.toDouble())*100)}% Activity (${data.hours} Hours)",
+                    text = "${((data.timeElapsed.toDouble()/totalHour.toDouble())*100)}% Activity (${data.timeElapsed} Hours)",
                     fontSize = 14.sp,
                     fontFamily = OpenSans,
                     modifier = Modifier.padding(vertical = 2.dp)
@@ -114,7 +114,7 @@ fun GameStatPrev() {
         totalHour = 100,
         data = GamesPlayed(
             title = "Sing'A'Long",
-            hours = 70,
+            timeElapsed = 70,
             attemptPass = 1231,
             attemptTotal = 1421
         ),

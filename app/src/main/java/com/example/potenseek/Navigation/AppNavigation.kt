@@ -51,7 +51,7 @@ fun AppNavigation(authViewModel: AuthViewModel = viewModel(),
 
 ) {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = NavigationEnum.SplashScreenActivity.name){
+    NavHost(navController, startDestination = NavigationEnum.HomePageAnakActivity.name){
         composable(NavigationEnum.SplashScreenActivity.name){
             SplashScreenActivity(navController)
         }

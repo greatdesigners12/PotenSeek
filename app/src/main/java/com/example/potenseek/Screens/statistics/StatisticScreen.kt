@@ -29,7 +29,7 @@ fun StatisticScreen(
     viewModel: StatisticViewModel, navController: NavController
 ) {
     val state = viewModel.state
-    val totalHour = state.gamesPlayedList.sumOf { it.hours }
+    val totalHour = state.gamesPlayedList.sumOf { it.timeElapsed }
 
     Scaffold(
         topBar = {
@@ -66,7 +66,7 @@ fun StatisticScreen(
         ) {
             PieChart(
                 progress = state.gamesPlayedList
-                    .map { it.hours.toFloat() }
+                    .map { it.timeElapsed.toFloat() }
                     .take(4)
             )
             Text(

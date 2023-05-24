@@ -364,7 +364,7 @@ fun games(){
                                                 val atmptnew = i.attemptTotal + 1
                                                 var updte = GamesPlayed(
                                                     i.title,
-                                                    i.hours,
+                                                    i.timeElapsed,
                                                     atmptnew,
                                                     i.attemptPass
                                                 )
@@ -411,7 +411,7 @@ fun games(){
                                                 val atmptnew = i.attemptTotal + 1
                                                 var updte = GamesPlayed(
                                                     i.title,
-                                                    i.hours,
+                                                    i.timeElapsed,
                                                     atmptnew,
                                                     i.attemptPass
                                                 )

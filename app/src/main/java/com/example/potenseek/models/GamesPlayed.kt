@@ -2,7 +2,7 @@ package com.example.potenseek.models
 
 data class GamesPlayed(
     val title: String,
-    val hours: Int,
-    val attemptPass: Int,
-    val attemptTotal: Int
+    var timeElapsed: Long,
+    var attemptPass: Int,
+    var attemptTotal: Int
 )

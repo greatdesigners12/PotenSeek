@@ -18,6 +18,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.forntoh.twofoureight.ui.theme.GameTheme
 import com.example.potenseek.R
+import com.example.potenseek.Screens.anak.gamessample.twenty.model.Game
+import com.example.potenseek.Screens.anak.gamessample.twenty.store.PreferenceRepository
+import com.example.potenseek.Screens.anak.gamessample.twenty.ui.GameApp
+import com.example.potenseek.Screens.anak.gamessample.twenty.ui.GameViewModel
+import com.example.potenseek.Screens.anak.gamessample.twenty.ui.twentyGameActivity
+import com.example.potenseek.models.gmsplayed
+import com.example.potenseek.tempDataStorage.globalVar
 
 
 @Composable
